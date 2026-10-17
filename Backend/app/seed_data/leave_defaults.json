@@ -1,0 +1,58 @@
+{
+  "leave_types": [
+    {
+      "name": "Casual Leave",
+      "annual_quota": 12,
+      "is_paid": true,
+      "carry_forward": true,
+      "max_carry_forward": 5
+    },
+    {
+      "name": "Sick Leave",
+      "annual_quota": 6,
+      "is_paid": true,
+      "carry_forward": false,
+      "max_carry_forward": 0
+    },
+    {
+      "name": "Loss of Pay",
+      "annual_quota": 0,
+      "is_paid": false,
+      "carry_forward": false,
+      "max_carry_forward": 0
+    },
+    {
+      "name": "Compensatory Off",
+      "annual_quota": 0,
+      "is_paid": true,
+      "carry_forward": false,
+      "max_carry_forward": 0
+    },
+    {
+      "name": "Maternity Leave",
+      "annual_quota": 90,
+      "is_paid": true,
+      "carry_forward": false,
+      "max_carry_forward": 0
+    },
+    {
+      "name": "Paternity Leave",
+      "annual_quota": 5,
+      "is_paid": true,
+      "carry_forward": false,
+      "max_carry_forward": 0
+    }
+  ],
+  "default_settings": [
+    {
+      "key": "allow_past_leave_applications",
+      "value": true,
+      "description": "Allow employees to submit retroactive leave applications within the allowed day threshold"
+    },
+    {
+      "key": "past_leave_max_days_allowed",
+      "value": 7,
+      "description": "Maximum number of past days for retroactive leave application submissions"
+    }
+  ]
+}

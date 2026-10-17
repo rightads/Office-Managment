@@ -7,7 +7,7 @@
 - [x] **Prompt 04**: Employee & master data (Completed)
 - [x] **Prompt 05**: Attendance engine (Completed)
 - [x] **Prompt 06**: Attendance reports & exports (Completed)
-- [ ] **Prompt 07**: Leave management
+- [x] **Prompt 07**: Leave management (Completed)
 - [ ] **Prompt 08**: Tasks, categories, clients, projects
 - [ ] **Prompt 09**: Notifications & announcements
 - [ ] **Prompt 10**: Security, performance, docs
@@ -27,6 +27,7 @@
 9. **Refresh Token Security**: Refresh tokens are stored in the database hashed via SHA-256. Rotation is enforced upon token refresh, and reuse detection automatically revokes all user sessions if a compromised/revoked token is replayed.
 10. **Account Lockout Protection**: Anti-enumeration error responses combined with automatic account lockout after consecutive failed login attempts (`MAX_LOGIN_ATTEMPTS=5`, `LOCKOUT_MINUTES=15`).
 11. **Attendance Reporting & Caching**: Aggregates attendance metrics via SQL, implements hierarchical scoping (`attendance.view_all`, `attendance.view_team`, `attendance.view_own`), caches closed reporting periods in Redis with graceful offline fallback, and streams formatted Excel (`openpyxl`) and PDF (`reportlab`) exports.
+12. **Leave Management & Attendance Synchronization**: Leaves track half-day sessions (`FIRST_HALF`, `SECOND_HALF`), calculate working days excluding policy week-offs and official holidays, support carry-forward capping, and sync directly with attendance (`ON_LEAVE`, `source="LEAVE_APPROVAL"`) with automatic balance/attendance record restoration on cancellation.
 
 ---
 

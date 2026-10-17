@@ -35,6 +35,7 @@ class LeaveType(Base, UUIDMixin, TimestampMixin):
     annual_quota: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     is_paid: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     carry_forward: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    max_carry_forward: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # Relationships
@@ -54,6 +55,7 @@ class LeaveBalance(Base, UUIDMixin, TimestampMixin):
         ),
         Index("ix_leave_balance_user_year", "user_id", "year"),
         CheckConstraint("allocated >= 0", name="check_positive_allocated_leave"),
+        CheckConstraint("carried_forward >= 0", name="check_positive_carried_forward_leave"),
         CheckConstraint("used >= 0", name="check_positive_used_leave"),
     )
 
@@ -71,6 +73,7 @@ class LeaveBalance(Base, UUIDMixin, TimestampMixin):
     )
     year: Mapped[int] = mapped_column(Integer, nullable=False, index=True)
     allocated: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
+    carried_forward: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
     used: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
 
     # Relationships
@@ -84,6 +87,7 @@ class LeaveRequest(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "leave_requests"
     __table_args__ = (
         CheckConstraint("to_date >= from_date", name="check_leave_dates_valid"),
+        CheckConstraint("total_days > 0", name="check_positive_total_days_leave"),
         Index("ix_leave_requests_dates", "from_date", "to_date"),
     )
 
@@ -101,6 +105,9 @@ class LeaveRequest(Base, UUIDMixin, TimestampMixin):
     )
     from_date: Mapped[datetime.date] = mapped_column(Date, nullable=False, index=True)
     to_date: Mapped[datetime.date] = mapped_column(Date, nullable=False, index=True)
+    is_half_day: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    half_day_session: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    total_days: Mapped[float] = mapped_column(Float, default=1.0, nullable=False)
     reason: Mapped[str] = mapped_column(String(500), nullable=False)
     status: Mapped[str] = mapped_column(
         String(50), default="pending", nullable=False, index=True

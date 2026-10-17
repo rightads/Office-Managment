@@ -9,6 +9,7 @@ from app.api.v1.endpoints import (
     clients_projects,
     employees,
     health,
+    leaves,
     master_data,
     roles,
     system_settings,
@@ -27,6 +28,9 @@ api_v1_router.include_router(employees.router)
 # Attendance Engine & Reports
 api_v1_router.include_router(attendance.router)
 api_v1_router.include_router(attendance_reports.router)
+
+# Leave Management
+api_v1_router.include_router(leaves.router)
 
 # Master Data & RBAC
 api_v1_router.include_router(roles.router)

@@ -18,8 +18,10 @@ from app.models.attendance import (
     AttendancePolicy,
     AttendanceStatus,
 )
+from app.models.leave import LeaveType
 from app.models.organization import Department
 from app.models.rbac import Permission, Role
+from app.models.system import SystemSetting
 from app.models.task import (
     TaskPriority,
     TaskStatus,
@@ -208,6 +210,45 @@ async def _async_seed_defaults(session: AsyncSession | None = None) -> None:
                             required_permission=tr.get("required_permission"),
                         )
                     )
+
+    # 5. Seed Leave Defaults & System Settings
+    leave_file = SEED_DIR / "leave_defaults.json"
+    if leave_file.exists():
+        leave_data = json.loads(leave_file.read_text(encoding="utf-8"))
+        for lt_data in leave_data.get("leave_types", []):
+            stmt_lt = select(LeaveType).where(LeaveType.name == lt_data["name"])
+            res_lt = await session.execute(stmt_lt)
+            leave_type = res_lt.scalar_one_or_none()
+            if leave_type is None:
+                leave_type = LeaveType(
+                    name=lt_data["name"],
+                    annual_quota=lt_data.get("annual_quota", 0),
+                    is_paid=lt_data.get("is_paid", True),
+                    carry_forward=lt_data.get("carry_forward", False),
+                    max_carry_forward=lt_data.get("max_carry_forward", 0),
+                    is_active=True,
+                )
+                session.add(leave_type)
+            else:
+                leave_type.annual_quota = lt_data.get("annual_quota", leave_type.annual_quota)
+                leave_type.is_paid = lt_data.get("is_paid", leave_type.is_paid)
+                leave_type.carry_forward = lt_data.get("carry_forward", leave_type.carry_forward)
+                leave_type.max_carry_forward = lt_data.get(
+                    "max_carry_forward", leave_type.max_carry_forward
+                )
+
+        for setting_data in leave_data.get("default_settings", []):
+            stmt_set = select(SystemSetting).where(SystemSetting.key == setting_data["key"])
+            res_set = await session.execute(stmt_set)
+            setting_obj = res_set.scalar_one_or_none()
+            if setting_obj is None:
+                session.add(
+                    SystemSetting(
+                        key=setting_data["key"],
+                        value=setting_data["value"],
+                        description=setting_data.get("description"),
+                    )
+                )
 
     await session.commit()
 
