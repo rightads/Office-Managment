@@ -4,6 +4,7 @@ from fastapi import APIRouter
 
 from app.api.v1.endpoints import (
     attendance,
+    attendance_reports,
     auth,
     clients_projects,
     employees,
@@ -23,8 +24,9 @@ api_v1_router.include_router(auth.router)
 # Employee lifecycle & self-service
 api_v1_router.include_router(employees.router)
 
-# Attendance Engine
+# Attendance Engine & Reports
 api_v1_router.include_router(attendance.router)
+api_v1_router.include_router(attendance_reports.router)
 
 # Master Data & RBAC
 api_v1_router.include_router(roles.router)

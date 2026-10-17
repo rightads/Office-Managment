@@ -4,9 +4,9 @@
 - [x] **Prompt 01**: Scaffold, config, Docker, database (Completed)
 - [x] **Prompt 02**: Core data models & migrations (Completed)
 - [x] **Prompt 03**: Seeding, CLI, auth, RBAC (Completed)
-- [ ] **Prompt 04**: Employee & master data
-- [ ] **Prompt 05**: Attendance engine
-- [ ] **Prompt 06**: Attendance reports & exports
+- [x] **Prompt 04**: Employee & master data (Completed)
+- [x] **Prompt 05**: Attendance engine (Completed)
+- [x] **Prompt 06**: Attendance reports & exports (Completed)
 - [ ] **Prompt 07**: Leave management
 - [ ] **Prompt 08**: Tasks, categories, clients, projects
 - [ ] **Prompt 09**: Notifications & announcements
@@ -26,6 +26,7 @@
 8. **Permission-Based RBAC**: Handled via `require_permission(permission_code)` dependency. Business logic never inspects role names; permissions are resolved dynamically from database associations.
 9. **Refresh Token Security**: Refresh tokens are stored in the database hashed via SHA-256. Rotation is enforced upon token refresh, and reuse detection automatically revokes all user sessions if a compromised/revoked token is replayed.
 10. **Account Lockout Protection**: Anti-enumeration error responses combined with automatic account lockout after consecutive failed login attempts (`MAX_LOGIN_ATTEMPTS=5`, `LOCKOUT_MINUTES=15`).
+11. **Attendance Reporting & Caching**: Aggregates attendance metrics via SQL, implements hierarchical scoping (`attendance.view_all`, `attendance.view_team`, `attendance.view_own`), caches closed reporting periods in Redis with graceful offline fallback, and streams formatted Excel (`openpyxl`) and PDF (`reportlab`) exports.
 
 ---
 
@@ -40,6 +41,7 @@
 | `user.manage_roles` | User Management | Assign and modify user roles | Prompt 03 |
 | `attendance.check_in` | Attendance | Check in and out for daily attendance | Prompt 03 |
 | `attendance.view_own` | Attendance | View personal attendance history | Prompt 03 |
+| `attendance.view_team` | Attendance | View team and direct reports attendance logs | Prompt 06 |
 | `attendance.view_all` | Attendance | View company-wide attendance logs | Prompt 02 / 03 |
 | `attendance.correct` | Attendance | Request and apply manual attendance corrections | Prompt 03 |
 | `attendance.manage_policy` | Attendance | Create and modify shifts and attendance policies | Prompt 03 |

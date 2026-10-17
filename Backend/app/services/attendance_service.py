@@ -14,6 +14,7 @@ from app.core.exceptions import (
     ForbiddenException,
     NotFoundException,
 )
+from app.core.redis import invalidate_cache_pattern
 from app.models.attendance import (
     AttendanceCorrection,
     AttendanceRecord,
@@ -499,6 +500,11 @@ class AttendanceService:
 
         await self.session.commit()
         await self.session.refresh(correction)
+
+        # Invalidate attendance reports Redis cache
+        await invalidate_cache_pattern(f"reports:attendance:*:{record.user_id}:*")
+        await invalidate_cache_pattern("reports:attendance:overview:*")
+        await invalidate_cache_pattern("reports:attendance:today:*")
 
         return AttendanceCorrectionResponse(
             id=correction.id,

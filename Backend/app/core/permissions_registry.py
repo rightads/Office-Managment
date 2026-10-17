@@ -27,6 +27,9 @@ PERMISSIONS_CATALOG: list[PermissionDefinition] = [
         "attendance.check_in", "Check in and out for daily attendance", "Attendance"
     ),
     PermissionDefinition("attendance.view_own", "View personal attendance history", "Attendance"),
+    PermissionDefinition(
+        "attendance.view_team", "View team and direct reports attendance logs", "Attendance"
+    ),
     PermissionDefinition("attendance.view_all", "View company-wide attendance logs", "Attendance"),
     PermissionDefinition(
         "attendance.correct", "Request and apply manual attendance corrections", "Attendance"

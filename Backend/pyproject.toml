@@ -26,6 +26,8 @@ dependencies = [
     "python-multipart>=0.0.9",
     "email-validator>=2.1.1",
     "apscheduler>=3.10.4",
+    "openpyxl>=3.1.2",
+    "reportlab>=4.1.0",
 ]
 
 [project.optional-dependencies]
@@ -80,6 +82,8 @@ module = [
     "jwt.*",
     "redis.*",
     "apscheduler.*",
+    "openpyxl.*",
+    "reportlab.*",
 ]
 ignore_missing_imports = true
 
