@@ -1,0 +1,46 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+**/venv/
+.venv/
+**/.venv/
+env/
+**/env/
+ENV/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+
+# Unit test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# SQLite / Local Databases
+*.sqlite3
+*.db
+
+# Node / Frontend / Mobile dependencies (if applicable)
+node_modules/
+.expo/
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System Files
+.DS_Store
+Thumbs.db
