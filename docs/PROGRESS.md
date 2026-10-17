@@ -4,7 +4,7 @@
 - [x] **Prompt 01**: Scaffold, config, Docker, database (Completed)
 - [x] **Prompt 02**: Core data models & migrations (Completed)
 - [x] **Prompt 03**: Seeding, CLI, auth, RBAC (Completed)
-- [ ] **Prompt 04**: Employee & master data
+- [x] **Prompt 04**: Employee & master data (Completed)
 - [ ] **Prompt 05**: Attendance engine
 - [ ] **Prompt 06**: Attendance reports & exports
 - [ ] **Prompt 07**: Leave management
@@ -26,6 +26,12 @@
 8. **Permission-Based RBAC**: Handled via `require_permission(permission_code)` dependency. Business logic never inspects role names; permissions are resolved dynamically from database associations.
 9. **Refresh Token Security**: Refresh tokens are stored in the database hashed via SHA-256. Rotation is enforced upon token refresh, and reuse detection automatically revokes all user sessions if a compromised/revoked token is replayed.
 10. **Account Lockout Protection**: Anti-enumeration error responses combined with automatic account lockout after consecutive failed login attempts (`MAX_LOGIN_ATTEMPTS=5`, `LOCKOUT_MINUTES=15`).
+11. **Sequential Employee Code Generation**: Dynamic, conflict-free sequence counter driven by `system_settings` or row counts with zero hardcoded department codes or prefixes.
+12. **Secure Employee Provisioning & Credentials**: Admin creation generates a cryptographically secure temporary password, marks `must_change_password=True`, and dispatches a welcome email via `EmailService`.
+13. **Last Active Administrator Protection**: Both deactivation (`/employees/{id}/deactivate`) and demotion/role change (`/employees/{id}/role`) enforce protection preventing the organization from locking out or removing its last active administrator.
+14. **Self-Service Profile Whitelisting**: Employees can modify personal profile fields (`phone_number`, `avatar_url`) whitelisted in `settings.SELF_EDITABLE_PROFILE_FIELDS` without administrative privileges; all other fields are rejected.
+15. **Streaming Bulk CSV Onboarding**: Multi-row employee import with streaming parser, case-insensitive foreign key resolution (roles, departments, locations, policies), granular error logs (row, column, invalid value, error detail), and dry-run preflight validation.
+16. **Immutable Audit Logging**: Security and business changes are automatically captured in `audit_logs` tracking actor ID, action, entity type, entity ID, previous/new state dictionaries, client IP address, and user agent.
 
 ---
 
@@ -33,26 +39,34 @@
 
 | Permission Code | Category | Description | Introduced In |
 |-----------------|----------|-------------|---------------|
-| `user.create` | User Management | Create new employee accounts | Prompt 03 |
+| `user.create` | User Management | Create new employee accounts and bulk import | Prompt 03 |
 | `user.read` | User Management | View employee profiles and directories | Prompt 03 |
-| `user.update` | User Management | Edit employee details and designations | Prompt 03 |
+| `user.update` | User Management | Edit employee details, designations, and reset passwords | Prompt 03 |
 | `user.delete` | User Management | Deactivate or soft-delete employee accounts | Prompt 03 |
 | `user.manage_roles` | User Management | Assign and modify user roles | Prompt 03 |
+| `role.create` | Role Management | Create custom authorization roles | Prompt 04 |
+| `role.read` | Role Management | List and inspect roles and permissions | Prompt 04 |
+| `role.update` | Role Management | Edit custom role descriptions and permissions | Prompt 04 |
+| `role.delete` | Role Management | Delete non-system roles | Prompt 04 |
+| `department.manage` | Master Data | Create, update, and manage organizational departments | Prompt 04 |
+| `location.manage` | Master Data | Manage office locations and geofence coordinates | Prompt 04 |
+| `holiday.manage` | Master Data | Manage company holidays and optional calendar days | Prompt 04 |
 | `attendance.check_in` | Attendance | Check in and out for daily attendance | Prompt 03 |
 | `attendance.view_own` | Attendance | View personal attendance history | Prompt 03 |
 | `attendance.view_all` | Attendance | View company-wide attendance logs | Prompt 02 / 03 |
 | `attendance.correct` | Attendance | Request and apply manual attendance corrections | Prompt 03 |
-| `attendance.manage_policy` | Attendance | Create and modify shifts and attendance policies | Prompt 03 |
+| `attendance.manage_policy` | Attendance | Create and modify shifts and attendance policies | Prompt 03 / 04 |
 | `leave.apply` | Leave Management | Submit leave requests | Prompt 03 |
 | `leave.view_own` | Leave Management | View personal leave balances and applications | Prompt 03 |
 | `leave.view_all` | Leave Management | View company-wide leave requests and quotas | Prompt 03 |
 | `leave.approve` | Leave Management | Review and approve/reject leave requests | Prompt 03 |
-| `leave.manage_types` | Leave Management | Configure annual leave quotas and categories | Prompt 03 |
+| `leave.manage_types` | Leave Management | Configure annual leave quotas and categories | Prompt 03 / 04 |
 | `task.create` | Task Management | Create and delegate tasks | Prompt 03 |
 | `task.view_assigned` | Task Management | View tasks assigned to oneself | Prompt 03 |
 | `task.view_all` | Task Management | View all project and department tasks | Prompt 03 |
 | `task.update` | Task Management | Update task progress, status, and comments | Prompt 03 |
 | `task.delete` | Task Management | Archive or remove tasks | Prompt 03 |
+| `task.manage_status` | Task Management | Manage task workflow statuses and transitions | Prompt 04 |
 | `client.create` | Client Management | Register new agency clients | Prompt 03 |
 | `client.view_all` | Client Management | View client directory and contact details | Prompt 03 |
 | `client.update` | Client Management | Modify client information and accounts | Prompt 03 |
@@ -63,5 +77,5 @@
 | `project.delete` | Project Management | Deactivate or archive projects | Prompt 03 |
 | `announcement.create` | Communication | Publish bulletin board announcements | Prompt 03 |
 | `announcement.view` | Communication | View active announcements | Prompt 03 |
-| `system.view_audit_logs` | System | Inspect security and activity audit logs | Prompt 03 |
-| `system.manage_settings` | System | Modify global runtime system settings | Prompt 03 |
+| `system.view_audit_logs` | System | Inspect security and activity audit logs | Prompt 03 / 04 |
+| `system.manage_settings` | System | Modify global runtime system settings | Prompt 03 / 04 |

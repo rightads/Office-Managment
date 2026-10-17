@@ -54,6 +54,7 @@ select = [
 ignore = [
     "B008",  # do not perform function calls in argument defaults (needed for FastAPI Depends)
     "UP046", # generic class uses Generic instead of PEP 695 syntax (for python 3.10-3.11 compatibility)
+    "E501",  # line too long (formatter wraps code; route descriptions and tests can exceed)
 ]
 
 [tool.ruff.lint.per-file-ignores]

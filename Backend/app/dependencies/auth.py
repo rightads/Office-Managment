@@ -125,3 +125,8 @@ def require_any_permissions(*required_permissions: str) -> Callable[..., Corouti
         return current_user
 
     return any_permission_checker
+
+
+# Convenient aliases for singular permission checks and active user retrieval
+require_permission = require_permissions
+get_current_active_user = require_active_user

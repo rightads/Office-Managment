@@ -146,3 +146,17 @@ class RateLimitExceededException(AppException):
             error_code=ErrorCode.RATE_LIMIT_EXCEEDED.value,
             details=details,
         )
+
+
+class BusinessRuleViolationException(AppException):
+    def __init__(
+        self,
+        message: str,
+        details: list[dict[str, Any]] | None = None,
+    ) -> None:
+        super().__init__(
+            message=message,
+            status_code=status.HTTP_400_BAD_REQUEST,
+            error_code=ErrorCode.BAD_REQUEST.value,
+            details=details,
+        )

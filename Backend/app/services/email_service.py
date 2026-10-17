@@ -13,6 +13,16 @@ class EmailService(Protocol):
         """Send password reset instructions containing a secure reset token."""
         ...
 
+    async def send_welcome_credentials(
+        self,
+        to_email: str,
+        full_name: str,
+        employee_code: str,
+        temporary_password: str,
+    ) -> None:
+        """Send welcome email with generated employee credentials."""
+        ...
+
 
 class ConsoleEmailService:
     """Development and testing implementation printing email actions to structured logger."""
@@ -24,6 +34,23 @@ class ConsoleEmailService:
                 "to_email": to_email,
                 "reset_token": reset_token,
                 "action": "password_reset_dispatch",
+            },
+        )
+
+    async def send_welcome_credentials(
+        self,
+        to_email: str,
+        full_name: str,
+        employee_code: str,
+        temporary_password: str,
+    ) -> None:
+        logger.info(
+            "Dispatching employee welcome email with credentials",
+            extra={
+                "to_email": to_email,
+                "full_name": full_name,
+                "employee_code": employee_code,
+                "action": "employee_welcome_dispatch",
             },
         )
 

@@ -53,6 +53,7 @@ class User(Base, UUIDMixin, TimestampMixin, SoftDeleteMixin):
     )
     full_name: Mapped[str] = mapped_column(String(150), nullable=False)
     phone: Mapped[str | None] = mapped_column(String(25), nullable=True)
+    avatar_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
 
     # Organizational Associations

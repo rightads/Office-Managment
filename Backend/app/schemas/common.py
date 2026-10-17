@@ -1,54 +1,51 @@
 from __future__ import annotations
 
+import math
 from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field
 
-from app.core.config import settings
-
 T = TypeVar("T")
 
 
-class PaginationParams(BaseModel):
-    """Pagination query parameters validated dynamically against settings."""
+class Page(BaseModel, Generic[T]):
+    """Standardized generic pagination envelope for all list endpoints."""
 
-    page: int = Field(default=1, ge=1, description="Page number (1-indexed)")
-    page_size: int = Field(
-        default_factory=lambda: settings.DEFAULT_PAGE_SIZE,
-        ge=1,
-        description="Number of records per page",
-    )
+    items: list[T] = Field(..., description="List of paginated items")
+    total: int = Field(..., description="Total number of items matching criteria")
+    page: int = Field(..., description="Current page number (1-indexed)")
+    page_size: int = Field(..., description="Number of items per page")
+    total_pages: int = Field(..., description="Total pages available")
 
-    @property
-    def offset(self) -> int:
-        return (self.page - 1) * self.page_size
+    @classmethod
+    def create(
+        cls,
+        items: list[T],
+        total: int,
+        page: int,
+        page_size: int,
+    ) -> Page[T]:
+        """Constructs a paginated envelope computing total_pages safely."""
+        total_pages = math.ceil(total / page_size) if page_size > 0 else 0
+        return cls(
+            items=items,
+            total=total,
+            page=page,
+            page_size=page_size,
+            total_pages=total_pages,
+        )
 
-    @property
-    def limit(self) -> int:
-        # Enforce max page size from configuration
-        return min(self.page_size, settings.MAX_PAGE_SIZE)
 
+class MessageResponse(BaseModel):
+    """Standardized operation message response."""
 
-class PaginationMeta(BaseModel):
-    page: int
-    page_size: int
-    total_items: int
-    total_pages: int
-    has_next: bool
-    has_prev: bool
-
-
-class PaginatedResponse(BaseModel, Generic[T]):
-    """Standard generic envelope for all paginated lists."""
-
-    success: bool = True
-    data: list[T]
-    pagination: PaginationMeta
+    message: str = Field(..., description="Operation feedback message")
+    success: bool = Field(default=True, description="Whether operation succeeded")
 
 
 class StandardResponse(BaseModel, Generic[T]):
-    """Standard generic envelope for single-resource responses."""
+    """Standardized API response wrapper."""
 
-    success: bool = True
-    data: T
-    message: str | None = None
+    success: bool = Field(default=True, description="Whether operation succeeded")
+    data: T | None = Field(default=None, description="Response payload")
+    message: str | None = Field(default=None, description="Optional informational message")

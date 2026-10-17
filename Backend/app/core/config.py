@@ -135,6 +135,10 @@ class Settings(BaseSettings):
         ],
         description="Allowed MIME types for uploads",
     )
+    SELF_EDITABLE_PROFILE_FIELDS: list[str] = Field(
+        default_factory=lambda: ["phone_number", "avatar_url"],
+        description="List of profile fields an employee is allowed to self-update",
+    )
     STORAGE_BACKEND: Literal["local", "s3"] = Field(
         default="local",
         description="Storage provider: local or s3",
