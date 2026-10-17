@@ -44,3 +44,7 @@ node_modules/
 # Operating System Files
 .DS_Store
 Thumbs.db
+
+# Prompts
+prompts/
+right_ads_backend_prompts/
