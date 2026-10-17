@@ -1,0 +1,53 @@
+{
+  "statuses": [
+    {
+      "code": "PRESENT",
+      "label": "Present",
+      "counts_as_present": true,
+      "color": "#10B981"
+    },
+    {
+      "code": "ABSENT",
+      "label": "Absent",
+      "counts_as_present": false,
+      "color": "#EF4444"
+    },
+    {
+      "code": "HALF_DAY",
+      "label": "Half Day",
+      "counts_as_present": true,
+      "color": "#F59E0B"
+    },
+    {
+      "code": "LATE",
+      "label": "Late Arrival",
+      "counts_as_present": true,
+      "color": "#F97316"
+    },
+    {
+      "code": "ON_LEAVE",
+      "label": "Approved Leave",
+      "counts_as_present": false,
+      "color": "#6366F1"
+    },
+    {
+      "code": "HOLIDAY",
+      "label": "Public Holiday",
+      "counts_as_present": false,
+      "color": "#8B5CF6"
+    }
+  ],
+  "default_policy": {
+    "name": "Standard Office Shift",
+    "shift_start": "09:30:00",
+    "shift_end": "18:30:00",
+    "grace_minutes": 15,
+    "half_day_min_hours": 4.0,
+    "full_day_min_hours": 8.0,
+    "week_off_days": [6],
+    "require_geofence": true,
+    "require_selfie": false,
+    "allowed_location_ids": [],
+    "is_default": true
+  }
+}

@@ -8,12 +8,19 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
 
-__all__ = ["Base", "UUIDMixin", "TimestampMixin", "SoftDeleteMixin", "utc_now"]
+__all__ = ["Base", "UUIDMixin", "TimestampMixin", "SoftDeleteMixin", "utc_now", "ensure_utc"]
 
 
 def utc_now() -> datetime.datetime:
     """Returns timezone-aware UTC datetime."""
     return datetime.datetime.now(datetime.timezone.utc)
+
+
+def ensure_utc(dt: datetime.datetime) -> datetime.datetime:
+    """Ensures a datetime is timezone-aware and set to UTC."""
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=datetime.timezone.utc)
+    return dt.astimezone(datetime.timezone.utc)
 
 
 class UUIDMixin:

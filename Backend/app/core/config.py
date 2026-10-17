@@ -75,6 +75,32 @@ class Settings(BaseSettings):
         gt=0,
         description="Lockout period in minutes following failed attempts",
     )
+    PASSWORD_MIN_LENGTH: int = Field(
+        default=8,
+        ge=6,
+        description="Minimum password length requirement",
+    )
+    PASSWORD_REQUIRE_UPPERCASE: bool = Field(
+        default=True,
+        description="Whether password requires at least one uppercase letter",
+    )
+    PASSWORD_REQUIRE_LOWERCASE: bool = Field(
+        default=True,
+        description="Whether password requires at least one lowercase letter",
+    )
+    PASSWORD_REQUIRE_DIGIT: bool = Field(
+        default=True,
+        description="Whether password requires at least one numeric digit",
+    )
+    PASSWORD_REQUIRE_SPECIAL: bool = Field(
+        default=True,
+        description="Whether password requires at least one special character",
+    )
+    RESET_TOKEN_EXPIRE_MINUTES: int = Field(
+        default=15,
+        gt=0,
+        description="Expiration time in minutes for password reset tokens",
+    )
 
     # CORS Settings
     CORS_ORIGINS: list[str] = Field(

@@ -1,0 +1,102 @@
+{
+  "statuses": [
+    {
+      "code": "TODO",
+      "label": "To Do",
+      "order": 1,
+      "is_terminal": false,
+      "color": "#3B82F6"
+    },
+    {
+      "code": "IN_PROGRESS",
+      "label": "In Progress",
+      "order": 2,
+      "is_terminal": false,
+      "color": "#F59E0B"
+    },
+    {
+      "code": "IN_REVIEW",
+      "label": "In Review",
+      "order": 3,
+      "is_terminal": false,
+      "color": "#8B5CF6"
+    },
+    {
+      "code": "DONE",
+      "label": "Done",
+      "order": 4,
+      "is_terminal": true,
+      "color": "#10B981"
+    },
+    {
+      "code": "CANCELLED",
+      "label": "Cancelled",
+      "order": 5,
+      "is_terminal": true,
+      "color": "#6B7280"
+    }
+  ],
+  "priorities": [
+    {
+      "code": "LOW",
+      "label": "Low",
+      "weight": 1,
+      "color": "#9CA3AF"
+    },
+    {
+      "code": "MEDIUM",
+      "label": "Medium",
+      "weight": 2,
+      "color": "#3B82F6"
+    },
+    {
+      "code": "HIGH",
+      "label": "High",
+      "weight": 3,
+      "color": "#F97316"
+    },
+    {
+      "code": "URGENT",
+      "label": "Urgent",
+      "weight": 4,
+      "color": "#EF4444"
+    }
+  ],
+  "transitions": [
+    {
+      "from_status": "TODO",
+      "to_status": "IN_PROGRESS",
+      "required_permission": null
+    },
+    {
+      "from_status": "IN_PROGRESS",
+      "to_status": "IN_REVIEW",
+      "required_permission": null
+    },
+    {
+      "from_status": "IN_PROGRESS",
+      "to_status": "TODO",
+      "required_permission": null
+    },
+    {
+      "from_status": "IN_REVIEW",
+      "to_status": "DONE",
+      "required_permission": "task.update"
+    },
+    {
+      "from_status": "IN_REVIEW",
+      "to_status": "IN_PROGRESS",
+      "required_permission": null
+    },
+    {
+      "from_status": "TODO",
+      "to_status": "CANCELLED",
+      "required_permission": "task.delete"
+    },
+    {
+      "from_status": "IN_PROGRESS",
+      "to_status": "CANCELLED",
+      "required_permission": "task.delete"
+    }
+  ]
+}
