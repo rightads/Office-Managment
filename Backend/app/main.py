@@ -22,6 +22,7 @@ from app.core.exceptions import (
     StandardErrorResponse,
 )
 from app.core.logging import setup_logging
+from app.services.attendance_scheduler import scheduler_instance
 
 logger = logging.getLogger(__name__)
 
@@ -39,8 +40,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             "debug": settings.DEBUG,
         },
     )
+    # Start background scheduler if enabled
+    scheduler_instance.start()
     yield
-    # Graceful shutdown: close async database pool
+    # Graceful shutdown: stop scheduler and dispose database engine
+    scheduler_instance.shutdown()
     logger.info("Application shutting down, disposing database engine")
     await engine.dispose()
 

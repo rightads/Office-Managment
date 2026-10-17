@@ -31,6 +31,7 @@ os.environ["RATE_LIMIT_ENABLED"] = "false"
 os.environ["RATE_LIMIT_REQUESTS_PER_MINUTE"] = "100"
 os.environ["MAX_LOGIN_ATTEMPTS"] = "3"
 os.environ["LOCKOUT_MINUTES"] = "10"
+os.environ["SCHEDULER_ENABLED"] = "false"
 
 from app.core.config import get_settings
 

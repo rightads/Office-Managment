@@ -189,6 +189,29 @@ class Settings(BaseSettings):
         description="Max requests per minute per IP/user",
     )
 
+    # Attendance Engine & Background Scheduler
+    FORGOTTEN_CHECKOUT_CUTOFF_HOURS: int = Field(
+        default=14,
+        gt=0,
+        description="Hours after shift start after which unclosed checkouts are auto-closed",
+    )
+    SCHEDULER_ENABLED: bool = Field(
+        default=True,
+        description="Enable background scheduler for attendance automation",
+    )
+    SCHEDULER_NIGHTLY_HOUR: int = Field(
+        default=23,
+        ge=0,
+        le=23,
+        description="Hour of day (in APP_TIMEZONE) for nightly attendance auto-marking",
+    )
+    SCHEDULER_NIGHTLY_MINUTE: int = Field(
+        default=50,
+        ge=0,
+        le=59,
+        description="Minute of hour for nightly attendance auto-marking",
+    )
+
     @field_validator("JWT_SECRET_KEY")
     @classmethod
     def validate_jwt_secret_key(cls, v: str) -> str:

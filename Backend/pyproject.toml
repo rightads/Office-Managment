@@ -25,6 +25,7 @@ dependencies = [
     "typer>=0.12.0",
     "python-multipart>=0.0.9",
     "email-validator>=2.1.1",
+    "apscheduler>=3.10.4",
 ]
 
 [project.optional-dependencies]
@@ -78,6 +79,7 @@ plugins = ["pydantic.mypy"]
 module = [
     "jwt.*",
     "redis.*",
+    "apscheduler.*",
 ]
 ignore_missing_imports = true
 

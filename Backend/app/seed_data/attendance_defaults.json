@@ -35,6 +35,12 @@
       "label": "Public Holiday",
       "counts_as_present": false,
       "color": "#8B5CF6"
+    },
+    {
+      "code": "WEEK_OFF",
+      "label": "Weekly Off",
+      "counts_as_present": false,
+      "color": "#64748B"
     }
   ],
   "default_policy": {

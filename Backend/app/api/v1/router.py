@@ -3,6 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter
 
 from app.api.v1.endpoints import (
+    attendance,
     auth,
     clients_projects,
     employees,
@@ -21,6 +22,9 @@ api_v1_router.include_router(auth.router)
 
 # Employee lifecycle & self-service
 api_v1_router.include_router(employees.router)
+
+# Attendance Engine
+api_v1_router.include_router(attendance.router)
 
 # Master Data & RBAC
 api_v1_router.include_router(roles.router)

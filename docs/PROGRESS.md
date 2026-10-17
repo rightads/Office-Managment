@@ -5,7 +5,7 @@
 - [x] **Prompt 02**: Core data models & migrations (Completed)
 - [x] **Prompt 03**: Seeding, CLI, auth, RBAC (Completed)
 - [x] **Prompt 04**: Employee & master data (Completed)
-- [ ] **Prompt 05**: Attendance engine
+- [x] **Prompt 05**: Attendance engine (Completed)
 - [ ] **Prompt 06**: Attendance reports & exports
 - [ ] **Prompt 07**: Leave management
 - [ ] **Prompt 08**: Tasks, categories, clients, projects
@@ -32,6 +32,14 @@
 14. **Self-Service Profile Whitelisting**: Employees can modify personal profile fields (`phone_number`, `avatar_url`) whitelisted in `settings.SELF_EDITABLE_PROFILE_FIELDS` without administrative privileges; all other fields are rejected.
 15. **Streaming Bulk CSV Onboarding**: Multi-row employee import with streaming parser, case-insensitive foreign key resolution (roles, departments, locations, policies), granular error logs (row, column, invalid value, error detail), and dry-run preflight validation.
 16. **Immutable Audit Logging**: Security and business changes are automatically captured in `audit_logs` tracking actor ID, action, entity type, entity ID, previous/new state dictionaries, client IP address, and user agent.
+17. **Haversine Geofencing**: Precise great-circle distance computation in meters against office locations defined dynamically in DB (`office_locations`).
+18. **Hardware Device Binding & Mock Detection**: Immediate rejection of mock location flags (`is_mock_location`). Account binds to the first physical device used and rejects rogue devices until reset by an administrator (`/attendance/users/{id}/reset-device`).
+19. **Server-Time Timezone Evaluation**: All database timestamps strictly stored in timezone-aware UTC. Business day and shift start cutoff evaluations mapped to `settings.APP_TIMEZONE` (handling cross-midnight UTC cases).
+20. **Threshold Status Transitions**: Dynamic check-out calculation (Present, Half-day, Absent, Late) using employee's assigned `AttendancePolicy` record.
+21. **APScheduler Background Jobs**:
+    - `auto_close_unclosed_checkouts`: Auto-closes forgotten checkouts from prior days at shift end and recalculates duration and status.
+    - `nightly_attendance_processor`: Idempotently marks Absent, Approved Leave (`ON_LEAVE`), Holidays, or Week-offs for active employees with no check-in record.
+22. **Manual Attendance Overrides**: Requires a mandatory explanation, writes changes to `attendance_corrections` table, and commits immutable entry to `audit_logs`.
 
 ---
 
@@ -43,7 +51,7 @@
 | `user.read` | User Management | View employee profiles and directories | Prompt 03 |
 | `user.update` | User Management | Edit employee details, designations, and reset passwords | Prompt 03 |
 | `user.delete` | User Management | Deactivate or soft-delete employee accounts | Prompt 03 |
-| `user.manage_roles` | User Management | Assign and modify user roles | Prompt 03 |
+| `user.manage_roles` | User Management | Assign and modify user roles, and reset device bindings | Prompt 03 / 05 |
 | `role.create` | Role Management | Create custom authorization roles | Prompt 04 |
 | `role.read` | Role Management | List and inspect roles and permissions | Prompt 04 |
 | `role.update` | Role Management | Edit custom role descriptions and permissions | Prompt 04 |
@@ -51,10 +59,10 @@
 | `department.manage` | Master Data | Create, update, and manage organizational departments | Prompt 04 |
 | `location.manage` | Master Data | Manage office locations and geofence coordinates | Prompt 04 |
 | `holiday.manage` | Master Data | Manage company holidays and optional calendar days | Prompt 04 |
-| `attendance.check_in` | Attendance | Check in and out for daily attendance | Prompt 03 |
-| `attendance.view_own` | Attendance | View personal attendance history | Prompt 03 |
+| `attendance.check_in` | Attendance | Check in and out for daily attendance | Prompt 03 / 05 |
+| `attendance.view_own` | Attendance | View personal attendance history and calendar | Prompt 03 / 05 |
 | `attendance.view_all` | Attendance | View company-wide attendance logs | Prompt 02 / 03 |
-| `attendance.correct` | Attendance | Request and apply manual attendance corrections | Prompt 03 |
+| `attendance.correct` | Attendance | Request and apply manual attendance corrections | Prompt 03 / 05 |
 | `attendance.manage_policy` | Attendance | Create and modify shifts and attendance policies | Prompt 03 / 04 |
 | `leave.apply` | Leave Management | Submit leave requests | Prompt 03 |
 | `leave.view_own` | Leave Management | View personal leave balances and applications | Prompt 03 |
