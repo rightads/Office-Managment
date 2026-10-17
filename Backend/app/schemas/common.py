@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import math
+import uuid
 from typing import Generic, TypeVar
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 T = TypeVar("T")
 
@@ -49,3 +50,16 @@ class StandardResponse(BaseModel, Generic[T]):
     success: bool = Field(default=True, description="Whether operation succeeded")
     data: T | None = Field(default=None, description="Response payload")
     message: str | None = Field(default=None, description="Optional informational message")
+
+
+class UserBriefResponse(BaseModel):
+    """Compact employee / user reference for tasks, audits, and comments."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    email: str
+    full_name: str
+    employee_code: str
+    avatar_url: str | None = None
+    designation: str | None = None

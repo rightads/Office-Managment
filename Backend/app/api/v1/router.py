@@ -14,6 +14,7 @@ from app.api.v1.endpoints import (
     roles,
     system_settings,
     task_master,
+    tasks,
 )
 
 api_v1_router = APIRouter()
@@ -32,9 +33,12 @@ api_v1_router.include_router(attendance_reports.router)
 # Leave Management
 api_v1_router.include_router(leaves.router)
 
+# Task Management & Categories/Projects
+api_v1_router.include_router(tasks.router)
+api_v1_router.include_router(task_master.router)
+api_v1_router.include_router(clients_projects.router)
+
 # Master Data & RBAC
 api_v1_router.include_router(roles.router)
 api_v1_router.include_router(master_data.router)
-api_v1_router.include_router(task_master.router)
-api_v1_router.include_router(clients_projects.router)
 api_v1_router.include_router(system_settings.router)
