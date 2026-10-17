@@ -1,18 +1,29 @@
 from __future__ import annotations
 
 import datetime
+import uuid
 
-from sqlalchemy import Boolean, DateTime
+from sqlalchemy import Boolean, DateTime, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
 
-__all__ = ["Base", "TimestampMixin", "SoftDeleteMixin", "utc_now"]
+__all__ = ["Base", "UUIDMixin", "TimestampMixin", "SoftDeleteMixin", "utc_now"]
 
 
 def utc_now() -> datetime.datetime:
     """Returns timezone-aware UTC datetime."""
     return datetime.datetime.now(datetime.timezone.utc)
+
+
+class UUIDMixin:
+    """Mixin providing a UUID primary key with auto-generated uuid.uuid4 default."""
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        Uuid(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+    )
 
 
 class TimestampMixin:
