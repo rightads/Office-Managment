@@ -43,18 +43,18 @@ void main() {
     });
 
     test('PermissionCodes catalog matches backend seed permissions', () {
-      expect(PermissionCodes.all.length, 33);
+      expect(PermissionCodes.all.length, 34);
       expect(PermissionCodes.all.contains(PermissionCodes.wildcard), isFalse);
 
-      final seedFile = File('../Backend/app/utils/seed.py');
-      if (seedFile.existsSync()) {
-        final content = seedFile.readAsStringSync();
+      final registryFile = File('../Backend/app/core/permissions_registry.py');
+      if (registryFile.existsSync()) {
+        final content = registryFile.readAsStringSync();
         for (final code in PermissionCodes.all) {
           expect(
             content.contains('"$code"'),
             isTrue,
             reason:
-                'Permission code "$code" not found in Backend/app/utils/seed.py',
+                'Permission code "$code" not found in Backend/app/core/permissions_registry.py',
           );
         }
       }

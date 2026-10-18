@@ -395,3 +395,99 @@ class AuditLogResponse(BaseModel):
     new_data: dict[str, Any] | None = None
     ip_address: str | None = None
     created_at: datetime.datetime
+
+
+# ==============================================================================
+# App Modules, Navigation & Public Runtime Config (Backend Addendum A1)
+# ==============================================================================
+class AppModuleCreate(BaseModel):
+    code: str = Field(..., min_length=2, max_length=100, description="Unique module code")
+    label: str = Field(..., min_length=2, max_length=150, description="Display label")
+    icon_key: str = Field(..., min_length=1, max_length=100, description="Client icon key")
+    route_key: str = Field(..., min_length=1, max_length=100, description="Client route key")
+    sort_order: int = Field(default=0, description="Ascending sort order in navigation")
+    required_permission: str | None = Field(
+        default=None,
+        max_length=100,
+        description="Permission code required to see and access this module (null if open to all authenticated users)",
+    )
+    is_base: bool = Field(default=False, description="True if part of the base employee app")
+    is_active: bool = Field(default=True, description="True if currently enabled")
+    show_on_home: bool = Field(default=True, description="True if module tile appears on Home")
+    description: str | None = Field(default=None, description="Module description")
+
+
+class AppModuleUpdate(BaseModel):
+    label: str | None = Field(default=None, min_length=2, max_length=150)
+    icon_key: str | None = Field(default=None, min_length=1, max_length=100)
+    route_key: str | None = Field(default=None, min_length=1, max_length=100)
+    sort_order: int | None = None
+    required_permission: str | None = Field(default=None, max_length=100)
+    is_base: bool | None = None
+    is_active: bool | None = None
+    show_on_home: bool | None = None
+    description: str | None = None
+
+
+class AppModuleResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    code: str
+    label: str
+    icon_key: str
+    route_key: str
+    sort_order: int
+    required_permission: str | None = None
+    is_base: bool
+    is_active: bool
+    show_on_home: bool
+    description: str | None = None
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
+
+
+class PasswordPolicySummary(BaseModel):
+    min_length: int
+    require_uppercase: bool
+    require_lowercase: bool
+    require_digit: bool
+    require_special: bool
+
+
+class AppRuntimeConfigResponse(BaseModel):
+    app_timezone: str
+    default_page_size: int
+    max_page_size: int
+    max_upload_mb: int
+    allowed_upload_mime_types: list[str]
+    min_supported_app_version: str
+    force_update: bool
+    navigation_refresh_interval_minutes: int
+    password_policy: PasswordPolicySummary
+    feature_flags: dict[str, Any] = Field(default_factory=dict)
+
+
+class UserNavigationResponse(BaseModel):
+    modules: list[AppModuleResponse] = Field(default_factory=list)
+    permissions: list[str] = Field(default_factory=list)
+    role_name: str
+    role_label: str
+    department_id: uuid.UUID | None = None
+    department_name: str | None = None
+    must_change_password: bool
+
+
+class EffectiveAttendancePolicyResponse(BaseModel):
+    id: uuid.UUID
+    name: str
+    shift_start: datetime.time
+    shift_end: datetime.time
+    grace_minutes: int
+    half_day_min_hours: float
+    full_day_min_hours: float
+    week_off_days: list[int]
+    require_geofence: bool
+    require_selfie: bool
+    allowed_locations: list[OfficeLocationResponse] = Field(default_factory=list)
+

@@ -361,6 +361,341 @@
         ]
       }
     },
+    "/api/v1/app/config": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get non-secret public runtime app configuration",
+        "description": "Public endpoint returning non-secret runtime settings (app timezone, pagination limits, upload limits, minimum supported version, force-update flag, password policy summary, and feature flags). Publicly accessible so mobile clients can evaluate force-update gates and password rules prior to login.",
+        "operationId": "get_app_config_api_v1_app_config_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppRuntimeConfigResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/navigation": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get permission-filtered navigation and modules for current user",
+        "description": "Returns active modules visible to the current authenticated user based on their assigned role permissions, ordered by sort_order, along with the user's permission codes, role display label, department, and security flags.",
+        "operationId": "get_my_navigation_api_v1_me_navigation_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserNavigationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/me/attendance-policy": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get effective attendance policy for current user",
+        "description": "Returns the effective attendance policy for the authenticated user (user-specific policy or system default policy), including geofence/selfie requirements, shift hours, and allowed active office locations with coordinates.",
+        "operationId": "get_my_attendance_policy_api_v1_me_attendance_policy_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EffectiveAttendancePolicyResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/app-modules": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "List all registered app modules",
+        "description": "Lists all app modules ordered by sort_order. Requires `modules.manage`.",
+        "operationId": "list_app_modules_api_v1_app_modules_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "is_active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by active status",
+              "title": "Is Active"
+            },
+            "description": "Filter by active status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppModuleResponse"
+                  },
+                  "title": "Response List App Modules Api V1 App Modules Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Create app module",
+        "description": "Creates a new app module registry entry. Requires `modules.manage`.",
+        "operationId": "create_app_module_api_v1_app_modules_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppModuleCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/app-modules/{module_id}": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get app module by ID",
+        "description": "Retrieves a single app module definition by ID. Requires `modules.manage`.",
+        "operationId": "get_app_module_api_v1_app_modules__module_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Update app module",
+        "description": "Updates an existing app module registry entry. Requires `modules.manage`.",
+        "operationId": "update_app_module_api_v1_app_modules__module_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppModuleUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Delete non-base app module",
+        "description": "Deletes a custom app module. Base modules are protected and cannot be deleted. Requires `modules.manage`.",
+        "operationId": "delete_app_module_api_v1_app_modules__module_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employees": {
       "post": {
         "tags": [
@@ -6831,6 +7166,355 @@
         ],
         "title": "AnnualAllocationResultResponse"
       },
+      "AppModuleCreate": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Code",
+            "description": "Unique module code"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 2,
+            "title": "Label",
+            "description": "Display label"
+          },
+          "icon_key": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Icon Key",
+            "description": "Client icon key"
+          },
+          "route_key": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Route Key",
+            "description": "Client route key"
+          },
+          "sort_order": {
+            "type": "integer",
+            "title": "Sort Order",
+            "description": "Ascending sort order in navigation",
+            "default": 0
+          },
+          "required_permission": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Permission",
+            "description": "Permission code required to see and access this module (null if open to all authenticated users)"
+          },
+          "is_base": {
+            "type": "boolean",
+            "title": "Is Base",
+            "description": "True if part of the base employee app",
+            "default": false
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "True if currently enabled",
+            "default": true
+          },
+          "show_on_home": {
+            "type": "boolean",
+            "title": "Show On Home",
+            "description": "True if module tile appears on Home",
+            "default": true
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Module description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "label",
+          "icon_key",
+          "route_key"
+        ],
+        "title": "AppModuleCreate"
+      },
+      "AppModuleResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "icon_key": {
+            "type": "string",
+            "title": "Icon Key"
+          },
+          "route_key": {
+            "type": "string",
+            "title": "Route Key"
+          },
+          "sort_order": {
+            "type": "integer",
+            "title": "Sort Order"
+          },
+          "required_permission": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Permission"
+          },
+          "is_base": {
+            "type": "boolean",
+            "title": "Is Base"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "show_on_home": {
+            "type": "boolean",
+            "title": "Show On Home"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "label",
+          "icon_key",
+          "route_key",
+          "sort_order",
+          "is_base",
+          "is_active",
+          "show_on_home",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AppModuleResponse"
+      },
+      "AppModuleUpdate": {
+        "properties": {
+          "label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "icon_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon Key"
+          },
+          "route_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Key"
+          },
+          "sort_order": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort Order"
+          },
+          "required_permission": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Permission"
+          },
+          "is_base": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Base"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active"
+          },
+          "show_on_home": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Show On Home"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "title": "AppModuleUpdate"
+      },
+      "AppRuntimeConfigResponse": {
+        "properties": {
+          "app_timezone": {
+            "type": "string",
+            "title": "App Timezone"
+          },
+          "default_page_size": {
+            "type": "integer",
+            "title": "Default Page Size"
+          },
+          "max_page_size": {
+            "type": "integer",
+            "title": "Max Page Size"
+          },
+          "max_upload_mb": {
+            "type": "integer",
+            "title": "Max Upload Mb"
+          },
+          "allowed_upload_mime_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Allowed Upload Mime Types"
+          },
+          "min_supported_app_version": {
+            "type": "string",
+            "title": "Min Supported App Version"
+          },
+          "force_update": {
+            "type": "boolean",
+            "title": "Force Update"
+          },
+          "navigation_refresh_interval_minutes": {
+            "type": "integer",
+            "title": "Navigation Refresh Interval Minutes"
+          },
+          "password_policy": {
+            "$ref": "#/components/schemas/PasswordPolicySummary"
+          },
+          "feature_flags": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Feature Flags"
+          }
+        },
+        "type": "object",
+        "required": [
+          "app_timezone",
+          "default_page_size",
+          "max_page_size",
+          "max_upload_mb",
+          "allowed_upload_mime_types",
+          "min_supported_app_version",
+          "force_update",
+          "navigation_refresh_interval_minutes",
+          "password_policy"
+        ],
+        "title": "AppRuntimeConfigResponse"
+      },
       "AttendanceCalendarDay": {
         "properties": {
           "date": {
@@ -8741,6 +9425,77 @@
           "created_at"
         ],
         "title": "DeviceTokenResponse"
+      },
+      "EffectiveAttendancePolicyResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "shift_start": {
+            "type": "string",
+            "format": "time",
+            "title": "Shift Start"
+          },
+          "shift_end": {
+            "type": "string",
+            "format": "time",
+            "title": "Shift End"
+          },
+          "grace_minutes": {
+            "type": "integer",
+            "title": "Grace Minutes"
+          },
+          "half_day_min_hours": {
+            "type": "number",
+            "title": "Half Day Min Hours"
+          },
+          "full_day_min_hours": {
+            "type": "number",
+            "title": "Full Day Min Hours"
+          },
+          "week_off_days": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Week Off Days"
+          },
+          "require_geofence": {
+            "type": "boolean",
+            "title": "Require Geofence"
+          },
+          "require_selfie": {
+            "type": "boolean",
+            "title": "Require Selfie"
+          },
+          "allowed_locations": {
+            "items": {
+              "$ref": "#/components/schemas/OfficeLocationResponse"
+            },
+            "type": "array",
+            "title": "Allowed Locations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "shift_start",
+          "shift_end",
+          "grace_minutes",
+          "half_day_min_hours",
+          "full_day_min_hours",
+          "week_off_days",
+          "require_geofence",
+          "require_selfie"
+        ],
+        "title": "EffectiveAttendancePolicyResponse"
       },
       "EmployeeAdminResetPassword": {
         "properties": {
@@ -11494,6 +12249,39 @@
         ],
         "title": "Page[TaskStatusResponse]"
       },
+      "PasswordPolicySummary": {
+        "properties": {
+          "min_length": {
+            "type": "integer",
+            "title": "Min Length"
+          },
+          "require_uppercase": {
+            "type": "boolean",
+            "title": "Require Uppercase"
+          },
+          "require_lowercase": {
+            "type": "boolean",
+            "title": "Require Lowercase"
+          },
+          "require_digit": {
+            "type": "boolean",
+            "title": "Require Digit"
+          },
+          "require_special": {
+            "type": "boolean",
+            "title": "Require Special"
+          }
+        },
+        "type": "object",
+        "required": [
+          "min_length",
+          "require_uppercase",
+          "require_lowercase",
+          "require_digit",
+          "require_special"
+        ],
+        "title": "PasswordPolicySummary"
+      },
       "PermissionResponse": {
         "properties": {
           "id": {
@@ -13575,6 +14363,66 @@
         ],
         "title": "UserBriefResponse",
         "description": "Compact employee / user reference for tasks, audits, and comments."
+      },
+      "UserNavigationResponse": {
+        "properties": {
+          "modules": {
+            "items": {
+              "$ref": "#/components/schemas/AppModuleResponse"
+            },
+            "type": "array",
+            "title": "Modules"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Permissions"
+          },
+          "role_name": {
+            "type": "string",
+            "title": "Role Name"
+          },
+          "role_label": {
+            "type": "string",
+            "title": "Role Label"
+          },
+          "department_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Id"
+          },
+          "department_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Name"
+          },
+          "must_change_password": {
+            "type": "boolean",
+            "title": "Must Change Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role_name",
+          "role_label",
+          "must_change_password"
+        ],
+        "title": "UserNavigationResponse"
       },
       "UserProfileResponse": {
         "properties": {

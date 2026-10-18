@@ -4,7 +4,7 @@ import datetime
 import uuid
 from typing import TYPE_CHECKING, Any
 
-from sqlalchemy import JSON, DateTime, ForeignKey, Index, String, Uuid
+from sqlalchemy import JSON, Boolean, DateTime, ForeignKey, Index, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -87,3 +87,21 @@ class SystemSetting(Base, TimestampMixin):
     key: Mapped[str] = mapped_column(String(100), primary_key=True, unique=True, index=True)
     value: Mapped[Any] = mapped_column(JSON, nullable=False)
     description: Mapped[str | None] = mapped_column(String(255), nullable=True)
+
+
+class AppModule(Base, UUIDMixin, TimestampMixin):
+    """Database-driven navigation and feature module registry."""
+
+    __tablename__ = "app_modules"
+
+    code: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
+    label: Mapped[str] = mapped_column(String(100), nullable=False)
+    icon_key: Mapped[str] = mapped_column(String(50), nullable=False)
+    route_key: Mapped[str] = mapped_column(String(100), nullable=False)
+    sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False, index=True)
+    required_permission: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    is_base: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False, index=True)
+    show_on_home: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    description: Mapped[str | None] = mapped_column(String(255), nullable=True)
+

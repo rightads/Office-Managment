@@ -230,6 +230,21 @@ class Settings(BaseSettings):
         description="Default initial role name for CLI admin provisioning",
     )
 
+    # Client App Version & Navigation Refresh Defaults
+    MIN_SUPPORTED_APP_VERSION: str = Field(
+        default="1.0.0",
+        description="Minimum supported mobile/web client semantic version",
+    )
+    FORCE_UPDATE: bool = Field(
+        default=False,
+        description="Whether clients below MIN_SUPPORTED_APP_VERSION must force-update",
+    )
+    NAVIGATION_REFRESH_INTERVAL_MINUTES: int = Field(
+        default=15,
+        gt=0,
+        description="Interval in minutes after which client refetches /me/navigation on resume",
+    )
+
     @field_validator("JWT_SECRET_KEY")
     @classmethod
     def validate_jwt_secret_key(cls, v: str) -> str:

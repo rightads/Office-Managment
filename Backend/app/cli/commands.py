@@ -23,7 +23,7 @@ from app.models.communication import NotificationTemplate
 from app.models.leave import LeaveType
 from app.models.organization import Department
 from app.models.rbac import Permission, Role
-from app.models.system import SystemSetting
+from app.models.system import AppModule, SystemSetting
 from app.models.task import (
     TaskPriority,
     TaskStatus,
@@ -277,6 +277,39 @@ async def _async_seed_defaults(session: AsyncSession | None = None) -> None:
                 template_obj.body_template = tmpl["body_template"]
                 template_obj.channel_push = tmpl.get("channel_push", template_obj.channel_push)
                 template_obj.channel_email = tmpl.get("channel_email", template_obj.channel_email)
+
+    # 7. Seed Base App Modules
+    modules_file = SEED_DIR / "app_modules.json"
+    if modules_file.exists():
+        modules_data = json.loads(modules_file.read_text(encoding="utf-8"))
+        for mod in modules_data:
+            stmt_mod = select(AppModule).where(AppModule.code == mod["code"])
+            res_mod = await session.execute(stmt_mod)
+            module_obj = res_mod.scalar_one_or_none()
+            if module_obj is None:
+                session.add(
+                    AppModule(
+                        code=mod["code"],
+                        label=mod["label"],
+                        icon_key=mod["icon_key"],
+                        route_key=mod["route_key"],
+                        sort_order=mod.get("sort_order", 0),
+                        required_permission=mod.get("required_permission"),
+                        is_base=mod.get("is_base", False),
+                        is_active=mod.get("is_active", True),
+                        show_on_home=mod.get("show_on_home", True),
+                        description=mod.get("description"),
+                    )
+                )
+            else:
+                module_obj.label = mod["label"]
+                module_obj.icon_key = mod["icon_key"]
+                module_obj.route_key = mod["route_key"]
+                module_obj.sort_order = mod.get("sort_order", module_obj.sort_order)
+                module_obj.required_permission = mod.get("required_permission")
+                module_obj.is_base = mod.get("is_base", module_obj.is_base)
+                module_obj.show_on_home = mod.get("show_on_home", module_obj.show_on_home)
+                module_obj.description = mod.get("description", module_obj.description)
 
     await session.commit()
 

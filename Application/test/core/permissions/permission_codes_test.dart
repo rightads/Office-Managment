@@ -3,9 +3,9 @@ import 'package:right_ads/core/permissions/permission_codes.dart';
 
 void main() {
   group('PermissionCodes', () {
-    test('contains all 33 unique backend permission codes', () {
-      expect(PermissionCodes.all.length, 33);
-      expect(PermissionCodes.all.toSet().length, 33);
+    test('contains all 34 unique backend permission codes', () {
+      expect(PermissionCodes.all.length, 34);
+      expect(PermissionCodes.all.toSet().length, 34);
     });
 
     test('every permission code follows resource.action format', () {

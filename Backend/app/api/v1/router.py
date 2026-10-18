@@ -12,6 +12,7 @@ from app.api.v1.endpoints import (
     health,
     leaves,
     master_data,
+    navigation_config,
     notifications,
     roles,
     system_settings,
@@ -24,6 +25,7 @@ api_v1_router = APIRouter()
 # Core system endpoints
 api_v1_router.include_router(health.router)
 api_v1_router.include_router(auth.router)
+api_v1_router.include_router(navigation_config.router)
 
 # Employee lifecycle & self-service
 api_v1_router.include_router(employees.router)

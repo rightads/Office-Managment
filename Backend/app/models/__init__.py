@@ -35,6 +35,7 @@ from app.models.rbac import (
     RolePermission,
 )
 from app.models.system import (
+    AppModule,
     AuditLog,
     RefreshToken,
     SystemSetting,
@@ -98,4 +99,5 @@ __all__ = [
     "RefreshToken",
     "AuditLog",
     "SystemSetting",
+    "AppModule",
 ]

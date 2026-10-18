@@ -92,6 +92,11 @@ PERMISSIONS_CATALOG: list[PermissionDefinition] = [
     PermissionDefinition(
         "system.manage_settings", "Modify global runtime system settings", "System"
     ),
+    PermissionDefinition(
+        "modules.manage",
+        "Create, configure, and reorder application modules and navigation",
+        "System",
+    ),
 ]
 
 

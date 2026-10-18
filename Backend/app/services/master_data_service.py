@@ -7,6 +7,7 @@ from fastapi import Request
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.core.exceptions import (
     BusinessRuleViolationException,
     ConflictException,
@@ -16,10 +17,16 @@ from app.models.attendance import AttendancePolicy, AttendanceStatus
 from app.models.leave import LeaveType
 from app.models.organization import Department, Holiday, OfficeLocation
 from app.models.rbac import Permission, Role
-from app.models.system import SystemSetting
+from app.models.system import AppModule, SystemSetting
 from app.models.task import Client, Project, TaskPriority, TaskStatus, TaskStatusTransition
+from app.models.user import User
+from app.repositories.attendance_repository import AttendanceRepository
 from app.repositories.master_data_repository import MasterDataRepository
 from app.schemas.master_data import (
+    AppModuleCreate,
+    AppModuleResponse,
+    AppModuleUpdate,
+    AppRuntimeConfigResponse,
     AttendancePolicyCreate,
     AttendancePolicyUpdate,
     AttendanceStatusCreate,
@@ -28,12 +35,15 @@ from app.schemas.master_data import (
     ClientUpdate,
     DepartmentCreate,
     DepartmentUpdate,
+    EffectiveAttendancePolicyResponse,
     HolidayCreate,
     HolidayUpdate,
     LeaveTypeCreate,
     LeaveTypeUpdate,
     OfficeLocationCreate,
+    OfficeLocationResponse,
     OfficeLocationUpdate,
+    PasswordPolicySummary,
     ProjectCreate,
     ProjectUpdate,
     RoleCreate,
@@ -44,6 +54,7 @@ from app.schemas.master_data import (
     TaskStatusCreate,
     TaskStatusTransitionCreate,
     TaskStatusUpdate,
+    UserNavigationResponse,
 )
 from app.services.audit_service import AuditService
 
@@ -895,3 +906,238 @@ class MasterDataService:
 
     async def list_settings(self) -> list[SystemSetting]:
         return await self.repo.list_settings()
+
+    # ==========================================================================
+    # App Modules, Navigation & Public Runtime Config (Backend Addendum A1)
+    # ==========================================================================
+    async def list_app_modules(self, is_active: bool | None = None) -> list[AppModule]:
+        return await self.repo.list_app_modules(is_active=is_active)
+
+    async def get_app_module(self, module_id: uuid.UUID) -> AppModule:
+        mod = await self.repo.get_by_id(AppModule, module_id)
+        if not mod:
+            raise NotFoundException(f"App module with ID '{module_id}' not found.")
+        return mod
+
+    async def create_app_module(
+        self,
+        payload: AppModuleCreate,
+        actor_id: uuid.UUID,
+        request: Request | None = None,
+    ) -> AppModule:
+        code = payload.code.strip().lower()
+        existing = await self.repo.get_app_module_by_code(code)
+        if existing:
+            raise ConflictException(f"App module with code '{code}' already exists.")
+
+        req_perm = (
+            payload.required_permission.strip()
+            if payload.required_permission and payload.required_permission.strip()
+            else None
+        )
+        mod = AppModule(
+            code=code,
+            label=payload.label.strip(),
+            icon_key=payload.icon_key.strip(),
+            route_key=payload.route_key.strip(),
+            sort_order=payload.sort_order,
+            required_permission=req_perm,
+            is_base=payload.is_base,
+            is_active=payload.is_active,
+            show_on_home=payload.show_on_home,
+            description=payload.description,
+        )
+        self.session.add(mod)
+        await self.session.commit()
+        await self.session.refresh(mod)
+
+        await AuditService.record(
+            self.session,
+            action="CREATE",
+            entity_type="APP_MODULE",
+            entity_id=mod.id,
+            actor_id=actor_id,
+            new_data={"code": mod.code, "label": mod.label},
+            request=request,
+        )
+        await self.session.commit()
+        return mod
+
+    async def update_app_module(
+        self,
+        module_id: uuid.UUID,
+        payload: AppModuleUpdate,
+        actor_id: uuid.UUID,
+        request: Request | None = None,
+    ) -> AppModule:
+        mod = await self.get_app_module(module_id)
+        old_data: dict[str, Any] = {
+            "code": mod.code,
+            "label": mod.label,
+            "is_active": mod.is_active,
+            "required_permission": mod.required_permission,
+        }
+
+        updates = payload.model_dump(exclude_unset=True)
+        if "label" in updates and updates["label"] is not None:
+            mod.label = str(updates["label"]).strip()
+        if "icon_key" in updates and updates["icon_key"] is not None:
+            mod.icon_key = str(updates["icon_key"]).strip()
+        if "route_key" in updates and updates["route_key"] is not None:
+            mod.route_key = str(updates["route_key"]).strip()
+        if "sort_order" in updates and updates["sort_order"] is not None:
+            mod.sort_order = int(updates["sort_order"])
+        if "required_permission" in updates:
+            val = updates["required_permission"]
+            mod.required_permission = val.strip() if isinstance(val, str) and val.strip() else None
+        if "is_base" in updates and updates["is_base"] is not None:
+            mod.is_base = bool(updates["is_base"])
+        if "is_active" in updates and updates["is_active"] is not None:
+            mod.is_active = bool(updates["is_active"])
+        if "show_on_home" in updates and updates["show_on_home"] is not None:
+            mod.show_on_home = bool(updates["show_on_home"])
+        if "description" in updates:
+            mod.description = updates["description"]
+
+        await self.session.commit()
+        await self.session.refresh(mod)
+
+        await AuditService.record(
+            self.session,
+            action="UPDATE",
+            entity_type="APP_MODULE",
+            entity_id=mod.id,
+            actor_id=actor_id,
+            old_data=old_data,
+            new_data=updates,
+            request=request,
+        )
+        await self.session.commit()
+        return mod
+
+    async def delete_app_module(
+        self,
+        module_id: uuid.UUID,
+        actor_id: uuid.UUID,
+        request: Request | None = None,
+    ) -> None:
+        mod = await self.get_app_module(module_id)
+        if mod.is_base:
+            raise BusinessRuleViolationException(
+                f"Base module '{mod.code}' is protected and cannot be deleted."
+            )
+
+        mod_code = mod.code
+        await self.session.delete(mod)
+        await self.session.commit()
+
+        await AuditService.record(
+            self.session,
+            action="DELETE",
+            entity_type="APP_MODULE",
+            entity_id=module_id,
+            actor_id=actor_id,
+            old_data={"code": mod_code},
+            request=request,
+        )
+        await self.session.commit()
+
+    async def get_app_runtime_config(self) -> AppRuntimeConfigResponse:
+        settings_rows = await self.repo.list_settings()
+        settings_map: dict[str, Any] = {row.key: row.value for row in settings_rows}
+
+        raw_flags = settings_map.get("feature_flags")
+        feature_flags: dict[str, Any] = dict(raw_flags) if isinstance(raw_flags, dict) else {}
+
+        raw_mime = settings_map.get("allowed_upload_mime_types", settings.ALLOWED_UPLOAD_MIME_TYPES)
+        allowed_mimes = (
+            [str(m) for m in raw_mime]
+            if isinstance(raw_mime, list)
+            else list(settings.ALLOWED_UPLOAD_MIME_TYPES)
+        )
+
+        return AppRuntimeConfigResponse(
+            app_timezone=str(settings_map.get("app_timezone", settings.APP_TIMEZONE)),
+            default_page_size=int(
+                settings_map.get("default_page_size", settings.DEFAULT_PAGE_SIZE)
+            ),
+            max_page_size=int(settings_map.get("max_page_size", settings.MAX_PAGE_SIZE)),
+            max_upload_mb=int(settings_map.get("max_upload_mb", settings.MAX_UPLOAD_MB)),
+            allowed_upload_mime_types=allowed_mimes,
+            min_supported_app_version=str(
+                settings_map.get(
+                    "min_supported_app_version", settings.MIN_SUPPORTED_APP_VERSION
+                )
+            ),
+            force_update=bool(settings_map.get("force_update", settings.FORCE_UPDATE)),
+            navigation_refresh_interval_minutes=int(
+                settings_map.get(
+                    "navigation_refresh_interval_minutes",
+                    settings.NAVIGATION_REFRESH_INTERVAL_MINUTES,
+                )
+            ),
+            password_policy=PasswordPolicySummary(
+                min_length=settings.PASSWORD_MIN_LENGTH,
+                require_uppercase=settings.PASSWORD_REQUIRE_UPPERCASE,
+                require_lowercase=settings.PASSWORD_REQUIRE_LOWERCASE,
+                require_digit=settings.PASSWORD_REQUIRE_DIGIT,
+                require_special=settings.PASSWORD_REQUIRE_SPECIAL,
+            ),
+            feature_flags=feature_flags,
+        )
+
+    async def get_user_navigation(self, user: User) -> UserNavigationResponse:
+        permission_set: set[str] = set()
+        role_name = ""
+        if user.role:
+            role_name = user.role.name
+            permission_set = {p.code for p in user.role.permissions}
+
+        dept_name: str | None = None
+        if user.department_id:
+            dept = await self.repo.get_by_id(Department, user.department_id)
+            if dept:
+                dept_name = dept.name
+
+        active_modules = await self.repo.list_app_modules(is_active=True)
+        visible_modules = [
+            AppModuleResponse.model_validate(mod)
+            for mod in active_modules
+            if mod.required_permission is None or mod.required_permission in permission_set
+        ]
+
+        return UserNavigationResponse(
+            modules=visible_modules,
+            permissions=sorted(permission_set),
+            role_name=role_name,
+            role_label=role_name,
+            department_id=user.department_id,
+            department_name=dept_name,
+            must_change_password=user.must_change_password,
+        )
+
+    async def get_user_effective_attendance_policy(
+        self, user: User
+    ) -> EffectiveAttendancePolicyResponse:
+        att_repo = AttendanceRepository(self.session)
+        policy = await att_repo.get_effective_policy(user)
+        if not policy:
+            raise NotFoundException("No active attendance policy configured for user.")
+
+        allowed_ids = policy.allowed_location_ids if policy.allowed_location_ids else None
+        locations = await att_repo.get_office_locations(allowed_ids=allowed_ids)
+
+        return EffectiveAttendancePolicyResponse(
+            id=policy.id,
+            name=policy.name,
+            shift_start=policy.shift_start,
+            shift_end=policy.shift_end,
+            grace_minutes=policy.grace_minutes,
+            half_day_min_hours=policy.half_day_min_hours,
+            full_day_min_hours=policy.full_day_min_hours,
+            week_off_days=list(policy.week_off_days),
+            require_geofence=policy.require_geofence,
+            require_selfie=policy.require_selfie,
+            allowed_locations=[OfficeLocationResponse.model_validate(loc) for loc in locations],
+        )
+

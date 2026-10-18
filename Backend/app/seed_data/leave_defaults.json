@@ -53,6 +53,30 @@
       "key": "past_leave_max_days_allowed",
       "value": 7,
       "description": "Maximum number of past days for retroactive leave application submissions"
+    },
+    {
+      "key": "min_supported_app_version",
+      "value": "1.0.0",
+      "description": "Minimum semantic version of the mobile app allowed before force-update"
+    },
+    {
+      "key": "force_update",
+      "value": false,
+      "description": "When true, forces clients below min_supported_app_version to update immediately"
+    },
+    {
+      "key": "navigation_refresh_interval_minutes",
+      "value": 5,
+      "description": "Foreground resume interval in minutes before mobile clients refresh /me/navigation"
+    },
+    {
+      "key": "feature_flags",
+      "value": {
+        "biometric_unlock": true,
+        "offline_attendance_queue": true,
+        "push_notifications": true
+      },
+      "description": "Non-secret runtime feature flags exposed to mobile and web clients"
     }
   ]
 }

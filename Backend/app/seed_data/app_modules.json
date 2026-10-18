@@ -1,0 +1,86 @@
+[
+  {
+    "code": "attendance",
+    "label": "Attendance",
+    "icon_key": "attendance",
+    "route_key": "attendance",
+    "sort_order": 10,
+    "required_permission": "attendance.view_own",
+    "is_base": true,
+    "is_active": true,
+    "show_on_home": true,
+    "description": "Daily check-in, check-out, attendance calendar, and regularization requests"
+  },
+  {
+    "code": "tasks",
+    "label": "Tasks",
+    "icon_key": "tasks",
+    "route_key": "tasks",
+    "sort_order": 20,
+    "required_permission": "task.view_assigned",
+    "is_base": true,
+    "is_active": true,
+    "show_on_home": true,
+    "description": "Assigned tasks, deliverables, status transitions, and comments"
+  },
+  {
+    "code": "leave",
+    "label": "Leave",
+    "icon_key": "leave",
+    "route_key": "leave",
+    "sort_order": 30,
+    "required_permission": "leave.view_own",
+    "is_base": true,
+    "is_active": true,
+    "show_on_home": true,
+    "description": "Leave balances, leave applications, and holiday calendar"
+  },
+  {
+    "code": "work_reports",
+    "label": "Daily Work Report",
+    "icon_key": "work_reports",
+    "route_key": "work_reports",
+    "sort_order": 40,
+    "required_permission": null,
+    "is_base": true,
+    "is_active": true,
+    "show_on_home": true,
+    "description": "Daily work summary, task progress, hours logged, and blockers"
+  },
+  {
+    "code": "announcements",
+    "label": "Announcements",
+    "icon_key": "announcements",
+    "route_key": "announcements",
+    "sort_order": 50,
+    "required_permission": "announcement.view",
+    "is_base": true,
+    "is_active": true,
+    "show_on_home": true,
+    "description": "Company-wide and department announcements"
+  },
+  {
+    "code": "notifications",
+    "label": "Notifications",
+    "icon_key": "notifications",
+    "route_key": "notifications",
+    "sort_order": 60,
+    "required_permission": null,
+    "is_base": true,
+    "is_active": true,
+    "show_on_home": false,
+    "description": "In-app alerts and push notification inbox"
+  },
+  {
+    "code": "profile",
+    "label": "Profile",
+    "icon_key": "profile",
+    "route_key": "profile",
+    "sort_order": 70,
+    "required_permission": null,
+    "is_base": true,
+    "is_active": true,
+    "show_on_home": false,
+    "description": "Employee profile, security settings, and preferences"
+  }
+]

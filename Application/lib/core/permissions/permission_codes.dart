@@ -52,8 +52,9 @@ abstract final class PermissionCodes {
   // System & Audit
   static const String systemViewAuditLogs = 'system.view_audit_logs';
   static const String systemManageSettings = 'system.manage_settings';
+  static const String modulesManage = 'modules.manage';
 
-  /// Complete catalog of all 33 granular permission codes defined on the server.
+  /// Complete catalog of all 34 granular permission codes defined on the server.
   static const List<String> all = <String>[
     userCreate,
     userRead,
@@ -88,5 +89,6 @@ abstract final class PermissionCodes {
     announcementView,
     systemViewAuditLogs,
     systemManageSettings,
+    modulesManage,
   ];
 }

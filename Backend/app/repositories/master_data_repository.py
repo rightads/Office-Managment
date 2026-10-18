@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.models.rbac import Permission, Role
-from app.models.system import SystemSetting
+from app.models.system import AppModule, SystemSetting
 from app.models.task import TaskStatusTransition
 
 M = TypeVar("M")
@@ -133,6 +133,22 @@ class MasterDataRepository:
         return setting
 
     # ==========================================================================
+    # App Modules
+    # ==========================================================================
+    async def get_app_module_by_code(self, code: str) -> AppModule | None:
+        stmt = select(AppModule).where(func.lower(AppModule.code) == code.strip().lower())
+        res = await self.session.execute(stmt)
+        return res.scalar_one_or_none()
+
+    async def list_app_modules(self, is_active: bool | None = None) -> list[AppModule]:
+        stmt = select(AppModule)
+        if is_active is not None:
+            stmt = stmt.where(AppModule.is_active == is_active)
+        stmt = stmt.order_by(AppModule.sort_order.asc(), AppModule.label.asc())
+        res = await self.session.execute(stmt)
+        return list(res.scalars().all())
+
+    # ==========================================================================
     # Task Status Transitions
     # ==========================================================================
     async def list_task_transitions(self) -> list[TaskStatusTransition]:
@@ -149,3 +165,4 @@ class MasterDataRepository:
         )
         res = await self.session.execute(stmt)
         return res.scalar_one_or_none()
+
