@@ -786,5 +786,404 @@
   "profileLogoutConfirmMessage": "You will need to sign in again to access your workspace on this device.",
   "@profileLogoutConfirmMessage": {
     "description": "Confirmation dialog message for single-device logout"
+  },
+  "attendanceScreenTitle": "Attendance",
+  "@attendanceScreenTitle": {
+    "description": "Title of the Employee Attendance screen"
+  },
+  "attendanceTabToday": "Today",
+  "@attendanceTabToday": {
+    "description": "Tab label for Today's attendance view"
+  },
+  "attendanceTabMonthly": "Monthly Calendar",
+  "@attendanceTabMonthly": {
+    "description": "Tab label for Monthly Calendar view"
+  },
+  "attendanceTabYearly": "Yearly Summary",
+  "@attendanceTabYearly": {
+    "description": "Tab label for Yearly Summary view"
+  },
+  "attendanceTodayCardTitle": "Today's Attendance",
+  "@attendanceTodayCardTitle": {
+    "description": "Header on the Today attendance card"
+  },
+  "attendanceNotCheckedInStatus": "Not Checked In",
+  "@attendanceNotCheckedInStatus": {
+    "description": "Fallback status chip label when no attendance record exists yet for today"
+  },
+  "attendanceCheckInTimeLabel": "Check-In Time",
+  "@attendanceCheckInTimeLabel": {
+    "description": "Label for check-in timestamp"
+  },
+  "attendanceCheckOutTimeLabel": "Check-Out Time",
+  "@attendanceCheckOutTimeLabel": {
+    "description": "Label for check-out timestamp"
+  },
+  "attendanceWorkedDurationLabel": "Worked Duration",
+  "@attendanceWorkedDurationLabel": {
+    "description": "Label for worked hours / live elapsed duration"
+  },
+  "attendanceElapsedTimerPrefix": "Live Elapsed",
+  "@attendanceElapsedTimerPrefix": {
+    "description": "Badge/prefix indicating live elapsed timer since server check-in time"
+  },
+  "attendanceCheckInButton": "Check In",
+  "@attendanceCheckInButton": {
+    "description": "Primary CTA button to initiate attendance check-in"
+  },
+  "attendanceCheckOutButton": "Check Out",
+  "@attendanceCheckOutButton": {
+    "description": "Primary CTA button to initiate attendance check-out"
+  },
+  "attendanceCompletedForTodayBadge": "Shift Completed for Today",
+  "@attendanceCompletedForTodayBadge": {
+    "description": "Shown when both check-in and check-out are recorded for today"
+  },
+  "attendancePolicyCardTitle": "Effective Shift & Policy",
+  "@attendancePolicyCardTitle": {
+    "description": "Card title for effective attendance policy details"
+  },
+  "attendancePolicyNameLabel": "Policy",
+  "@attendancePolicyNameLabel": {
+    "description": "Label for attendance policy name"
+  },
+  "attendancePolicyShiftLabel": "Shift Window",
+  "@attendancePolicyShiftLabel": {
+    "description": "Label for shift start and end time"
+  },
+  "attendancePolicyGraceLabel": "Grace Period",
+  "@attendancePolicyGraceLabel": {
+    "description": "Label for grace minutes"
+  },
+  "attendancePolicyGraceMinutesValue": "{minutes} min",
+  "@attendancePolicyGraceMinutesValue": {
+    "description": "Formatted grace period in minutes",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "attendancePolicyMinHoursLabel": "Full / Half Day Min",
+  "@attendancePolicyMinHoursLabel": {
+    "description": "Label for minimum hours required for full day and half day"
+  },
+  "attendancePolicyMinHoursValue": "{fullHours}h / {halfHours}h",
+  "@attendancePolicyMinHoursValue": {
+    "description": "Formatted minimum hours for full day and half day",
+    "placeholders": {
+      "fullHours": {
+        "type": "String"
+      },
+      "halfHours": {
+        "type": "String"
+      }
+    }
+  },
+  "attendancePolicyGeofenceRequired": "Office Geofence Required",
+  "@attendancePolicyGeofenceRequired": {
+    "description": "Chip text when policy.requireGeofence is true"
+  },
+  "attendancePolicyGeofenceOptional": "Remote / Flexible Location",
+  "@attendancePolicyGeofenceOptional": {
+    "description": "Chip text when policy.requireGeofence is false"
+  },
+  "attendancePolicySelfieRequired": "Selfie Required on Check-In",
+  "@attendancePolicySelfieRequired": {
+    "description": "Chip text when policy.requireSelfie is true"
+  },
+  "attendancePolicySelfieOptional": "Selfie Optional",
+  "@attendancePolicySelfieOptional": {
+    "description": "Chip text when policy.requireSelfie is false"
+  },
+  "attendanceNearestOfficeTitle": "Office Geofence Status",
+  "@attendanceNearestOfficeTitle": {
+    "description": "Heading for nearest allowed office distance display"
+  },
+  "attendanceRefreshLocationButton": "Verify GPS Location",
+  "@attendanceRefreshLocationButton": {
+    "description": "Button to acquire GPS position and calculate office distance"
+  },
+  "attendanceLocatingLabel": "Acquiring GPS coordinates...",
+  "@attendanceLocatingLabel": {
+    "description": "Progress text while acquiring GPS coordinates"
+  },
+  "attendanceDistanceWithinRadius": "{distanceMeters} m from {officeName} (within {radiusMeters} m radius)",
+  "@attendanceDistanceWithinRadius": {
+    "description": "Message when user is within the allowed office geofence radius",
+    "placeholders": {
+      "distanceMeters": {
+        "type": "int"
+      },
+      "officeName": {
+        "type": "String"
+      },
+      "radiusMeters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceDistanceOutsideRadius": "{distanceMeters} m from {officeName} (outside {radiusMeters} m radius)",
+  "@attendanceDistanceOutsideRadius": {
+    "description": "Warning message when user is outside the allowed office geofence radius",
+    "placeholders": {
+      "distanceMeters": {
+        "type": "int"
+      },
+      "officeName": {
+        "type": "String"
+      },
+      "radiusMeters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceNoAllowedLocationsConfigured": "No active office geofence locations configured for this policy.",
+  "@attendanceNoAllowedLocationsConfigured": {
+    "description": "Info text when policy has no active allowed_locations"
+  },
+  "attendanceCheckInSheetTitle": "Confirm Attendance Check-In",
+  "@attendanceCheckInSheetTitle": {
+    "description": "Title of the Check-In modal bottom sheet"
+  },
+  "attendanceCheckOutSheetTitle": "Confirm Attendance Check-Out",
+  "@attendanceCheckOutSheetTitle": {
+    "description": "Title of the Check-Out modal bottom sheet"
+  },
+  "attendanceSelfieSectionTitle": "Attendance Selfie",
+  "@attendanceSelfieSectionTitle": {
+    "description": "Section title for selfie capture in check-in sheet"
+  },
+  "attendanceCaptureSelfieButton": "Capture Selfie (Camera)",
+  "@attendanceCaptureSelfieButton": {
+    "description": "Button to capture selfie from camera"
+  },
+  "attendanceRetakeSelfieButton": "Retake Selfie",
+  "@attendanceRetakeSelfieButton": {
+    "description": "Button to retake camera selfie"
+  },
+  "attendanceSelfieCapturedLabel": "Selfie captured and compressed ({sizeKb} KB)",
+  "@attendanceSelfieCapturedLabel": {
+    "description": "Confirmation text after selfie is captured",
+    "placeholders": {
+      "sizeKb": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceSelfieRequiredError": "Your attendance policy requires a camera selfie before checking in.",
+  "@attendanceSelfieRequiredError": {
+    "description": "Error shown when user attempts check-in without required selfie"
+  },
+  "attendanceRemarksLabel": "Remarks (Optional)",
+  "@attendanceRemarksLabel": {
+    "description": "Label for optional check-out remarks field"
+  },
+  "attendanceRemarksHint": "Add shift notes or early checkout reason...",
+  "@attendanceRemarksHint": {
+    "description": "Hint text for check-out remarks field"
+  },
+  "attendanceSubmitCheckInButton": "Submit Check-In",
+  "@attendanceSubmitCheckInButton": {
+    "description": "Button inside Check-In modal to submit check-in request"
+  },
+  "attendanceSubmitCheckOutButton": "Submit Check-Out",
+  "@attendanceSubmitCheckOutButton": {
+    "description": "Button inside Check-Out modal to submit check-out request"
+  },
+  "attendanceCheckInSuccess": "Checked in successfully.",
+  "@attendanceCheckInSuccess": {
+    "description": "Snackbar message on successful check-in"
+  },
+  "attendanceCheckOutSuccess": "Checked out successfully.",
+  "@attendanceCheckOutSuccess": {
+    "description": "Snackbar message on successful check-out"
+  },
+  "attendanceErrorGpsDisabled": "Location services (GPS) are disabled. Please enable GPS to continue.",
+  "@attendanceErrorGpsDisabled": {
+    "description": "Error message when device location services are turned off"
+  },
+  "attendanceErrorPermissionDenied": "Location permission is required to verify your attendance location.",
+  "@attendanceErrorPermissionDenied": {
+    "description": "Error message when location permission is denied"
+  },
+  "attendanceErrorPermissionDeniedForever": "Location permission is permanently denied. Please enable it in App Settings.",
+  "@attendanceErrorPermissionDeniedForever": {
+    "description": "Error message when location permission is denied forever"
+  },
+  "attendanceOpenAppSettingsButton": "Open App Settings",
+  "@attendanceOpenAppSettingsButton": {
+    "description": "Button to deep-link to OS app settings"
+  },
+  "attendanceOpenLocationSettingsButton": "Open Location Settings",
+  "@attendanceOpenLocationSettingsButton": {
+    "description": "Button to deep-link to OS location settings"
+  },
+  "attendanceErrorMockLocation": "Mock or spoofed GPS location detected. Please disable mock location apps to record attendance.",
+  "@attendanceErrorMockLocation": {
+    "description": "Error message when position.isMocked is true"
+  },
+  "attendanceErrorPoorAccuracy": "GPS signal accuracy is too low (±{accuracyMeters} m; required ≤{maxAllowedMeters} m). Move to an open area and retry.",
+  "@attendanceErrorPoorAccuracy": {
+    "description": "Error message when GPS horizontal accuracy exceeds threshold",
+    "placeholders": {
+      "accuracyMeters": {
+        "type": "int"
+      },
+      "maxAllowedMeters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceErrorOutsideGeofence": "You are outside the allowed office radius ({distanceMeters} m from {officeName}; max {radiusMeters} m).",
+  "@attendanceErrorOutsideGeofence": {
+    "description": "Error message when employee is outside allowed office geofence",
+    "placeholders": {
+      "distanceMeters": {
+        "type": "int"
+      },
+      "officeName": {
+        "type": "String"
+      },
+      "radiusMeters": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceErrorDeviceMismatch": "Device ID mismatch: attendance must be marked from your registered device. Contact an administrator to reset your bound device.",
+  "@attendanceErrorDeviceMismatch": {
+    "description": "Error message when server rejects device_id with 403"
+  },
+  "attendanceErrorAlreadyCheckedIn": "You have already checked in for today. Your status has been refreshed.",
+  "@attendanceErrorAlreadyCheckedIn": {
+    "description": "Message when server returns 409 already checked in"
+  },
+  "attendanceErrorAlreadyCheckedOut": "You have already checked out for today. Your status has been refreshed.",
+  "@attendanceErrorAlreadyCheckedOut": {
+    "description": "Message when server returns 400 already checked out"
+  },
+  "attendanceMonthlySummaryTitle": "Monthly Summary",
+  "@attendanceMonthlySummaryTitle": {
+    "description": "Heading for monthly summary metrics above calendar"
+  },
+  "attendanceMetricWorkingDays": "Working Days",
+  "@attendanceMetricWorkingDays": {
+    "description": "Metric label for working days"
+  },
+  "attendanceMetricPresent": "Present",
+  "@attendanceMetricPresent": {
+    "description": "Metric label for present days"
+  },
+  "attendanceMetricLate": "Late",
+  "@attendanceMetricLate": {
+    "description": "Metric label for late days"
+  },
+  "attendanceMetricHalfDay": "Half Day",
+  "@attendanceMetricHalfDay": {
+    "description": "Metric label for half days"
+  },
+  "attendanceMetricLeave": "On Leave",
+  "@attendanceMetricLeave": {
+    "description": "Metric label for leave days"
+  },
+  "attendanceMetricAbsent": "Absent",
+  "@attendanceMetricAbsent": {
+    "description": "Metric label for absent days"
+  },
+  "attendanceMetricHolidays": "Holidays",
+  "@attendanceMetricHolidays": {
+    "description": "Metric label for holidays"
+  },
+  "attendanceMetricTotalHours": "Total Hours",
+  "@attendanceMetricTotalHours": {
+    "description": "Metric label for total worked hours"
+  },
+  "attendanceMetricAttendancePct": "Attendance %",
+  "@attendanceMetricAttendancePct": {
+    "description": "Metric label for attendance percentage"
+  },
+  "attendanceCalendarPrevMonthTooltip": "Previous Month",
+  "@attendanceCalendarPrevMonthTooltip": {
+    "description": "Tooltip for previous month button"
+  },
+  "attendanceCalendarNextMonthTooltip": "Next Month",
+  "@attendanceCalendarNextMonthTooltip": {
+    "description": "Tooltip for next month button"
+  },
+  "attendanceDayDetailTitle": "Attendance Details — {date}",
+  "@attendanceDayDetailTitle": {
+    "description": "Title of bottom sheet showing details for a calendar day",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceDayManualBadge": "Manual Entry",
+  "@attendanceDayManualBadge": {
+    "description": "Badge shown when day.isManual is true"
+  },
+  "attendanceDayCorrectionBadge": "Correction Applied",
+  "@attendanceDayCorrectionBadge": {
+    "description": "Badge shown when day.correctionApplied is true"
+  },
+  "attendanceDayHolidayLabel": "Holiday",
+  "@attendanceDayHolidayLabel": {
+    "description": "Label for holiday name in day detail sheet"
+  },
+  "attendanceDayLeaveLabel": "Leave Type",
+  "@attendanceDayLeaveLabel": {
+    "description": "Label for leave type name in day detail sheet"
+  },
+  "attendanceDayRemarksLabel": "Remarks",
+  "@attendanceDayRemarksLabel": {
+    "description": "Label for remarks in day detail sheet"
+  },
+  "attendanceDayNoRecordLabel": "No check-in/out timestamps recorded for this date.",
+  "@attendanceDayNoRecordLabel": {
+    "description": "Message in day detail sheet when checkInAt and checkOutAt are null"
+  },
+  "attendanceYearlySummaryTitle": "Annual Overview ({year})",
+  "@attendanceYearlySummaryTitle": {
+    "description": "Heading for yearly attendance summary cards",
+    "placeholders": {
+      "year": {
+        "type": "int"
+      }
+    }
+  },
+  "attendanceYearlyMonthBreakdownTitle": "Month-wise Breakdown",
+  "@attendanceYearlyMonthBreakdownTitle": {
+    "description": "Section title for the 12-month list in yearly report"
+  },
+  "attendanceYearlyPrevYearTooltip": "Previous Year",
+  "@attendanceYearlyPrevYearTooltip": {
+    "description": "Tooltip for previous year button"
+  },
+  "attendanceYearlyNextYearTooltip": "Next Year",
+  "@attendanceYearlyNextYearTooltip": {
+    "description": "Tooltip for next year button"
+  },
+  "attendanceYearlyTapMonthHint": "Tap any month to inspect its daily calendar",
+  "@attendanceYearlyTapMonthHint": {
+    "description": "Subtitle hint on yearly breakdown section"
+  },
+  "attendanceHoursValue": "{hours} hrs",
+  "@attendanceHoursValue": {
+    "description": "Formatted hours value",
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "attendancePercentageValue": "{pct}%",
+  "@attendancePercentageValue": {
+    "description": "Formatted percentage value",
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
   }
 }

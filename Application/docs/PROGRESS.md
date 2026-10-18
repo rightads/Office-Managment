@@ -10,10 +10,10 @@
 | `backend_addendum/A1_navigation_and_app_config.md` | Backend A1: Navigation, modules registry, public app config | Completed | Added `app_modules` table + Alembic migration, `modules.manage` permission, seeded 7 base modules in `app/seed_data/app_modules.json`, added `GET /api/v1/app/config`, `GET /api/v1/me/navigation`, `GET /api/v1/me/attendance-policy`, and Admin CRUD `/api/v1/app-modules`, exported updated `docs/backend/openapi.json`. |
 | `04_navigation_shell_permissions.md` | Permission-driven navigation shell | Completed | `RuntimeAppConfigController` + `NavigationController` loading `/app/config` and `/me/navigation` with offline cache fallback in `PreferencesStorageService`, `PermissionService` (`can`, `canAny`, `canAll`, `ref.can()`, `PermissionGate`), `ModuleRegistry` (safe fallback for unknown `route_key`) & `ModuleIconMapper` (safe fallback for unknown `icon_key`), `AdaptiveShellScreen` (5-tab cap + "More" sheet on phones; `NavigationRail` sidebar on tablet/web; foreground resume hot-reload after `N` minutes), `HomeDashboardView` (quick cards + module tiles), `ForbiddenScreen` (403), `ForceUpdateScreen` (`min_supported_app_version` gate), and full unit & widget tests. |
 | `05_profile_and_account.md` | Profile and account | Completed | `ProfileScreen` & `ProfileController` consuming `GET /api/v1/employees/me` (displaying `employee_code`, `full_name`, `email`, `role_name`, `department_name`, `designation`, `manager_name`, `joining_date`, `attendance_policy_name` verbatim from API with zero role logic) and `PATCH /api/v1/employees/me` (self-editable `phone_number` & `avatar_url`), `PhotoPickerService` (camera/gallery picker with compression and `RuntimeAppConfig` `max_upload_mb` / `allowed_upload_mime_types` validation), `ChangePasswordBottomSheet` with dynamic `PasswordPolicySummary` hints from `/app/config`, 422 field error mapping onto form fields, theme/language/biometric toggles, `DeviceInfoService` ("device info" + app version), logout & logout-all confirmation flows, and unit/widget tests. |
+| `06_attendance_employee.md` | Attendance (Employee view) | Completed | `AttendanceScreen` (`route_key: 'attendance'`) & `TodayAttendanceController` consuming `/me/attendance-policy`, `/attendance/today`, `/attendance/check-in`, `/attendance/check-out`, `/attendance/me`, `/reports/attendance/employee/{id}/monthly`, and `/reports/attendance/employee/{id}/yearly`. 100% policy-driven (zero role checks) geofence proximity & selfie requirements, Haversine office distance calculation with outside-radius warnings, `position.isMocked` blocking, GPS horizontal accuracy retry prompt, `openAppSettings()` / `openLocationSettings()` deep linking, bound `device_id` verification (403 mismatch handling), server UTC time truth with live worked-duration timer, app timezone display via `AppFormatters`, server-driven `status_label` + `status_color` via `StatusChip` / `DynamicColorParser`, monthly calendar grid with day detail sheet (manual/correction flags & remarks), 12-month yearly summary breakdown, and live status badge on Home Dashboard quick card. |
 
 ## Pending Prompts
 
-- `06_attendance_employee.md`
 - `07_tasks_employee.md`
 - `08_leave_and_holidays.md`
 - `09_announcements_notifications.md`
@@ -62,6 +62,12 @@ Mirrors all 34 granular permission codes in the backend `PERMISSIONS_CATALOG` pl
 - `GET /api/v1/auth/me` (`ApiEndpoints.authMe`)
 - `GET /api/v1/employees/me` (`ApiEndpoints.employeesMe`)
 - `PATCH /api/v1/employees/me` (`ApiEndpoints.employeesMe`)
+- `GET /api/v1/attendance/today` (`ApiEndpoints.attendanceToday`)
+- `POST /api/v1/attendance/check-in` (`ApiEndpoints.attendanceCheckIn`)
+- `POST /api/v1/attendance/check-out` (`ApiEndpoints.attendanceCheckOut`)
+- `GET /api/v1/attendance/me` (`ApiEndpoints.attendanceMe`)
+- `GET /api/v1/reports/attendance/employee/{id}/monthly` (`ApiEndpoints.employeeMonthlyAttendanceReport`)
+- `GET /api/v1/reports/attendance/employee/{id}/yearly` (`ApiEndpoints.employeeYearlyAttendanceReport`)
 
 ---
 

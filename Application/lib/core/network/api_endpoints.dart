@@ -24,6 +24,18 @@ abstract final class ApiEndpoints {
   // Employee Self-Service & Profile (Prompt 05)
   static const String employeesMe = '/employees/me';
 
+  // Attendance & Attendance Reports (Prompt 06)
+  static const String attendanceToday = '/attendance/today';
+  static const String attendanceCheckIn = '/attendance/check-in';
+  static const String attendanceCheckOut = '/attendance/check-out';
+  static const String attendanceMe = '/attendance/me';
+
+  static String employeeMonthlyAttendanceReport(String employeeId) =>
+      '/reports/attendance/employee/$employeeId/monthly';
+
+  static String employeeYearlyAttendanceReport(String employeeId) =>
+      '/reports/attendance/employee/$employeeId/yearly';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{

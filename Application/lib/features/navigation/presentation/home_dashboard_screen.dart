@@ -10,6 +10,8 @@ import 'package:right_ads/core/widgets/app_button.dart';
 import 'package:right_ads/core/widgets/app_snackbar.dart';
 import 'package:right_ads/core/widgets/avatar_with_initials.dart';
 import 'package:right_ads/core/widgets/confirm_dialog.dart';
+import 'package:right_ads/core/widgets/status_chip.dart';
+import 'package:right_ads/features/attendance/application/attendance_controller.dart';
 import 'package:right_ads/features/auth/application/session_controller.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
 import 'package:right_ads/features/navigation/application/navigation_controller.dart';
@@ -67,6 +69,8 @@ class HomeDashboardView extends ConsumerWidget {
     final config = ref.watch(appConfigProvider);
     final authState = ref.watch(sessionControllerProvider);
     final navState = ref.watch(navigationControllerProvider);
+    final todayAttendance = ref.watch(todayAttendanceControllerProvider);
+    final todayRecord = todayAttendance.todayRecord;
     final navData = navState.data;
     final modules = navData.modules;
 
@@ -88,9 +92,16 @@ class HomeDashboardView extends ConsumerWidget {
         .toList();
 
     return RefreshIndicator(
-      onRefresh: () => ref
-          .read(navigationControllerProvider.notifier)
-          .refreshNavigation(force: true),
+      onRefresh: () async {
+        await Future.wait<void>([
+          ref
+              .read(navigationControllerProvider.notifier)
+              .refreshNavigation(force: true),
+          ref
+              .read(todayAttendanceControllerProvider.notifier)
+              .loadTodayAndPolicy(silent: true),
+        ]);
+      },
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -210,6 +221,12 @@ class HomeDashboardView extends ConsumerWidget {
                             icon: Icons.access_time_filled,
                             title: l10n.homeCardAttendanceTitle,
                             subtitle: l10n.homeCardAttendanceSubtitle,
+                            badge: todayRecord != null
+                                ? StatusChip(
+                                    label: todayRecord.statusLabel,
+                                    hexColor: todayRecord.statusColor,
+                                  )
+                                : null,
                             onTap: () =>
                                 _openQuickModule(modules, 'attendance'),
                           ),
@@ -319,12 +336,14 @@ class _QuickSummaryCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.badge,
   });
 
   final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+  final Widget? badge;
 
   @override
   Widget build(BuildContext context) {
@@ -371,6 +390,10 @@ class _QuickSummaryCard extends StatelessWidget {
                   ],
                 ),
               ),
+              if (badge != null) ...<Widget>[
+                const SizedBox(width: AppSpacing.xs),
+                badge!,
+              ],
               Icon(
                 Icons.chevron_right,
                 color: colorScheme.onSurfaceVariant,

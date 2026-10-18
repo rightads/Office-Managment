@@ -66,5 +66,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Right Ads uses your location to verify office geofence proximity during attendance check-in and check-out.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Right Ads uses your camera to capture attendance selfies and profile photos when required by your attendance policy.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Right Ads uses your photo library when updating your profile photo.</string>
 </dict>
 </plist>

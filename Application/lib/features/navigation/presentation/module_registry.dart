@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
+import 'package:right_ads/features/attendance/presentation/attendance_screen.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
 import 'package:right_ads/features/profile/presentation/profile_screen.dart';
@@ -30,8 +31,7 @@ class ModuleRegistryEntry {
 abstract final class ModuleRegistry {
   static final Map<String, ModuleWidgetBuilder> _registeredBuilders =
       <String, ModuleWidgetBuilder>{
-        'attendance': (context, module) =>
-            BaseModulePlaceholderView(module: module),
+        'attendance': (context, module) => const AttendanceScreen(),
         'tasks': (context, module) => BaseModulePlaceholderView(module: module),
         'leave': (context, module) => BaseModulePlaceholderView(module: module),
         'work_reports': (context, module) =>

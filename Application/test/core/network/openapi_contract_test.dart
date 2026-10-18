@@ -19,7 +19,7 @@ void main() {
           jsonDecode(openapiFile.readAsStringSync()) as Map<String, dynamic>;
       final paths = decoded['paths'] as Map<String, dynamic>;
 
-      const endpointsToCheck = <String>[
+      final endpointsToCheck = <String>[
         ApiEndpoints.health,
         ApiEndpoints.appConfig,
         ApiEndpoints.meNavigation,
@@ -34,6 +34,12 @@ void main() {
         ApiEndpoints.authResetPassword,
         ApiEndpoints.authMe,
         ApiEndpoints.employeesMe,
+        ApiEndpoints.attendanceToday,
+        ApiEndpoints.attendanceCheckIn,
+        ApiEndpoints.attendanceCheckOut,
+        ApiEndpoints.attendanceMe,
+        ApiEndpoints.employeeMonthlyAttendanceReport('{id}'),
+        ApiEndpoints.employeeYearlyAttendanceReport('{id}'),
       ];
 
       for (final endpoint in endpointsToCheck) {
