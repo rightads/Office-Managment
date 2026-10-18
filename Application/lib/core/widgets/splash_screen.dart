@@ -1,41 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
-import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({
-    this.redirectDelay = const Duration(milliseconds: 600),
-    super.key,
-  });
-
-  final Duration redirectDelay;
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  Timer? _redirectTimer;
-
-  @override
-  void initState() {
-    super.initState();
-    _redirectTimer = Timer(widget.redirectDelay, () {
-      if (mounted) {
-        context.go(RoutePaths.home);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _redirectTimer?.cancel();
-    super.dispose();
-  }
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

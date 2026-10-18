@@ -169,16 +169,16 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? message)?  network,TResult Function( String? message)?  unauthorized,TResult Function( String? message)?  forbidden,TResult Function( String? message,  Map<String, List<String>> fieldErrors)?  validation,TResult Function( String? message)?  notFound,TResult Function( String? message)?  conflict,TResult Function( String? message,  int? statusCode)?  server,TResult Function( String? message,  Object? cause)?  unknown,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? message)?  network,TResult Function( String? message,  String? errorCode,  bool isTokenReuse)?  unauthorized,TResult Function( String? message,  String? errorCode)?  forbidden,TResult Function( String? message,  String? errorCode,  Map<String, List<String>> fieldErrors)?  validation,TResult Function( String? message,  String? errorCode)?  notFound,TResult Function( String? message,  String? errorCode)?  conflict,TResult Function( String? message,  int? statusCode,  String? errorCode)?  server,TResult Function( String? message,  Object? cause)?  unknown,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case NetworkFailure() when network != null:
 return network(_that.message);case UnauthorizedFailure() when unauthorized != null:
-return unauthorized(_that.message);case ForbiddenFailure() when forbidden != null:
-return forbidden(_that.message);case ValidationFailure() when validation != null:
-return validation(_that.message,_that.fieldErrors);case NotFoundFailure() when notFound != null:
-return notFound(_that.message);case ConflictFailure() when conflict != null:
-return conflict(_that.message);case ServerFailure() when server != null:
-return server(_that.message,_that.statusCode);case UnknownFailure() when unknown != null:
+return unauthorized(_that.message,_that.errorCode,_that.isTokenReuse);case ForbiddenFailure() when forbidden != null:
+return forbidden(_that.message,_that.errorCode);case ValidationFailure() when validation != null:
+return validation(_that.message,_that.errorCode,_that.fieldErrors);case NotFoundFailure() when notFound != null:
+return notFound(_that.message,_that.errorCode);case ConflictFailure() when conflict != null:
+return conflict(_that.message,_that.errorCode);case ServerFailure() when server != null:
+return server(_that.message,_that.statusCode,_that.errorCode);case UnknownFailure() when unknown != null:
 return unknown(_that.message,_that.cause);case _:
   return orElse();
 
@@ -197,16 +197,16 @@ return unknown(_that.message,_that.cause);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? message)  network,required TResult Function( String? message)  unauthorized,required TResult Function( String? message)  forbidden,required TResult Function( String? message,  Map<String, List<String>> fieldErrors)  validation,required TResult Function( String? message)  notFound,required TResult Function( String? message)  conflict,required TResult Function( String? message,  int? statusCode)  server,required TResult Function( String? message,  Object? cause)  unknown,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? message)  network,required TResult Function( String? message,  String? errorCode,  bool isTokenReuse)  unauthorized,required TResult Function( String? message,  String? errorCode)  forbidden,required TResult Function( String? message,  String? errorCode,  Map<String, List<String>> fieldErrors)  validation,required TResult Function( String? message,  String? errorCode)  notFound,required TResult Function( String? message,  String? errorCode)  conflict,required TResult Function( String? message,  int? statusCode,  String? errorCode)  server,required TResult Function( String? message,  Object? cause)  unknown,}) {final _that = this;
 switch (_that) {
 case NetworkFailure():
 return network(_that.message);case UnauthorizedFailure():
-return unauthorized(_that.message);case ForbiddenFailure():
-return forbidden(_that.message);case ValidationFailure():
-return validation(_that.message,_that.fieldErrors);case NotFoundFailure():
-return notFound(_that.message);case ConflictFailure():
-return conflict(_that.message);case ServerFailure():
-return server(_that.message,_that.statusCode);case UnknownFailure():
+return unauthorized(_that.message,_that.errorCode,_that.isTokenReuse);case ForbiddenFailure():
+return forbidden(_that.message,_that.errorCode);case ValidationFailure():
+return validation(_that.message,_that.errorCode,_that.fieldErrors);case NotFoundFailure():
+return notFound(_that.message,_that.errorCode);case ConflictFailure():
+return conflict(_that.message,_that.errorCode);case ServerFailure():
+return server(_that.message,_that.statusCode,_that.errorCode);case UnknownFailure():
 return unknown(_that.message,_that.cause);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -221,16 +221,16 @@ return unknown(_that.message,_that.cause);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? message)?  network,TResult? Function( String? message)?  unauthorized,TResult? Function( String? message)?  forbidden,TResult? Function( String? message,  Map<String, List<String>> fieldErrors)?  validation,TResult? Function( String? message)?  notFound,TResult? Function( String? message)?  conflict,TResult? Function( String? message,  int? statusCode)?  server,TResult? Function( String? message,  Object? cause)?  unknown,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? message)?  network,TResult? Function( String? message,  String? errorCode,  bool isTokenReuse)?  unauthorized,TResult? Function( String? message,  String? errorCode)?  forbidden,TResult? Function( String? message,  String? errorCode,  Map<String, List<String>> fieldErrors)?  validation,TResult? Function( String? message,  String? errorCode)?  notFound,TResult? Function( String? message,  String? errorCode)?  conflict,TResult? Function( String? message,  int? statusCode,  String? errorCode)?  server,TResult? Function( String? message,  Object? cause)?  unknown,}) {final _that = this;
 switch (_that) {
 case NetworkFailure() when network != null:
 return network(_that.message);case UnauthorizedFailure() when unauthorized != null:
-return unauthorized(_that.message);case ForbiddenFailure() when forbidden != null:
-return forbidden(_that.message);case ValidationFailure() when validation != null:
-return validation(_that.message,_that.fieldErrors);case NotFoundFailure() when notFound != null:
-return notFound(_that.message);case ConflictFailure() when conflict != null:
-return conflict(_that.message);case ServerFailure() when server != null:
-return server(_that.message,_that.statusCode);case UnknownFailure() when unknown != null:
+return unauthorized(_that.message,_that.errorCode,_that.isTokenReuse);case ForbiddenFailure() when forbidden != null:
+return forbidden(_that.message,_that.errorCode);case ValidationFailure() when validation != null:
+return validation(_that.message,_that.errorCode,_that.fieldErrors);case NotFoundFailure() when notFound != null:
+return notFound(_that.message,_that.errorCode);case ConflictFailure() when conflict != null:
+return conflict(_that.message,_that.errorCode);case ServerFailure() when server != null:
+return server(_that.message,_that.statusCode,_that.errorCode);case UnknownFailure() when unknown != null:
 return unknown(_that.message,_that.cause);case _:
   return null;
 
@@ -309,10 +309,12 @@ as String?,
 
 
 class UnauthorizedFailure implements AppFailure {
-  const UnauthorizedFailure({this.message});
+  const UnauthorizedFailure({this.message, this.errorCode, this.isTokenReuse = false});
   
 
 @override final  String? message;
+ final  String? errorCode;
+@JsonKey() final  bool isTokenReuse;
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
@@ -324,16 +326,16 @@ $UnauthorizedFailureCopyWith<UnauthorizedFailure> get copyWith => _$Unauthorized
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnauthorizedFailure&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UnauthorizedFailure&&(identical(other.message, message) || other.message == message)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&(identical(other.isTokenReuse, isTokenReuse) || other.isTokenReuse == isTokenReuse));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode => Object.hash(runtimeType,message,errorCode,isTokenReuse);
 
 @override
 String toString() {
-  return 'AppFailure.unauthorized(message: $message)';
+  return 'AppFailure.unauthorized(message: $message, errorCode: $errorCode, isTokenReuse: $isTokenReuse)';
 }
 
 
@@ -344,7 +346,7 @@ abstract mixin class $UnauthorizedFailureCopyWith<$Res> implements $AppFailureCo
   factory $UnauthorizedFailureCopyWith(UnauthorizedFailure value, $Res Function(UnauthorizedFailure) _then) = _$UnauthorizedFailureCopyWithImpl;
 @override @useResult
 $Res call({
- String? message
+ String? message, String? errorCode, bool isTokenReuse
 });
 
 
@@ -361,10 +363,12 @@ class _$UnauthorizedFailureCopyWithImpl<$Res>
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? errorCode = freezed,Object? isTokenReuse = null,}) {
   return _then(UnauthorizedFailure(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
+as String?,isTokenReuse: null == isTokenReuse ? _self.isTokenReuse : isTokenReuse // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -375,10 +379,11 @@ as String?,
 
 
 class ForbiddenFailure implements AppFailure {
-  const ForbiddenFailure({this.message});
+  const ForbiddenFailure({this.message, this.errorCode});
   
 
 @override final  String? message;
+ final  String? errorCode;
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
@@ -390,16 +395,16 @@ $ForbiddenFailureCopyWith<ForbiddenFailure> get copyWith => _$ForbiddenFailureCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForbiddenFailure&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ForbiddenFailure&&(identical(other.message, message) || other.message == message)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode => Object.hash(runtimeType,message,errorCode);
 
 @override
 String toString() {
-  return 'AppFailure.forbidden(message: $message)';
+  return 'AppFailure.forbidden(message: $message, errorCode: $errorCode)';
 }
 
 
@@ -410,7 +415,7 @@ abstract mixin class $ForbiddenFailureCopyWith<$Res> implements $AppFailureCopyW
   factory $ForbiddenFailureCopyWith(ForbiddenFailure value, $Res Function(ForbiddenFailure) _then) = _$ForbiddenFailureCopyWithImpl;
 @override @useResult
 $Res call({
- String? message
+ String? message, String? errorCode
 });
 
 
@@ -427,9 +432,10 @@ class _$ForbiddenFailureCopyWithImpl<$Res>
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? errorCode = freezed,}) {
   return _then(ForbiddenFailure(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -441,10 +447,11 @@ as String?,
 
 
 class ValidationFailure implements AppFailure {
-  const ValidationFailure({this.message,  Map<String, List<String>> fieldErrors = const <String, List<String>>{}}): _fieldErrors = fieldErrors;
+  const ValidationFailure({this.message, this.errorCode,  Map<String, List<String>> fieldErrors = const <String, List<String>>{}}): _fieldErrors = fieldErrors;
   
 
 @override final  String? message;
+ final  String? errorCode;
  final  Map<String, List<String>> _fieldErrors;
 @JsonKey() Map<String, List<String>> get fieldErrors {
   if (_fieldErrors is EqualUnmodifiableMapView) return _fieldErrors;
@@ -463,16 +470,16 @@ $ValidationFailureCopyWith<ValidationFailure> get copyWith => _$ValidationFailur
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ValidationFailure&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._fieldErrors, _fieldErrors));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ValidationFailure&&(identical(other.message, message) || other.message == message)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode)&&const DeepCollectionEquality().equals(other._fieldErrors, _fieldErrors));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(_fieldErrors));
+int get hashCode => Object.hash(runtimeType,message,errorCode,const DeepCollectionEquality().hash(_fieldErrors));
 
 @override
 String toString() {
-  return 'AppFailure.validation(message: $message, fieldErrors: $fieldErrors)';
+  return 'AppFailure.validation(message: $message, errorCode: $errorCode, fieldErrors: $fieldErrors)';
 }
 
 
@@ -483,7 +490,7 @@ abstract mixin class $ValidationFailureCopyWith<$Res> implements $AppFailureCopy
   factory $ValidationFailureCopyWith(ValidationFailure value, $Res Function(ValidationFailure) _then) = _$ValidationFailureCopyWithImpl;
 @override @useResult
 $Res call({
- String? message, Map<String, List<String>> fieldErrors
+ String? message, String? errorCode, Map<String, List<String>> fieldErrors
 });
 
 
@@ -500,9 +507,10 @@ class _$ValidationFailureCopyWithImpl<$Res>
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? fieldErrors = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? errorCode = freezed,Object? fieldErrors = null,}) {
   return _then(ValidationFailure(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
 as String?,fieldErrors: null == fieldErrors ? _self._fieldErrors : fieldErrors // ignore: cast_nullable_to_non_nullable
 as Map<String, List<String>>,
   ));
@@ -515,10 +523,11 @@ as Map<String, List<String>>,
 
 
 class NotFoundFailure implements AppFailure {
-  const NotFoundFailure({this.message});
+  const NotFoundFailure({this.message, this.errorCode});
   
 
 @override final  String? message;
+ final  String? errorCode;
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
@@ -530,16 +539,16 @@ $NotFoundFailureCopyWith<NotFoundFailure> get copyWith => _$NotFoundFailureCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotFoundFailure&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotFoundFailure&&(identical(other.message, message) || other.message == message)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode => Object.hash(runtimeType,message,errorCode);
 
 @override
 String toString() {
-  return 'AppFailure.notFound(message: $message)';
+  return 'AppFailure.notFound(message: $message, errorCode: $errorCode)';
 }
 
 
@@ -550,7 +559,7 @@ abstract mixin class $NotFoundFailureCopyWith<$Res> implements $AppFailureCopyWi
   factory $NotFoundFailureCopyWith(NotFoundFailure value, $Res Function(NotFoundFailure) _then) = _$NotFoundFailureCopyWithImpl;
 @override @useResult
 $Res call({
- String? message
+ String? message, String? errorCode
 });
 
 
@@ -567,9 +576,10 @@ class _$NotFoundFailureCopyWithImpl<$Res>
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? errorCode = freezed,}) {
   return _then(NotFoundFailure(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -581,10 +591,11 @@ as String?,
 
 
 class ConflictFailure implements AppFailure {
-  const ConflictFailure({this.message});
+  const ConflictFailure({this.message, this.errorCode});
   
 
 @override final  String? message;
+ final  String? errorCode;
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
@@ -596,16 +607,16 @@ $ConflictFailureCopyWith<ConflictFailure> get copyWith => _$ConflictFailureCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConflictFailure&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConflictFailure&&(identical(other.message, message) || other.message == message)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message);
+int get hashCode => Object.hash(runtimeType,message,errorCode);
 
 @override
 String toString() {
-  return 'AppFailure.conflict(message: $message)';
+  return 'AppFailure.conflict(message: $message, errorCode: $errorCode)';
 }
 
 
@@ -616,7 +627,7 @@ abstract mixin class $ConflictFailureCopyWith<$Res> implements $AppFailureCopyWi
   factory $ConflictFailureCopyWith(ConflictFailure value, $Res Function(ConflictFailure) _then) = _$ConflictFailureCopyWithImpl;
 @override @useResult
 $Res call({
- String? message
+ String? message, String? errorCode
 });
 
 
@@ -633,9 +644,10 @@ class _$ConflictFailureCopyWithImpl<$Res>
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? errorCode = freezed,}) {
   return _then(ConflictFailure(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -647,11 +659,12 @@ as String?,
 
 
 class ServerFailure implements AppFailure {
-  const ServerFailure({this.message, this.statusCode});
+  const ServerFailure({this.message, this.statusCode, this.errorCode});
   
 
 @override final  String? message;
  final  int? statusCode;
+ final  String? errorCode;
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
@@ -663,16 +676,16 @@ $ServerFailureCopyWith<ServerFailure> get copyWith => _$ServerFailureCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerFailure&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerFailure&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.errorCode, errorCode) || other.errorCode == errorCode));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,statusCode);
+int get hashCode => Object.hash(runtimeType,message,statusCode,errorCode);
 
 @override
 String toString() {
-  return 'AppFailure.server(message: $message, statusCode: $statusCode)';
+  return 'AppFailure.server(message: $message, statusCode: $statusCode, errorCode: $errorCode)';
 }
 
 
@@ -683,7 +696,7 @@ abstract mixin class $ServerFailureCopyWith<$Res> implements $AppFailureCopyWith
   factory $ServerFailureCopyWith(ServerFailure value, $Res Function(ServerFailure) _then) = _$ServerFailureCopyWithImpl;
 @override @useResult
 $Res call({
- String? message, int? statusCode
+ String? message, int? statusCode, String? errorCode
 });
 
 
@@ -700,11 +713,12 @@ class _$ServerFailureCopyWithImpl<$Res>
 
 /// Create a copy of AppFailure
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? statusCode = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? statusCode = freezed,Object? errorCode = freezed,}) {
   return _then(ServerFailure(
 message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,errorCode: freezed == errorCode ? _self.errorCode : errorCode // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

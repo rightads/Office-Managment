@@ -69,10 +69,10 @@ dart run build_runner build --delete-conflicting-outputs
 .\tool\scripts.ps1 -Task gen
 
 # 3. Format & Analyze
-dart format .
+dart format lib test
 flutter analyze
 
-# 4. Run Tests (includes anti-hardcoded-string scanner & widget suite)
+# 4. Run Tests (includes OpenAPI contract check, single-flight refresh, auth flow & anti-hardcoded-string scanner)
 flutter test
 
 # 5. Run the App per Flavor
@@ -98,16 +98,18 @@ lib/
 ├── main_staging.dart        # Staging flavor entrypoint
 ├── main_prod.dart           # Prod flavor entrypoint
 ├── core/
+│   ├── auth/                # BiometricService (optional local_auth unlock)
 │   ├── config/              # AppConfig, RuntimeAppConfig, AppEnvironment
 │   ├── constants/           # StorageKeys (secure vs non-sensitive prefs)
-│   ├── errors/              # AppFailure hierarchy, AppErrorObserver
+│   ├── errors/              # AppFailure hierarchy, ErrorMapper, AppErrorObserver
 │   ├── l10n/                # ARB files (app_en.arb, app_hi.arb) & context.l10n
-│   ├── network/             # Connectivity provider
+│   ├── network/             # Dio provider, ApiEndpoints, interceptors (RequestId, AuthHeader, TokenRefresh, RedactingLog)
 │   ├── permissions/         # PermissionCodes, PermissionSet, ref.can(...)
-│   ├── router/              # GoRouter & RoutePaths (incl. debug /dev/gallery)
-│   ├── storage/             # SecureStorageService & PreferencesStorageService
+│   ├── router/              # GoRouter auth redirect state machine & RoutePaths
+│   ├── storage/             # SecureStorageService, PreferencesStorageService, DeviceIdentityService
 │   ├── theme/               # AppBrandColors, AppSpacing, AppTypography, DynamicColorParser, AppTheme
 │   ├── utils/               # AppLogger, AppFormatters (UTC->TZ, currency), AppValidators
 │   └── widgets/             # 14 shared widgets + DevGalleryScreen + SplashScreen
-└── features/                # Feature-first modules (data, domain, application, presentation)
+└── features/
+    └── auth/                # Data (DTOs, AuthRemoteDataSource, AuthRepositoryImpl), Domain (AuthUser, AuthState), Application (SessionController, PasswordRecoveryController), Presentation (Login, ForgotPassword, ResetPassword, ForceChangePassword)
 ```

@@ -112,6 +112,10 @@
   "@validationPhone": {
     "description": "Validation error when phone input is invalid"
   },
+  "validationPasswordsDoNotMatch": "Passwords do not match.",
+  "@validationPasswordsDoNotMatch": {
+    "description": "Validation error when password confirmation does not match"
+  },
   "networkOfflineBanner": "You are offline. Changes will sync when connection is restored.",
   "@networkOfflineBanner": {
     "description": "Banner message shown when the device has no internet connection"
@@ -289,5 +293,169 @@
         "type": "int"
       }
     }
+  },
+  "authLoginTitle": "Sign In to Right Ads",
+  "@authLoginTitle": {
+    "description": "Title on the login screen"
+  },
+  "authLoginSubtitle": "Enter your agency email and password to access your workspace.",
+  "@authLoginSubtitle": {
+    "description": "Subtitle on the login screen"
+  },
+  "authEmailLabel": "Work Email",
+  "@authEmailLabel": {
+    "description": "Email field label on auth screens"
+  },
+  "authEmailHint": "employee@rightads.com",
+  "@authEmailHint": {
+    "description": "Email field hint on auth screens"
+  },
+  "authPasswordLabel": "Password",
+  "@authPasswordLabel": {
+    "description": "Password field label"
+  },
+  "authSignInButton": "Sign In",
+  "@authSignInButton": {
+    "description": "Submit button on login screen"
+  },
+  "authForgotPasswordLink": "Forgot Password?",
+  "@authForgotPasswordLink": {
+    "description": "Link button to navigate to forgot password screen"
+  },
+  "authGenericLoginError": "Invalid email or password.",
+  "@authGenericLoginError": {
+    "description": "Generic fallback error message for invalid credentials"
+  },
+  "authNetworkError": "Unable to reach the server. Please check your internet connection.",
+  "@authNetworkError": {
+    "description": "Fallback error message when network fails during auth"
+  },
+  "authSessionExpiredMessage": "Your session has expired. Please sign in again.",
+  "@authSessionExpiredMessage": {
+    "description": "Message shown when refresh token expires"
+  },
+  "authTokenReuseMessage": "Security alert: session token reuse detected. All sessions were revoked. Please sign in again.",
+  "@authTokenReuseMessage": {
+    "description": "Message shown when refresh token reuse is detected"
+  },
+  "authForgotPasswordTitle": "Forgot Password",
+  "@authForgotPasswordTitle": {
+    "description": "Title on the forgot password screen"
+  },
+  "authForgotPasswordSubtitle": "Enter your registered work email and we will send a password reset token.",
+  "@authForgotPasswordSubtitle": {
+    "description": "Subtitle on the forgot password screen"
+  },
+  "authSendResetLinkButton": "Send Reset Link",
+  "@authSendResetLinkButton": {
+    "description": "Button to submit forgot password form"
+  },
+  "authForgotPasswordSuccess": "If that email is registered, a password reset link has been dispatched.",
+  "@authForgotPasswordSuccess": {
+    "description": "Confirmation message after requesting password reset"
+  },
+  "authHaveResetTokenLink": "Already have a reset token? Reset Password",
+  "@authHaveResetTokenLink": {
+    "description": "Link to navigate to the reset password screen"
+  },
+  "authBackToLoginLink": "Back to Sign In",
+  "@authBackToLoginLink": {
+    "description": "Link to return to the login screen"
+  },
+  "authResetPasswordTitle": "Reset Password",
+  "@authResetPasswordTitle": {
+    "description": "Title on the reset password screen"
+  },
+  "authResetPasswordSubtitle": "Paste your verification token and choose a new password.",
+  "@authResetPasswordSubtitle": {
+    "description": "Subtitle on the reset password screen"
+  },
+  "authResetTokenLabel": "Verification Token",
+  "@authResetTokenLabel": {
+    "description": "Label for the reset token field"
+  },
+  "authNewPasswordLabel": "New Password",
+  "@authNewPasswordLabel": {
+    "description": "Label for the new password field"
+  },
+  "authConfirmPasswordLabel": "Confirm New Password",
+  "@authConfirmPasswordLabel": {
+    "description": "Label for confirming the new password"
+  },
+  "authResetPasswordButton": "Reset Password",
+  "@authResetPasswordButton": {
+    "description": "Button to submit password reset"
+  },
+  "authResetPasswordSuccess": "Your password has been reset. Please sign in with your new password.",
+  "@authResetPasswordSuccess": {
+    "description": "Success message after resetting password"
+  },
+  "authForceChangePasswordTitle": "Password Update Required",
+  "@authForceChangePasswordTitle": {
+    "description": "Title on the force change password screen"
+  },
+  "authForceChangePasswordSubtitle": "For your security, you must change your temporary password before continuing to your workspace.",
+  "@authForceChangePasswordSubtitle": {
+    "description": "Explanation on the force change password screen"
+  },
+  "authCurrentPasswordLabel": "Current / Temporary Password",
+  "@authCurrentPasswordLabel": {
+    "description": "Label for current password field"
+  },
+  "authUpdatePasswordButton": "Update Password",
+  "@authUpdatePasswordButton": {
+    "description": "Button to submit password change"
+  },
+  "authChangePasswordSuccess": "Password updated successfully.",
+  "@authChangePasswordSuccess": {
+    "description": "Message shown after changing password"
+  },
+  "authLogoutButton": "Sign Out",
+  "@authLogoutButton": {
+    "description": "Button to sign out of current device"
+  },
+  "authLogoutAllButton": "Sign Out of All Devices",
+  "@authLogoutAllButton": {
+    "description": "Button to revoke all sessions across devices"
+  },
+  "authBiometricLockedTitle": "Workspace Locked",
+  "@authBiometricLockedTitle": {
+    "description": "Title shown when biometric unlock is required"
+  },
+  "authBiometricLockedSubtitle": "Verify your identity using biometrics to unlock your active session.",
+  "@authBiometricLockedSubtitle": {
+    "description": "Subtitle shown on biometric unlock prompt screen"
+  },
+  "authBiometricUnlockButton": "Unlock with Biometrics",
+  "@authBiometricUnlockButton": {
+    "description": "Button to trigger biometric prompt"
+  },
+  "authBiometricReason": "Authenticate to unlock your Right Ads workspace",
+  "@authBiometricReason": {
+    "description": "System prompt reason passed to local_auth"
+  },
+  "authSignedInAs": "Signed in as {fullName} ({employeeCode})",
+  "@authSignedInAs": {
+    "description": "Displays the currently authenticated user's name and code",
+    "placeholders": {
+      "fullName": {
+        "type": "String"
+      },
+      "employeeCode": {
+        "type": "String"
+      }
+    }
+  },
+  "authLogoutAllConfirmTitle": "Sign Out of All Devices?",
+  "@authLogoutAllConfirmTitle": {
+    "description": "Dialog title for revoking all sessions"
+  },
+  "authLogoutAllConfirmMessage": "This will immediately terminate your active sessions on every device.",
+  "@authLogoutAllConfirmMessage": {
+    "description": "Dialog body for revoking all sessions"
+  },
+  "authLogoutAllSuccess": "All active sessions have been signed out.",
+  "@authLogoutAllSuccess": {
+    "description": "Snackbar message when all sessions are revoked"
   }
 }
