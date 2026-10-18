@@ -70,8 +70,8 @@ jobs:
 
       - name: Run Test Suite with Coverage Enforcement (>=80%)
         env:
-          DATABASE_URL: sqlite+aiosqlite:///:memory:
-          JWT_SECRET_KEY: ci_environment_jwt_secret_key_at_least_32_characters_long!
+          DATABASE_URL: "sqlite+aiosqlite:///:memory:"
+          JWT_SECRET_KEY: "ci_environment_jwt_secret_key_at_least_32_characters_long!"
           RATE_LIMIT_ENABLED: "false"
           SCHEDULER_ENABLED: "false"
           ENABLE_PUSH_NOTIFICATIONS: "false"
