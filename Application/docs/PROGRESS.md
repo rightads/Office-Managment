@@ -5,10 +5,10 @@
 | Prompt | Title | Status | Notes |
 |---|---|---|---|
 | `01_scaffold_architecture.md` | Scaffold, architecture, environments | Completed | Feature-first Clean Architecture (`lib/core/`, `lib/features/`), `dev`/`staging`/`prod` flavors, fail-fast `AppConfig` via `--dart-define-from-file`, ARB l10n (`app_en.arb`), Material 3 theme tokens, `PermissionCodes` catalog, global error handling, unit & widget tests. |
+| `02_design_system_l10n.md` | Design system, theming, localization, shared widgets | Completed | Centralized design tokens (`AppBrandColors`, `AppSpacing`, `AppRadius`, `AppElevation`, `AppBreakpoints`, `AppDurations`, `AppTypography`), Material 3 light & dark themes, `DynamicColorParser` with WCAG contrast foreground calculation, English (`en`) & Hindi (`hi`) ARB files + automated widget raw-string scanner test, `AppFormatters` (UTC -> configured display timezone, number, currency), `AppValidators`, 14 shared widgets, `/dev/gallery` debug route, and full unit/widget test suite. |
 
 ## Pending Prompts
 
-- `02_design_system_l10n.md`
 - `03_api_layer_and_auth.md`
 - **[STOP GATE: Backend Addendum A1 required before 04]** `04_navigation_shell_permissions.md`
 - `05_profile_and_account.md`
@@ -40,16 +40,16 @@ Mirrors the 33 granular permission codes in the backend `PERMISSIONS_CATALOG` pl
 - **Communication & Announcements**: `announcement.create`, `announcement.view`
 - **System & Audit**: `system.view_audit_logs`, `system.manage_settings`
 
-*(No role names are referenced anywhere in the Flutter codebase.)*
+*(No role names are referenced anywhere in the Flutter codebase. `PermissionGate` and `ref.can(...)` evaluate permissions from `userPermissionsControllerProvider`.)*
 
 ---
 
 ## API Endpoints Consumed
 
-- **Prompt 01**: None yet (API layer & authentication are implemented in Prompt 03).
+- **Prompt 01–02**: None yet (API layer & authentication are implemented in Prompt 03).
 
 ---
 
 ## Open Issues / Blockers
 
-- None for Prompt 01.
+- None for Prompt 02.

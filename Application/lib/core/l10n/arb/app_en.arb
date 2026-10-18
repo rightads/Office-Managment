@@ -45,5 +45,249 @@
   "configErrorMissingKeysHeader": "Missing or invalid keys:",
   "@configErrorMissingKeysHeader": {
     "description": "Header above the list of invalid configuration keys"
+  },
+  "commonRetry": "Retry",
+  "@commonRetry": {
+    "description": "Generic retry button label"
+  },
+  "commonCancel": "Cancel",
+  "@commonCancel": {
+    "description": "Generic cancel button label"
+  },
+  "commonConfirm": "Confirm",
+  "@commonConfirm": {
+    "description": "Generic confirm button label"
+  },
+  "commonClear": "Clear",
+  "@commonClear": {
+    "description": "Generic clear button label"
+  },
+  "commonMore": "More",
+  "@commonMore": {
+    "description": "Overflow navigation item label when more than 5 items exist"
+  },
+  "commonLoading": "Loading...",
+  "@commonLoading": {
+    "description": "Accessible loading semantics label"
+  },
+  "passwordShowTooltip": "Show password",
+  "@passwordShowTooltip": {
+    "description": "Tooltip for showing obscured password text"
+  },
+  "passwordHideTooltip": "Hide password",
+  "@passwordHideTooltip": {
+    "description": "Tooltip for hiding password text"
+  },
+  "validationRequired": "This field is required.",
+  "@validationRequired": {
+    "description": "Validation error when a required field is empty"
+  },
+  "validationEmail": "Enter a valid email address.",
+  "@validationEmail": {
+    "description": "Validation error when an email field is malformed"
+  },
+  "validationMinLength": "Must be at least {min} characters.",
+  "@validationMinLength": {
+    "description": "Validation error for minimum character length",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "validationMaxLength": "Must be at most {max} characters.",
+  "@validationMaxLength": {
+    "description": "Validation error for maximum character length",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "validationNumeric": "Enter a valid number.",
+  "@validationNumeric": {
+    "description": "Validation error when input is not numeric"
+  },
+  "validationPhone": "Enter a valid phone number.",
+  "@validationPhone": {
+    "description": "Validation error when phone input is invalid"
+  },
+  "networkOfflineBanner": "You are offline. Changes will sync when connection is restored.",
+  "@networkOfflineBanner": {
+    "description": "Banner message shown when the device has no internet connection"
+  },
+  "emptyStateDefaultTitle": "Nothing here yet",
+  "@emptyStateDefaultTitle": {
+    "description": "Default title for EmptyState widget"
+  },
+  "emptyStateDefaultSubtitle": "No records match the current view.",
+  "@emptyStateDefaultSubtitle": {
+    "description": "Default subtitle for EmptyState widget"
+  },
+  "errorStateDefaultTitle": "Something went wrong",
+  "@errorStateDefaultTitle": {
+    "description": "Default title for ErrorState widget"
+  },
+  "errorStateDefaultMessage": "We could not load this content. Please try again.",
+  "@errorStateDefaultMessage": {
+    "description": "Default message for ErrorState widget"
+  },
+  "dateRangePickerPlaceholder": "Select date range",
+  "@dateRangePickerPlaceholder": {
+    "description": "Placeholder text when no date range is selected"
+  },
+  "permissionDeniedFallback": "You do not have permission to view this section.",
+  "@permissionDeniedFallback": {
+    "description": "Accessible message when PermissionGate hides or replaces restricted content"
+  },
+  "avatarSemanticsLabel": "Avatar for {userName}",
+  "@avatarSemanticsLabel": {
+    "description": "Semantics label for AvatarWithInitials",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "openDevGalleryButton": "Open Component Gallery (Debug)",
+  "@openDevGalleryButton": {
+    "description": "Button label on placeholder home screen to open /dev/gallery in debug mode"
+  },
+  "devGalleryTitle": "Design System & Shared Widgets Gallery",
+  "@devGalleryTitle": {
+    "description": "Title of the /dev/gallery screen"
+  },
+  "devGalleryThemeSection": "Theme & Locale Controls",
+  "@devGalleryThemeSection": {
+    "description": "Section header for theme and locale controls in gallery"
+  },
+  "devGalleryThemeLight": "Light",
+  "@devGalleryThemeLight": {
+    "description": "Light theme mode option"
+  },
+  "devGalleryThemeDark": "Dark",
+  "@devGalleryThemeDark": {
+    "description": "Dark theme mode option"
+  },
+  "devGalleryThemeSystem": "System",
+  "@devGalleryThemeSystem": {
+    "description": "System theme mode option"
+  },
+  "devGalleryLocaleEnglish": "English (EN)",
+  "@devGalleryLocaleEnglish": {
+    "description": "English locale switch label"
+  },
+  "devGalleryLocaleHindi": "Hindi (HI)",
+  "@devGalleryLocaleHindi": {
+    "description": "Hindi locale switch label"
+  },
+  "devGalleryOfflineToggle": "Simulate Offline Banner",
+  "@devGalleryOfflineToggle": {
+    "description": "Switch label to preview offline banner in gallery"
+  },
+  "devGalleryButtonsSection": "Buttons (AppButton)",
+  "@devGalleryButtonsSection": {
+    "description": "Section title for AppButton showcase"
+  },
+  "devGalleryPrimaryButton": "Primary Action",
+  "@devGalleryPrimaryButton": {
+    "description": "Sample primary button label"
+  },
+  "devGallerySecondaryButton": "Secondary Action",
+  "@devGallerySecondaryButton": {
+    "description": "Sample secondary button label"
+  },
+  "devGalleryTonalButton": "Tonal Action",
+  "@devGalleryTonalButton": {
+    "description": "Sample tonal button label"
+  },
+  "devGalleryDestructiveButton": "Destructive Action",
+  "@devGalleryDestructiveButton": {
+    "description": "Sample destructive button label"
+  },
+  "devGalleryTextButton": "Text Action",
+  "@devGalleryTextButton": {
+    "description": "Sample text button label"
+  },
+  "devGalleryInputsSection": "Form Fields & Date Range (AppTextField & AppDateRangePicker)",
+  "@devGalleryInputsSection": {
+    "description": "Section title for form fields in gallery"
+  },
+  "devGalleryEmailLabel": "Work Email",
+  "@devGalleryEmailLabel": {
+    "description": "Sample email input label"
+  },
+  "devGalleryEmailHint": "name@agency.com",
+  "@devGalleryEmailHint": {
+    "description": "Sample email input hint"
+  },
+  "devGalleryPasswordLabel": "Password",
+  "@devGalleryPasswordLabel": {
+    "description": "Sample password input label"
+  },
+  "devGalleryValidateFormButton": "Validate Form",
+  "@devGalleryValidateFormButton": {
+    "description": "Button to trigger form validation in gallery"
+  },
+  "devGalleryStatusChipsSection": "Data-Driven Status & Priority Chips (StatusChip)",
+  "@devGalleryStatusChipsSection": {
+    "description": "Section title for StatusChip showcase"
+  },
+  "devGalleryAvatarsSection": "Avatars & Initials (AvatarWithInitials)",
+  "@devGalleryAvatarsSection": {
+    "description": "Section title for AvatarWithInitials showcase"
+  },
+  "devGalleryStatesSection": "Loading, Empty & Error States",
+  "@devGalleryStatesSection": {
+    "description": "Section title for skeleton, empty, and error states"
+  },
+  "devGalleryDialogsSection": "Dialogs, Snackbars & PermissionGate",
+  "@devGalleryDialogsSection": {
+    "description": "Section title for dialogs, snackbars, and permission gate"
+  },
+  "devGalleryOpenConfirmDialog": "Open Confirm Dialog",
+  "@devGalleryOpenConfirmDialog": {
+    "description": "Button to open ConfirmDialog in gallery"
+  },
+  "devGalleryConfirmDialogTitle": "Confirm Action?",
+  "@devGalleryConfirmDialogTitle": {
+    "description": "Sample ConfirmDialog title"
+  },
+  "devGalleryConfirmDialogMessage": "Are you sure you want to proceed with this action?",
+  "@devGalleryConfirmDialogMessage": {
+    "description": "Sample ConfirmDialog body message"
+  },
+  "devGalleryShowSnackbar": "Show Snackbar",
+  "@devGalleryShowSnackbar": {
+    "description": "Button to trigger AppSnackbar in gallery"
+  },
+  "devGallerySnackbarSampleMessage": "Operation completed successfully.",
+  "@devGallerySnackbarSampleMessage": {
+    "description": "Sample snackbar message"
+  },
+  "devGalleryTogglePermission": "Grant Demo Permission",
+  "@devGalleryTogglePermission": {
+    "description": "Toggle switch for PermissionGate preview in gallery"
+  },
+  "devGalleryPermittedContent": "Permitted content is visible via PermissionGate.",
+  "@devGalleryPermittedContent": {
+    "description": "Text shown when PermissionGate check passes"
+  },
+  "devGalleryFormattersSection": "Timezone (UTC -> Display) & Currency Formatters",
+  "@devGalleryFormattersSection": {
+    "description": "Section title for AppFormatters preview"
+  },
+  "devGalleryPagedListSection": "Paginated List View (PagedListView)",
+  "@devGalleryPagedListSection": {
+    "description": "Section title for PagedListView preview"
+  },
+  "devGallerySampleItemTitle": "Item #{index}",
+  "@devGallerySampleItemTitle": {
+    "description": "Sample item label in PagedListView preview",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
   }
 }

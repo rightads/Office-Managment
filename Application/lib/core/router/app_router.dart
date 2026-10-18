@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:right_ads/core/router/route_paths.dart';
+import 'package:right_ads/core/widgets/dev_gallery_screen.dart';
 import 'package:right_ads/core/widgets/placeholder_home_screen.dart';
 import 'package:right_ads/core/widgets/splash_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -19,6 +21,11 @@ GoRouter appRouter(Ref ref) {
         path: RoutePaths.home,
         builder: (context, state) => const PlaceholderHomeScreen(),
       ),
+      if (kDebugMode)
+        GoRoute(
+          path: RoutePaths.devGallery,
+          builder: (context, state) => const DevGalleryScreen(),
+        ),
     ],
   );
 }

@@ -15,7 +15,7 @@ switch ($Task) {
         dart run build_runner build --delete-conflicting-outputs
     }
     "format" {
-        dart format .
+        dart format lib test
     }
     "analyze" {
         flutter analyze

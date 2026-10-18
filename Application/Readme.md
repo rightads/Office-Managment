@@ -1,6 +1,6 @@
 # Right Ads — Employee Management App (Flutter)
 
-Adaptive Flutter application (Android, iOS, and Web) for **Right Ads**, built with feature-first Clean Architecture, Riverpod, GoRouter, Dio, Freezed, and ARB localization.
+Adaptive Flutter application (Android, iOS, and Web) for **Right Ads**, built with feature-first Clean Architecture, Riverpod, GoRouter, Dio, Freezed, Material 3 Design Tokens, and ARB localization (`en` + `hi`).
 
 ---
 
@@ -62,7 +62,7 @@ You can use either `make` or the PowerShell helper `.\tool\scripts.ps1`:
 # 1. Install dependencies
 flutter pub get
 
-# 2. Generate localizations & Riverpod/Freezed code
+# 2. Generate localizations (en + hi) & Riverpod/Freezed code
 flutter gen-l10n
 dart run build_runner build --delete-conflicting-outputs
 # Or via PowerShell script:
@@ -72,7 +72,7 @@ dart run build_runner build --delete-conflicting-outputs
 dart format .
 flutter analyze
 
-# 4. Run Tests
+# 4. Run Tests (includes anti-hardcoded-string scanner & widget suite)
 flutter test
 
 # 5. Run the App per Flavor
@@ -84,28 +84,30 @@ flutter run --flavor prod -t lib/main_prod.dart --dart-define-from-file=env/prod
 flutter build apk --debug --flavor dev -t lib/main_dev.dart --dart-define-from-file=env/dev.json
 ```
 
+> **Debug Component Gallery**: In debug builds (`kDebugMode`), navigate to `/dev/gallery` (or tap **Open Component Gallery (Debug)** on the placeholder home screen) to inspect all 14 shared widgets, switch between Light/Dark/System themes, switch between English (`en`) and Hindi (`hi`), and test data-driven `StatusChip` contrast colors.
+
 ---
 
 ## 5. Project Structure
 
 ```text
 lib/
-├── app.dart                 # Root MaterialApp.router widget
+├── app.dart                 # Root MaterialApp.router widget (theme + locale aware)
 ├── bootstrap.dart           # Global error handlers, AppConfig check, ProviderScope
 ├── main_dev.dart            # Dev flavor entrypoint
 ├── main_staging.dart        # Staging flavor entrypoint
 ├── main_prod.dart           # Prod flavor entrypoint
 ├── core/
-│   ├── config/              # AppConfig, AppEnvironment, appConfigProvider
+│   ├── config/              # AppConfig, RuntimeAppConfig, AppEnvironment
 │   ├── constants/           # StorageKeys (secure vs non-sensitive prefs)
 │   ├── errors/              # AppFailure hierarchy, AppErrorObserver
-│   ├── l10n/                # ARB files (app_en.arb) & context.l10n extension
+│   ├── l10n/                # ARB files (app_en.arb, app_hi.arb) & context.l10n
 │   ├── network/             # Connectivity provider
-│   ├── permissions/         # PermissionCodes (mirrors backend PERMISSIONS_CATALOG)
-│   ├── router/              # GoRouter & RoutePaths
+│   ├── permissions/         # PermissionCodes, PermissionSet, ref.can(...)
+│   ├── router/              # GoRouter & RoutePaths (incl. debug /dev/gallery)
 │   ├── storage/             # SecureStorageService & PreferencesStorageService
-│   ├── theme/               # AppTheme (Material 3 light/dark) & AppSpacing tokens
-│   ├── utils/               # AppLogger
-│   └── widgets/             # SplashScreen, PlaceholderHomeScreen, ConfigErrorApp
+│   ├── theme/               # AppBrandColors, AppSpacing, AppTypography, DynamicColorParser, AppTheme
+│   ├── utils/               # AppLogger, AppFormatters (UTC->TZ, currency), AppValidators
+│   └── widgets/             # 14 shared widgets + DevGalleryScreen + SplashScreen
 └── features/                # Feature-first modules (data, domain, application, presentation)
 ```

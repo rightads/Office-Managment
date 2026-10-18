@@ -1,8 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:right_ads/core/config/app_config_provider.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
+import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
+import 'package:right_ads/core/widgets/app_button.dart';
+import 'package:right_ads/core/widgets/app_scaffold.dart';
 
 class PlaceholderHomeScreen extends ConsumerWidget {
   const PlaceholderHomeScreen({super.key});
@@ -14,10 +19,8 @@ class PlaceholderHomeScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.appTitle),
-      ),
+    return AppScaffold(
+      title: l10n.appTitle,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -73,6 +76,15 @@ class PlaceholderHomeScreen extends ConsumerWidget {
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ),
+                      if (kDebugMode) ...<Widget>[
+                        const SizedBox(height: AppSpacing.md),
+                        AppButton(
+                          label: l10n.openDevGalleryButton,
+                          icon: Icons.widgets_outlined,
+                          variant: AppButtonVariant.tonal,
+                          onPressed: () => context.push(RoutePaths.devGallery),
+                        ),
+                      ],
                     ],
                   ),
                 ),
