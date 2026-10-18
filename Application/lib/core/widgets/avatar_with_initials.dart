@@ -35,7 +35,9 @@ class AvatarWithInitials extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final initials = extractInitials(name);
-    final hasImage = imageUrl != null && imageUrl!.trim().isNotEmpty;
+    final trimmedUrl = imageUrl?.trim() ?? '';
+    final hasImage =
+        trimmedUrl.startsWith('http://') || trimmedUrl.startsWith('https://');
 
     return Semantics(
       image: true,

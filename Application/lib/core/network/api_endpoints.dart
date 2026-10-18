@@ -21,6 +21,9 @@ abstract final class ApiEndpoints {
   static const String meAttendancePolicy = '/me/attendance-policy';
   static const String appModules = '/app-modules';
 
+  // Employee Self-Service & Profile (Prompt 05)
+  static const String employeesMe = '/employees/me';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{

@@ -571,5 +571,220 @@
   "forceUpdateRefreshButton": "Check Again",
   "@forceUpdateRefreshButton": {
     "description": "Button to re-check server app config on force update screen"
+  },
+  "profileScreenTitle": "Profile & Account",
+  "@profileScreenTitle": {
+    "description": "AppBar title on the Profile and Account screen"
+  },
+  "profileEmploymentSection": "Organization & Employment Details",
+  "@profileEmploymentSection": {
+    "description": "Section title for read-only organizational fields"
+  },
+  "profilePersonalEditSection": "Personal Contact & Photo (Self-Editable)",
+  "@profilePersonalEditSection": {
+    "description": "Section title for self-editable profile fields"
+  },
+  "profileSecuritySection": "Account Security",
+  "@profileSecuritySection": {
+    "description": "Section title for password and biometric settings"
+  },
+  "profilePreferencesSection": "Appearance & Language",
+  "@profilePreferencesSection": {
+    "description": "Section title for theme and language settings"
+  },
+  "profileDeviceInfoSection": "Device & App Information",
+  "@profileDeviceInfoSection": {
+    "description": "Section title for bound device and app version metadata"
+  },
+  "profileSessionSection": "Session Management",
+  "@profileSessionSection": {
+    "description": "Section title for logout and logout-all actions"
+  },
+  "profileEmployeeCodeLabel": "Employee Code",
+  "@profileEmployeeCodeLabel": {
+    "description": "Label for employee_code"
+  },
+  "profileFullNameLabel": "Full Name",
+  "@profileFullNameLabel": {
+    "description": "Label for full_name"
+  },
+  "profileEmailLabel": "Work Email",
+  "@profileEmailLabel": {
+    "description": "Label for email"
+  },
+  "profileRoleLabel": "Role",
+  "@profileRoleLabel": {
+    "description": "Label for role_name"
+  },
+  "profileDepartmentLabel": "Department",
+  "@profileDepartmentLabel": {
+    "description": "Label for department_name"
+  },
+  "profileDesignationLabel": "Designation",
+  "@profileDesignationLabel": {
+    "description": "Label for designation"
+  },
+  "profileManagerLabel": "Reporting Manager",
+  "@profileManagerLabel": {
+    "description": "Label for manager_name"
+  },
+  "profileJoiningDateLabel": "Date of Joining",
+  "@profileJoiningDateLabel": {
+    "description": "Label for joining_date"
+  },
+  "profileAttendancePolicyLabel": "Attendance Policy",
+  "@profileAttendancePolicyLabel": {
+    "description": "Label for attendance_policy_name"
+  },
+  "profileNotAssigned": "Not assigned",
+  "@profileNotAssigned": {
+    "description": "Fallback text when an optional organizational field is null"
+  },
+  "profilePhoneLabel": "Phone Number",
+  "@profilePhoneLabel": {
+    "description": "Label for self-editable phone_number field"
+  },
+  "profilePhoneHint": "+91 9876543210",
+  "@profilePhoneHint": {
+    "description": "Hint text for phone_number field"
+  },
+  "profileAvatarUrlLabel": "Profile Photo",
+  "@profileAvatarUrlLabel": {
+    "description": "Label for profile avatar photo"
+  },
+  "profileSaveButton": "Save Profile",
+  "@profileSaveButton": {
+    "description": "CTA button to save self-editable profile fields"
+  },
+  "profileSaveSuccess": "Profile updated successfully.",
+  "@profileSaveSuccess": {
+    "description": "Snackbar message when self-service profile update succeeds"
+  },
+  "profileChangePhotoButton": "Change Photo",
+  "@profileChangePhotoButton": {
+    "description": "Button to open camera/gallery photo picker"
+  },
+  "profilePhotoSourceTitle": "Update Profile Photo",
+  "@profilePhotoSourceTitle": {
+    "description": "Bottom sheet title for choosing camera or gallery"
+  },
+  "profilePhotoCameraOption": "Take Photo (Camera)",
+  "@profilePhotoCameraOption": {
+    "description": "Option to capture a photo from camera"
+  },
+  "profilePhotoGalleryOption": "Choose from Gallery",
+  "@profilePhotoGalleryOption": {
+    "description": "Option to pick a photo from gallery"
+  },
+  "profilePhotoLimitsHint": "Allowed: {allowedTypes} • Max {maxMb} MB",
+  "@profilePhotoLimitsHint": {
+    "description": "Displays upload limits from RuntimeAppConfig",
+    "placeholders": {
+      "allowedTypes": {
+        "type": "String"
+      },
+      "maxMb": {
+        "type": "int"
+      }
+    }
+  },
+  "profilePhotoErrorSize": "Selected photo exceeds the {maxMb} MB maximum upload size.",
+  "@profilePhotoErrorSize": {
+    "description": "Validation error when picked photo exceeds maxUploadMb",
+    "placeholders": {
+      "maxMb": {
+        "type": "int"
+      }
+    }
+  },
+  "profilePhotoErrorMime": "Selected file type is not allowed. Permitted: {allowedTypes}",
+  "@profilePhotoErrorMime": {
+    "description": "Validation error when picked photo MIME type is not in allowedUploadMimeTypes",
+    "placeholders": {
+      "allowedTypes": {
+        "type": "String"
+      }
+    }
+  },
+  "profileChangePasswordButton": "Change Password",
+  "@profileChangePasswordButton": {
+    "description": "Button to open Change Password sheet"
+  },
+  "profileChangePasswordSheetTitle": "Change Password",
+  "@profileChangePasswordSheetTitle": {
+    "description": "Title of the Change Password modal sheet"
+  },
+  "profilePasswordPolicyHeading": "Password Requirements",
+  "@profilePasswordPolicyHeading": {
+    "description": "Heading above dynamic password policy hints"
+  },
+  "profilePasswordMinLengthRule": "At least {minLength} characters",
+  "@profilePasswordMinLengthRule": {
+    "description": "Password policy rule for minimum length from app config",
+    "placeholders": {
+      "minLength": {
+        "type": "int"
+      }
+    }
+  },
+  "profilePasswordUppercaseRule": "At least one uppercase letter (A-Z)",
+  "@profilePasswordUppercaseRule": {
+    "description": "Password policy rule for uppercase letter"
+  },
+  "profilePasswordLowercaseRule": "At least one lowercase letter (a-z)",
+  "@profilePasswordLowercaseRule": {
+    "description": "Password policy rule for lowercase letter"
+  },
+  "profilePasswordDigitRule": "At least one number (0-9)",
+  "@profilePasswordDigitRule": {
+    "description": "Password policy rule for digit"
+  },
+  "profilePasswordSpecialRule": "At least one special character (!@#$...)",
+  "@profilePasswordSpecialRule": {
+    "description": "Password policy rule for special character"
+  },
+  "profileBiometricToggleTitle": "Biometric Unlock",
+  "@profileBiometricToggleTitle": {
+    "description": "Title for biometric unlock toggle"
+  },
+  "profileBiometricToggleSubtitle": "Require fingerprint or face authentication on app launch",
+  "@profileBiometricToggleSubtitle": {
+    "description": "Subtitle for biometric unlock toggle"
+  },
+  "profileBiometricUnsupportedSubtitle": "Biometric hardware is not available on this device",
+  "@profileBiometricUnsupportedSubtitle": {
+    "description": "Subtitle when biometric hardware is unavailable"
+  },
+  "profileThemeLabel": "Theme Mode",
+  "@profileThemeLabel": {
+    "description": "Label for theme mode selector"
+  },
+  "profileLanguageLabel": "App Language",
+  "@profileLanguageLabel": {
+    "description": "Label for language selector"
+  },
+  "profileDeviceIdLabel": "Bound Device ID",
+  "@profileDeviceIdLabel": {
+    "description": "Label for bound device_id"
+  },
+  "profileDeviceModelLabel": "Device Model",
+  "@profileDeviceModelLabel": {
+    "description": "Label for device hardware model"
+  },
+  "profileDeviceOsLabel": "Operating System",
+  "@profileDeviceOsLabel": {
+    "description": "Label for device OS version"
+  },
+  "profileAppVersionLabel": "App Version",
+  "@profileAppVersionLabel": {
+    "description": "Label for client app version"
+  },
+  "profileLogoutConfirmTitle": "Sign out of this device?",
+  "@profileLogoutConfirmTitle": {
+    "description": "Confirmation dialog title for single-device logout"
+  },
+  "profileLogoutConfirmMessage": "You will need to sign in again to access your workspace on this device.",
+  "@profileLogoutConfirmMessage": {
+    "description": "Confirmation dialog message for single-device logout"
   }
 }

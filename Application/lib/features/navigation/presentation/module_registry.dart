@@ -3,6 +3,7 @@ import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
+import 'package:right_ads/features/profile/presentation/profile_screen.dart';
 
 typedef ModuleWidgetBuilder =
     Widget Function(
@@ -39,8 +40,7 @@ abstract final class ModuleRegistry {
             BaseModulePlaceholderView(module: module),
         'notifications': (context, module) =>
             BaseModulePlaceholderView(module: module),
-        'profile': (context, module) =>
-            BaseModulePlaceholderView(module: module),
+        'profile': (context, module) => const ProfileScreen(),
       };
 
   static bool isKnownRouteKey(String routeKey) {

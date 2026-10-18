@@ -8,6 +8,7 @@ class AppTextField extends StatefulWidget {
     this.controller,
     this.hint,
     this.helperText,
+    this.errorText,
     this.validator,
     this.obscureText = false,
     this.keyboardType,
@@ -28,6 +29,7 @@ class AppTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? hint;
   final String? helperText;
+  final String? errorText;
   final FormFieldValidator<String>? validator;
   final bool obscureText;
   final TextInputType? keyboardType;
@@ -102,6 +104,7 @@ class _AppTextFieldState extends State<AppTextField> {
         labelText: widget.label,
         hintText: widget.hint,
         helperText: widget.helperText,
+        errorText: widget.errorText,
         prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
         suffixIcon: effectiveSuffix,
       ),

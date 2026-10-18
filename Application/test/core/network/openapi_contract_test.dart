@@ -33,6 +33,7 @@ void main() {
         ApiEndpoints.authForgotPassword,
         ApiEndpoints.authResetPassword,
         ApiEndpoints.authMe,
+        ApiEndpoints.employeesMe,
       ];
 
       for (final endpoint in endpointsToCheck) {
@@ -44,6 +45,11 @@ void main() {
               'Expected $fullOpenApiPath to exist in docs/backend/openapi.json',
         );
       }
+
+      final employeesMeSpec =
+          paths['/api/v1/employees/me'] as Map<String, dynamic>;
+      expect(employeesMeSpec.containsKey('get'), isTrue);
+      expect(employeesMeSpec.containsKey('patch'), isTrue);
     });
 
     test('PermissionCodes catalog matches backend seed permissions', () {
