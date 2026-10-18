@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Tele sales",
+    "description": "Inbound and outbound telephone sales team"
+  },
+  {
+    "name": "Sales & Marketing",
+    "description": "Client acquisition, brand growth, and marketing strategy"
+  },
+  {
+    "name": "CSD",
+    "description": "Client Services Department - Client communication and service delivery"
+  },
+  {
+    "name": "Graphic Design",
+    "description": "Branding, graphic design, and visual asset production"
+  },
+  {
+    "name": "Website Design",
+    "description": "UI/UX, prototyping, and responsive web design"
+  },
+  {
+    "name": "Website Development",
+    "description": "Frontend, backend, and CMS website development"
+  },
+  {
+    "name": "Web Application",
+    "description": "Custom full-stack web applications and SaaS development"
+  },
+  {
+    "name": "HR",
+    "description": "Human Resources, talent management, and employee relations"
+  },
+  {
+    "name": "Accounts",
+    "description": "Finance, payroll, billing, and accounting"
+  },
+  {
+    "name": "SEO",
+    "description": "Search Engine Optimization and content performance"
+  },
+  {
+    "name": "GMB",
+    "description": "Google My Business local optimization and reputation management"
+  }
+]

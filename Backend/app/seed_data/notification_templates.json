@@ -1,0 +1,74 @@
+[
+  {
+    "code": "TASK_ASSIGNED",
+    "title_template": "Task Assigned",
+    "body_template": "You have been assigned to task: '{task_title}'.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "TASK_STATUS_CHANGED",
+    "title_template": "Task Status Updated",
+    "body_template": "Task '{task_title}' moved to '{status_label}'.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "TASK_COMMENT_ADDED",
+    "title_template": "New Comment on Task",
+    "body_template": "{author_name} commented on '{task_title}'.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "TASK_DUE_SOON",
+    "title_template": "Task Due Soon",
+    "body_template": "Task '{task_title}' is due in approx {hours_remaining} hours.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "LEAVE_APPLIED",
+    "title_template": "New Leave Application",
+    "body_template": "{employee_name} applied for {leave_type} from {from_date} to {to_date}.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "LEAVE_APPROVED",
+    "title_template": "Leave Request Approved",
+    "body_template": "Your leave request for {from_date} to {to_date} has been approved.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "LEAVE_REJECTED",
+    "title_template": "Leave Request Rejected",
+    "body_template": "Your leave request for {from_date} to {to_date} was rejected: {review_note}.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "ANNOUNCEMENT_NEW",
+    "title_template": "Announcement: {announcement_title}",
+    "body_template": "{announcement_body}",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  }
+]

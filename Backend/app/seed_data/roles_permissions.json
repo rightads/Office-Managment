@@ -1,0 +1,199 @@
+[
+  {
+    "name": "Admin",
+    "description": "System Super Administrator with unrestricted access",
+    "is_system": true,
+    "permissions": "*"
+  },
+  {
+    "name": "HR",
+    "description": "Human Resources - Employee onboarding, attendance policies, leave approvals, and announcements",
+    "is_system": true,
+    "permissions": [
+      "user.create",
+      "user.read",
+      "user.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "attendance.view_team",
+      "attendance.view_all",
+      "attendance.correct",
+      "attendance.manage_policy",
+      "leave.apply",
+      "leave.view_own",
+      "leave.view_all",
+      "leave.approve",
+      "leave.manage_types",
+      "announcement.create",
+      "announcement.view",
+      "task.view_assigned",
+      "task.update"
+    ]
+  },
+  {
+    "name": "Accounts",
+    "description": "Financial and Accounting department auditing attendance, leaves, and clients",
+    "is_system": false,
+    "permissions": [
+      "user.read",
+      "attendance.check_in",
+      "attendance.view_own",
+      "attendance.view_all",
+      "leave.apply",
+      "leave.view_own",
+      "leave.view_all",
+      "client.view_all",
+      "project.view_all",
+      "task.view_assigned",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "CSD",
+    "description": "Client Services Department - Client relationship management, project coordination, and task assignment",
+    "is_system": false,
+    "permissions": [
+      "client.create",
+      "client.view_all",
+      "client.update",
+      "project.create",
+      "project.view_all",
+      "project.update",
+      "task.create",
+      "task.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "attendance.view_team",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "Sales & Marketing",
+    "description": "Sales and Marketing team - Client acquisition and campaign development",
+    "is_system": false,
+    "permissions": [
+      "client.create",
+      "client.view_all",
+      "project.view_all",
+      "task.create",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "attendance.view_team",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "Tele sales",
+    "description": "Tele Sales team - Inbound and outbound calling and lead qualification",
+    "is_system": false,
+    "permissions": [
+      "client.create",
+      "client.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "Graphic designer",
+    "description": "Graphic Design team - Visual assets and creative production",
+    "is_system": false,
+    "permissions": [
+      "project.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "Website designer",
+    "description": "UI/UX Website Design team - Web interface and experience design",
+    "is_system": false,
+    "permissions": [
+      "project.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "Website development",
+    "description": "Website Development team - Frontend and backend web builds",
+    "is_system": false,
+    "permissions": [
+      "project.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "Web Application",
+    "description": "Web Application Engineering team - Custom software and web app engineering",
+    "is_system": false,
+    "permissions": [
+      "project.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "SEO",
+    "description": "Search Engine Optimization team - Organic search auditing and ranking optimization",
+    "is_system": false,
+    "permissions": [
+      "project.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  },
+  {
+    "name": "GMB",
+    "description": "Google My Business team - Local SEO and listing management",
+    "is_system": false,
+    "permissions": [
+      "project.view_all",
+      "task.view_assigned",
+      "task.update",
+      "attendance.check_in",
+      "attendance.view_own",
+      "leave.apply",
+      "leave.view_own",
+      "announcement.view"
+    ]
+  }
+]
