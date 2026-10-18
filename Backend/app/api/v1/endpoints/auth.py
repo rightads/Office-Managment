@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.dependencies.auth import get_current_user
 from app.dependencies.database import get_db
+from app.dependencies.rate_limiter import RateLimiter
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.schemas.auth import (
@@ -28,6 +29,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
     response_model=StandardResponse[TokenResponse],
     status_code=status.HTTP_200_OK,
     summary="User Login",
+    dependencies=[Depends(RateLimiter(times=5, seconds=60, prefix="login"))],
 )
 async def login(
     payload: LoginRequest,
@@ -133,6 +135,7 @@ async def change_password(
     response_model=StandardResponse[dict[str, str]],
     status_code=status.HTTP_200_OK,
     summary="Request Password Reset Link",
+    dependencies=[Depends(RateLimiter(times=3, seconds=60, prefix="forgot_password"))],
 )
 async def forgot_password(
     payload: ForgotPasswordRequest,
@@ -152,6 +155,7 @@ async def forgot_password(
     response_model=StandardResponse[dict[str, str]],
     status_code=status.HTTP_200_OK,
     summary="Reset Password with Token",
+    dependencies=[Depends(RateLimiter(times=3, seconds=60, prefix="reset_password"))],
 )
 async def reset_password(
     payload: ResetPasswordRequest,

@@ -18,6 +18,15 @@ class JSONFormatter(logging.Formatter):
             "message": record.getMessage(),
         }
 
+        try:
+            from app.middleware.request_id import get_request_id
+
+            req_id = get_request_id()
+            if req_id:
+                log_entry["request_id"] = req_id
+        except ImportError:
+            pass
+
         if record.exc_info:
             log_entry["exception"] = self.formatException(record.exc_info)
 

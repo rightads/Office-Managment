@@ -10,7 +10,7 @@
 - [x] **Prompt 07**: Leave management (Completed)
 - [x] **Prompt 08**: Tasks, categories, clients, projects (Completed)
 - [x] **Prompt 09**: Notifications & announcements (Completed)
-- [ ] **Prompt 10**: Security, performance, docs
+- [x] **Prompt 10**: Security, performance, docs (Completed)
 - [ ] **Prompt 11**: Final no-hardcoding audit
 
 ---
@@ -30,6 +30,7 @@
 12. **Leave Management & Attendance Synchronization**: Leaves track half-day sessions (`FIRST_HALF`, `SECOND_HALF`), calculate working days excluding policy week-offs and official holidays, support carry-forward capping, and sync directly with attendance (`ON_LEAVE`, `source="LEAVE_APPROVAL"`) with automatic balance/attendance record restoration on cancellation.
 13. **Task Engine & Transition Matrix**: Task status transitions are strictly resolved dynamically against the `task_status_transitions` table in PostgreSQL (with optional `required_permission` verification). Pluggable `StorageService` interface provides local HMAC-signed download URLs and AWS S3 pre-signed URLs. Periodic background reminders notify assignees of approaching deadlines based on dynamic lead time in `system_settings`. Real-time SQL aggregations compute completion rates, overdue counts, and employee/department breakdowns.
 14. **Multi-Channel Notification Architecture & Automatic Token Pruning**: Central `NotificationService` dispatches in-app inbox items, push (FCM) notifications via `firebase-admin` with automatic invalid/unregistered token pruning, and optional email. Operational notification templates are seeded from `notification_templates.json` into the dynamic `notification_templates` database table, allowing administrators to edit templates and placeholders at runtime without redeployment. Announcements support company-wide or department-specific targeting with validity windows.
+15. **Security Hardening, Rate Limiting & Enterprise Observability Suite**: Implemented layered security middlewares (`SecurityHeadersMiddleware` with HSTS, CSP, X-Frame-Options, X-Content-Type-Options; `RequestSizeLimitMiddleware` rejecting payloads exceeding `MAX_UPLOAD_MB` with RFC 9110 HTTP 413 JSON responses; `RequestIDMiddleware` with `ContextVar` propagation in structured JSON logging). Redis sliding-window `RateLimiter` with fallback in-memory cache applied to public endpoints (`/login`, `/forgot-password`, `/reset-password`). Complete route security introspection audit ensuring 0 unprotected routes. Comprehensive test suite with 105 tests reaching 80% code coverage. Automated GitHub Actions CI workflow, complete OpenAPI 3.1 JSON export, and full production documentation suite (`ARCHITECTURE.md`, `PERMISSIONS.md`, `DEPLOYMENT.md`, `BACKUP_STRATEGY.md`, `EXTENDING_SYSTEM.md`).
 
 ---
 

@@ -65,7 +65,8 @@ class UserRepository(BaseRepository[User]):
 
     async def get_user_permissions(self, user: User) -> set[str]:
         """Resolves dynamic permission codes granted to the user through their assigned role."""
-        if not user.role:
+        role = user.__dict__.get("role")
+        if not role:
             stmt = (
                 select(Role).where(Role.id == user.role_id).options(selectinload(Role.permissions))
             )
@@ -74,4 +75,9 @@ class UserRepository(BaseRepository[User]):
             if not role:
                 return set()
             return {p.code for p in role.permissions}
-        return {p.code for p in user.role.permissions}
+        if "permissions" not in role.__dict__:
+            stmt = select(Role).where(Role.id == role.id).options(selectinload(Role.permissions))
+            res = await self.session.execute(stmt)
+            loaded_role = res.scalar_one_or_none()
+            return {p.code for p in loaded_role.permissions} if loaded_role else set()
+        return {p.code for p in role.permissions}

@@ -22,6 +22,8 @@ from app.core.exceptions import (
     StandardErrorResponse,
 )
 from app.core.logging import setup_logging
+from app.middleware.request_id import RequestIDMiddleware
+from app.middleware.security import RequestSizeLimitMiddleware, SecurityHeadersMiddleware
 from app.services.attendance_scheduler import scheduler_instance
 from app.services.task_scheduler import task_scheduler_instance
 
@@ -61,7 +63,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS Configuration strictly from settings
+# Middleware Pipeline (executed from outermost to innermost)
+# 1. OWASP Security Headers
+app.add_middleware(SecurityHeadersMiddleware)
+
+# 2. Maximum Request Payload Enforcement
+app.add_middleware(RequestSizeLimitMiddleware)
+
+# 3. Request Correlation ID & Context Logging
+app.add_middleware(RequestIDMiddleware)
+
+# 4. CORS Configuration strictly from settings
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
