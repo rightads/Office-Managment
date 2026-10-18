@@ -31,6 +31,10 @@ htmlcov/
 *.sqlite3
 *.db
 
+# Uploads / Local File Storage
+uploads/
+**/uploads/
+
 # Node / Frontend / Mobile dependencies (if applicable)
 node_modules/
 .expo/

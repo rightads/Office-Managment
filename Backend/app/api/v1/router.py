@@ -3,6 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter
 
 from app.api.v1.endpoints import (
+    announcements,
     attendance,
     attendance_reports,
     auth,
@@ -11,6 +12,7 @@ from app.api.v1.endpoints import (
     health,
     leaves,
     master_data,
+    notifications,
     roles,
     system_settings,
     task_master,
@@ -37,6 +39,10 @@ api_v1_router.include_router(leaves.router)
 api_v1_router.include_router(tasks.router)
 api_v1_router.include_router(task_master.router)
 api_v1_router.include_router(clients_projects.router)
+
+# Communication & Notifications
+api_v1_router.include_router(notifications.router)
+api_v1_router.include_router(announcements.router)
 
 # Master Data & RBAC
 api_v1_router.include_router(roles.router)

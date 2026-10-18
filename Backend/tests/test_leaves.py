@@ -446,6 +446,8 @@ async def test_rejection_and_cancel_pending_flow(
 
     # 3. Employee self-cancel on a pending request
     d_cancel = today + datetime.timedelta(days=35)
+    while d_cancel.weekday() >= 5:
+        d_cancel += datetime.timedelta(days=1)
     app2 = await async_client.post(
         "/api/v1/leaves/apply",
         json={

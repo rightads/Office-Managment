@@ -168,10 +168,22 @@ class Settings(BaseSettings):
         description="Custom endpoint URL for S3-compatible providers (MinIO, etc.)",
     )
 
-    # Firebase Cloud Messaging (FCM)
+    # Firebase Cloud Messaging (FCM) & Notifications
     FCM_CREDENTIALS_PATH: str | None = Field(
         default=None,
         description="File path to Firebase service account JSON",
+    )
+    ENABLE_PUSH_NOTIFICATIONS: bool = Field(
+        default=True,
+        description="Whether FCM push notifications channel is enabled",
+    )
+    ENABLE_EMAIL_NOTIFICATIONS: bool = Field(
+        default=False,
+        description="Whether email notifications channel is enabled",
+    )
+    ENABLE_IN_APP_NOTIFICATIONS: bool = Field(
+        default=True,
+        description="Whether in-app notifications inbox channel is enabled",
     )
 
     # Redis Cache & Rate Limiting

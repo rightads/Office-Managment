@@ -32,12 +32,14 @@ os.environ["RATE_LIMIT_REQUESTS_PER_MINUTE"] = "100"
 os.environ["MAX_LOGIN_ATTEMPTS"] = "3"
 os.environ["LOCKOUT_MINUTES"] = "10"
 os.environ["SCHEDULER_ENABLED"] = "false"
+os.environ["ENABLE_PUSH_NOTIFICATIONS"] = "false"
 
 from app.core.config import get_settings
 
 # Force refresh of cached settings with test env
 get_settings.cache_clear()
 
+import app.models  # noqa: F401
 from app.cli.commands import _async_seed_defaults, _async_seed_permissions
 from app.core.database import Base, get_db_session
 from app.core.security import create_access_token, hash_password
@@ -45,6 +47,7 @@ from app.dependencies.database import get_db
 from app.main import app
 from app.models.rbac import Role
 from app.models.user import User
+from app.services.notification_service import NotificationService
 
 # Test in-memory async SQLite engine
 test_engine = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
@@ -54,6 +57,7 @@ TestingSessionLocal = async_sessionmaker(
     expire_on_commit=False,
     autoflush=False,
 )
+NotificationService.session_factory = TestingSessionLocal
 
 
 @pytest.fixture(scope="session")

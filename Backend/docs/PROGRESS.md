@@ -9,7 +9,7 @@
 - [x] **Prompt 06**: Attendance reports & exports (Completed)
 - [x] **Prompt 07**: Leave management (Completed)
 - [x] **Prompt 08**: Tasks, categories, clients, projects (Completed)
-- [ ] **Prompt 09**: Notifications & announcements
+- [x] **Prompt 09**: Notifications & announcements (Completed)
 - [ ] **Prompt 10**: Security, performance, docs
 - [ ] **Prompt 11**: Final no-hardcoding audit
 
@@ -29,6 +29,7 @@
 11. **Attendance Reporting & Caching**: Aggregates attendance metrics via SQL, implements hierarchical scoping (`attendance.view_all`, `attendance.view_team`, `attendance.view_own`), caches closed reporting periods in Redis with graceful offline fallback, and streams formatted Excel (`openpyxl`) and PDF (`reportlab`) exports.
 12. **Leave Management & Attendance Synchronization**: Leaves track half-day sessions (`FIRST_HALF`, `SECOND_HALF`), calculate working days excluding policy week-offs and official holidays, support carry-forward capping, and sync directly with attendance (`ON_LEAVE`, `source="LEAVE_APPROVAL"`) with automatic balance/attendance record restoration on cancellation.
 13. **Task Engine & Transition Matrix**: Task status transitions are strictly resolved dynamically against the `task_status_transitions` table in PostgreSQL (with optional `required_permission` verification). Pluggable `StorageService` interface provides local HMAC-signed download URLs and AWS S3 pre-signed URLs. Periodic background reminders notify assignees of approaching deadlines based on dynamic lead time in `system_settings`. Real-time SQL aggregations compute completion rates, overdue counts, and employee/department breakdowns.
+14. **Multi-Channel Notification Architecture & Automatic Token Pruning**: Central `NotificationService` dispatches in-app inbox items, push (FCM) notifications via `firebase-admin` with automatic invalid/unregistered token pruning, and optional email. Operational notification templates are seeded from `notification_templates.json` into the dynamic `notification_templates` database table, allowing administrators to edit templates and placeholders at runtime without redeployment. Announcements support company-wide or department-specific targeting with validity windows.
 
 ---
 

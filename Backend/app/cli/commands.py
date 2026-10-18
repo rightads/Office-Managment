@@ -18,6 +18,7 @@ from app.models.attendance import (
     AttendancePolicy,
     AttendanceStatus,
 )
+from app.models.communication import NotificationTemplate
 from app.models.leave import LeaveType
 from app.models.organization import Department
 from app.models.rbac import Permission, Role
@@ -249,6 +250,32 @@ async def _async_seed_defaults(session: AsyncSession | None = None) -> None:
                         description=setting_data.get("description"),
                     )
                 )
+
+    # 6. Seed Notification Templates
+    nt_file = SEED_DIR / "notification_templates.json"
+    if nt_file.exists():
+        nt_data = json.loads(nt_file.read_text(encoding="utf-8"))
+        for tmpl in nt_data:
+            stmt_nt = select(NotificationTemplate).where(NotificationTemplate.code == tmpl["code"])
+            res_nt = await session.execute(stmt_nt)
+            template_obj = res_nt.scalar_one_or_none()
+            if template_obj is None:
+                session.add(
+                    NotificationTemplate(
+                        code=tmpl["code"],
+                        title_template=tmpl["title_template"],
+                        body_template=tmpl["body_template"],
+                        channel_push=tmpl.get("channel_push", True),
+                        channel_email=tmpl.get("channel_email", False),
+                        channel_sms=tmpl.get("channel_sms", False),
+                        is_active=tmpl.get("is_active", True),
+                    )
+                )
+            else:
+                template_obj.title_template = tmpl["title_template"]
+                template_obj.body_template = tmpl["body_template"]
+                template_obj.channel_push = tmpl.get("channel_push", template_obj.channel_push)
+                template_obj.channel_email = tmpl.get("channel_email", template_obj.channel_email)
 
     await session.commit()
 
