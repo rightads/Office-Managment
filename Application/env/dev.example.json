@@ -1,0 +1,8 @@
+{
+  "ENVIRONMENT": "dev",
+  "API_BASE_URL": "http://10.0.2.2:8000/api/v1",
+  "CONNECT_TIMEOUT_MS": "15000",
+  "RECEIVE_TIMEOUT_MS": "30000",
+  "SEND_TIMEOUT_MS": "15000",
+  "SENTRY_DSN": ""
+}

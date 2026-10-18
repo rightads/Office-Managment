@@ -1,0 +1,8 @@
+{
+  "ENVIRONMENT": "prod",
+  "API_BASE_URL": "https://api.rightads.example.com/api/v1",
+  "CONNECT_TIMEOUT_MS": "15000",
+  "RECEIVE_TIMEOUT_MS": "30000",
+  "SEND_TIMEOUT_MS": "15000",
+  "SENTRY_DSN": ""
+}

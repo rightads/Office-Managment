@@ -1,0 +1,49 @@
+{
+  "@@locale": "en",
+  "appTitle": "Right Ads",
+  "@appTitle": {
+    "description": "Application display title"
+  },
+  "splashLoadingLabel": "Initializing workspace...",
+  "@splashLoadingLabel": {
+    "description": "Accessible loading text displayed on the splash screen"
+  },
+  "homePlaceholderTitle": "Right Ads Workspace Ready",
+  "@homePlaceholderTitle": {
+    "description": "Headline on the placeholder home screen"
+  },
+  "homePlaceholderSubtitle": "Core architecture, environment configuration, and localization are active.",
+  "@homePlaceholderSubtitle": {
+    "description": "Subtitle on the placeholder home screen"
+  },
+  "environmentLabel": "Environment: {envName}",
+  "@environmentLabel": {
+    "description": "Displays the current runtime environment name",
+    "placeholders": {
+      "envName": {
+        "type": "String"
+      }
+    }
+  },
+  "apiEndpointLabel": "API Base URL: {apiUrl}",
+  "@apiEndpointLabel": {
+    "description": "Displays the configured API base URL",
+    "placeholders": {
+      "apiUrl": {
+        "type": "String"
+      }
+    }
+  },
+  "configErrorTitle": "Configuration Error",
+  "@configErrorTitle": {
+    "description": "Title shown when required build-time environment keys are missing or invalid"
+  },
+  "configErrorSubtitle": "The application cannot start because required build-time configuration values are missing or invalid. Supply a valid JSON file via --dart-define-from-file.",
+  "@configErrorSubtitle": {
+    "description": "Explanation shown on the fail-fast configuration error screen"
+  },
+  "configErrorMissingKeysHeader": "Missing or invalid keys:",
+  "@configErrorMissingKeysHeader": {
+    "description": "Header above the list of invalid configuration keys"
+  }
+}

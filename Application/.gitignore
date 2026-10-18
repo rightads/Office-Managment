@@ -1,0 +1,119 @@
+# ==============================================================================
+# Miscellaneous & System Files
+# ==============================================================================
+*.class
+*.log
+*.pyc
+*.swp
+*.swo
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# ==============================================================================
+# IDE & Editor Settings
+# ==============================================================================
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ==============================================================================
+# Flutter / Dart / Pub Dependencies & Build Artifacts
+# ==============================================================================
+**/doc/api/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub-preload-cache/
+.pub/
+/build/
+build/
+coverage/
+*.lcov
+flutter_*.png
+linked_*.ds
+unlinked.ds
+unlinked_spec.ds
+
+# Generated localization files
+lib/core/l10n/generated/
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# Web related
+lib/generated_plugin_registrant.dart
+web/flutter_bootstrap.js
+
+# ==============================================================================
+# Android Platform Build & Dependency Artifacts
+# ==============================================================================
+.gradle/
+android/.gradle/
+android/.kotlin/
+android/.cxx/
+android/local.properties
+android/captures/
+android/**/GeneratedPluginRegistrant.java
+android/app/debug/
+android/app/profile/
+android/app/release/
+
+# ==============================================================================
+# iOS & macOS Platform Build & Dependency Artifacts (CocoaPods)
+# ==============================================================================
+ios/Flutter/.last_build_id
+ios/Flutter/ephemeral/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/Pods/
+ios/.symlinks/
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+ios/**/DerivedData/
+ios/**/xcuserdata/
+ios/ExportOptions.plist
+
+# ==============================================================================
+# Desktop Platform Build Artifacts (Windows / Linux)
+# ==============================================================================
+macos/Flutter/ephemeral/
+macos/Flutter/GeneratedPluginRegistrant.swift
+windows/flutter/ephemeral/
+windows/flutter/generated_plugin_registrant.cc
+linux/flutter/ephemeral/
+linux/flutter/generated_plugin_registrant.cc
+
+# ==============================================================================
+# Secrets & Environment Files (NEVER COMMIT SENSITIVE VALUES)
+# ==============================================================================
+env/*.json
+!env/*.example.json
+
+# Firebase / Google Services
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase_options*.dart
+
+# Signing Keystores & Properties
+*.jks
+*.keystore
+android/key.properties

@@ -1,56 +1,200 @@
-# Byte-compiled / optimized files
+# ==============================================================================
+# Byte-compiled / Optimized Python Files
+# ==============================================================================
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual Environments
-venv/
-**/venv/
+# ==============================================================================
+# Virtual Environments (Python Backend)
+# ==============================================================================
 .venv/
 **/.venv/
-env/
-**/env/
-ENV/
+venv/
+**/venv/
+Backend/env/
 
+# ==============================================================================
 # Environment Variables & Secrets
+# ==============================================================================
 .env
 .env.*
 !.env.example
 
-# Distribution / Packaging
-dist/
-build/
-*.egg-info/
+# Flutter Flavor Environment Files
+Application/env/*.json
+!Application/env/*.example.json
+env/*.json
+!env/*.example.json
 
-# Unit test / coverage
+# Firebase & Google Services Credentials
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase_options*.dart
+
+# Mobile Signing Keystores & Properties
+*.keystore
+*.jks
+**/android/key.properties
+**/ios/ExportOptions.plist
+
+# ==============================================================================
+# Flutter / Dart Dependencies & Build Artifacts
+# ==============================================================================
+.dart_tool/
+**/.dart_tool/
+.flutter-plugins
+**/.flutter-plugins
+.flutter-plugins-dependencies
+**/.flutter-plugins-dependencies
+.packages
+**/.packages
+.pub/
+**/.pub/
+.pub-cache/
+**/.pub-cache/
+.pub-preload-cache/
+**/.pub-preload-cache/
+
+# Flutter build outputs
+build/
+**/build/
+flutter_*.png
+linked_*.ds
+unlinked.ds
+unlinked_spec.ds
+
+# Flutter Generated Localizations
+**/lib/core/l10n/generated/
+
+# Flutter Web generated
+lib/generated_plugin_registrant.dart
+**/lib/generated_plugin_registrant.dart
+**/web/flutter_bootstrap.js
+
+# Flutter Symbolication & Obfuscation
+app.*.symbols
+**/app.*.symbols
+app.*.map.json
+**/app.*.map.json
+
+# ==============================================================================
+# Android Platform Build & Dependency Artifacts
+# ==============================================================================
+.gradle/
+**/.gradle/
+**/android/local.properties
+**/android/captures/
+**/android/.cxx/
+**/android/.kotlin/
+**/android/**/GeneratedPluginRegistrant.java
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+
+# ==============================================================================
+# iOS & macOS Platform Build & Dependency Artifacts (CocoaPods)
+# ==============================================================================
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/App.framework
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/**/DerivedData/
+**/ios/**/xcuserdata/
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+
+# Xcode project user-specific state
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.moved-aside
+*.xcuserstate
+
+# ==============================================================================
+# Desktop Platform Build Artifacts (Windows / Linux)
+# ==============================================================================
+**/windows/flutter/ephemeral/
+**/windows/flutter/generated_plugin_registrant.cc
+**/linux/flutter/ephemeral/
+**/linux/flutter/generated_plugin_registrant.cc
+
+# ==============================================================================
+# Testing & Code Coverage
+# ==============================================================================
 .pytest_cache/
 .coverage
 htmlcov/
+coverage/
+**/coverage/
+*.lcov
 
+# ==============================================================================
+# Distribution / Packaging (Backend & Generic)
+# ==============================================================================
+dist/
+*.egg-info/
+
+# ==============================================================================
 # SQLite / Local Databases
+# ==============================================================================
 *.sqlite3
 *.db
 
+# ==============================================================================
 # Uploads / Local File Storage
+# ==============================================================================
 uploads/
 **/uploads/
 
-# Node / Frontend / Mobile dependencies (if applicable)
+# ==============================================================================
+# Node / Frontend dependencies (if applicable)
+# ==============================================================================
 node_modules/
 .expo/
 
-# IDE & Editor files
-.vscode/
+# ==============================================================================
+# IDE & Editor Files
+# ==============================================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .idea/
+**/.idea/
+*.iml
+**/*.iml
+*.ipr
+*.iws
 *.swp
 *.swo
+.history/
 
+# ==============================================================================
 # Operating System Files
+# ==============================================================================
 .DS_Store
+**/.DS_Store
 Thumbs.db
+**/Thumbs.db
 
+# ==============================================================================
 # Prompts
+# ==============================================================================
 prompts/
 right_ads_backend_prompts/
 right_ads_flutter_prompts/
 Prompt/
+**/Prompt/
