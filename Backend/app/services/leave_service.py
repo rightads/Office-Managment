@@ -26,6 +26,8 @@ from app.schemas.leave import (
     AnnualAllocationResultResponse,
     LeaveApplyRequest,
     LeaveBalanceResponse,
+    LeavePreviewRequest,
+    LeavePreviewResponse,
     LeaveRejectRequest,
     LeaveRequestListResponse,
     LeaveRequestResponse,
@@ -76,6 +78,129 @@ class LeaveService:
             curr += datetime.timedelta(days=1)
 
         return float(len(working_dates)), working_dates
+
+    # -------------------------------------------------------------------------
+    # 0. Preview / Validate Leave Application
+    # -------------------------------------------------------------------------
+    async def preview_leave(
+        self,
+        user: User,
+        payload: LeavePreviewRequest,
+    ) -> LeavePreviewResponse:
+        from_date = payload.from_date
+        to_date = payload.to_date
+        is_half_day = payload.is_half_day
+        half_day_session = payload.half_day_session
+
+        if to_date < from_date:
+            return LeavePreviewResponse(
+                from_date=from_date,
+                to_date=to_date,
+                is_half_day=is_half_day,
+                half_day_session=half_day_session,
+                working_days=0.0,
+                is_valid=False,
+                validation_error="to_date cannot be earlier than from_date.",
+                available_balance=None,
+                has_overlap=False,
+            )
+
+        working_days: float = 0.0
+        validation_error: str | None = None
+        is_valid = True
+
+        policy = await self.att_repo.get_effective_policy(user)
+        week_off_days = policy.week_off_days if policy else [6]
+
+        if is_half_day:
+            if from_date != to_date:
+                return LeavePreviewResponse(
+                    from_date=from_date,
+                    to_date=to_date,
+                    is_half_day=is_half_day,
+                    half_day_session=half_day_session,
+                    working_days=0.0,
+                    is_valid=False,
+                    validation_error="Half-day leave must be for a single date.",
+                    available_balance=None,
+                    has_overlap=False,
+                )
+            if not half_day_session or half_day_session not in ("first_half", "second_half"):
+                return LeavePreviewResponse(
+                    from_date=from_date,
+                    to_date=to_date,
+                    is_half_day=is_half_day,
+                    half_day_session=half_day_session,
+                    working_days=0.0,
+                    is_valid=False,
+                    validation_error="half_day_session ('first_half' or 'second_half') is required for half-day leaves.",
+                    available_balance=None,
+                    has_overlap=False,
+                )
+            holiday = await self.att_repo.get_holiday_on_date(from_date)
+            if from_date.weekday() in week_off_days or holiday is not None:
+                is_valid = False
+                validation_error = "Cannot apply for half-day leave on a weekend or company holiday."
+                working_days = 0.0
+            else:
+                working_days = 0.5
+        else:
+            calc_days, _ = await self.calculate_working_days(user, from_date, to_date)
+            working_days = calc_days
+            if working_days <= 0:
+                is_valid = False
+                validation_error = "Selected date range contains no working days (all dates fall on weekends or company holidays)."
+
+        # Past date check
+        local_today = get_local_today()
+        if from_date < local_today and is_valid:
+            allow_past = await self.repo.get_system_setting("allow_past_leave_applications")
+            if allow_past is False:
+                is_valid = False
+                validation_error = "Retroactive leave applications are not permitted by company policy."
+            else:
+                max_past_days = await self.repo.get_system_setting("past_leave_max_days_allowed") or 7
+                if (local_today - from_date).days > int(max_past_days):
+                    is_valid = False
+                    validation_error = f"Retroactive leave applications cannot exceed {max_past_days} past days."
+
+        # Overlapping leave check
+        has_overlap = False
+        overlapping_id = None
+        overlap = await self.repo.get_overlapping_request(user.id, from_date, to_date)
+        if overlap:
+            has_overlap = True
+            overlapping_id = overlap.id
+            if is_valid:
+                is_valid = False
+                validation_error = "An existing pending or approved leave request overlaps with the requested date range."
+
+        # Balance check
+        available_balance: float | None = None
+        if payload.leave_type_id:
+            leave_type = await self.repo.get_type_by_id(payload.leave_type_id)
+            if leave_type and leave_type.is_paid:
+                balance = await self.repo.get_balance(user.id, leave_type.id, from_date.year)
+                available = (balance.allocated + balance.carried_forward - balance.used) if balance else 0.0
+                available_balance = available
+                if available < working_days and is_valid:
+                    is_valid = False
+                    validation_error = f"Insufficient leave balance for {leave_type.name}. Available: {available:.1f} days, Requested: {working_days:.1f} days."
+            elif leave_type and not leave_type.is_paid:
+                available_balance = None
+
+        return LeavePreviewResponse(
+            from_date=from_date,
+            to_date=to_date,
+            is_half_day=is_half_day,
+            half_day_session=half_day_session,
+            working_days=working_days,
+            is_valid=is_valid,
+            validation_error=validation_error,
+            available_balance=available_balance,
+            has_overlap=has_overlap,
+            overlapping_request_id=overlapping_id,
+        )
 
     # -------------------------------------------------------------------------
     # 1. Apply For Leave

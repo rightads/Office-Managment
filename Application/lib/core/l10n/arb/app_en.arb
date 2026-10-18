@@ -1508,5 +1508,251 @@
         "type": "int"
       }
     }
+  },
+  "leavesTitle": "Leave & Holidays",
+  "@leavesTitle": {
+    "description": "Screen title for Leave and Holidays"
+  },
+  "leavesTabMyLeaves": "My Leaves",
+  "@leavesTabMyLeaves": {
+    "description": "Tab title for employee leave balances and history"
+  },
+  "leavesTabHolidays": "Company Holidays",
+  "@leavesTabHolidays": {
+    "description": "Tab title for annual holiday list"
+  },
+  "leavesBalancesHeader": "Leave Balances",
+  "@leavesBalancesHeader": {
+    "description": "Header for leave balance cards section"
+  },
+  "leavesRequestsHeader": "Leave History",
+  "@leavesRequestsHeader": {
+    "description": "Header for leave requests list section"
+  },
+  "leavesApplyButton": "Apply Leave",
+  "@leavesApplyButton": {
+    "description": "Button to open leave application sheet"
+  },
+  "leavesFilterAll": "All",
+  "@leavesFilterAll": {
+    "description": "Filter tab for all leave requests"
+  },
+  "leavesFilterPending": "Pending",
+  "@leavesFilterPending": {
+    "description": "Filter tab for pending leave requests"
+  },
+  "leavesFilterApproved": "Approved",
+  "@leavesFilterApproved": {
+    "description": "Filter tab for approved leave requests"
+  },
+  "leavesFilterRejected": "Rejected",
+  "@leavesFilterRejected": {
+    "description": "Filter tab for rejected leave requests"
+  },
+  "leavesFilterCancelled": "Cancelled",
+  "@leavesFilterCancelled": {
+    "description": "Filter tab for cancelled leave requests"
+  },
+  "leavesEmptyBalances": "No leave balances available for this year.",
+  "@leavesEmptyBalances": {
+    "description": "Empty state when no balances exist"
+  },
+  "leavesEmptyRequests": "No leave requests found.",
+  "@leavesEmptyRequests": {
+    "description": "Empty state when no leave applications found"
+  },
+  "leavesEmptyHolidays": "No company holidays configured for this year.",
+  "@leavesEmptyHolidays": {
+    "description": "Empty state when no holidays configured"
+  },
+  "leaveBalanceDaysAvailable": "{days} days available",
+  "@leaveBalanceDaysAvailable": {
+    "description": "Days available counter on balance card",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveBalanceAllocated": "Allocated: {days}",
+  "@leaveBalanceAllocated": {
+    "description": "Allocated leave days subtitle",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveBalanceUsed": "Used: {days}",
+  "@leaveBalanceUsed": {
+    "description": "Used leave days subtitle",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveBalanceCarried": "Carried: {days}",
+  "@leaveBalanceCarried": {
+    "description": "Carried forward leave days subtitle",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveTotalDaysCount": "{days} days",
+  "@leaveTotalDaysCount": {
+    "description": "Total leave days badge",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveHalfDaySessionFirstHalf": "First Half",
+  "@leaveHalfDaySessionFirstHalf": {
+    "description": "Session option for first half day"
+  },
+  "leaveHalfDaySessionSecondHalf": "Second Half",
+  "@leaveHalfDaySessionSecondHalf": {
+    "description": "Session option for second half day"
+  },
+  "leaveHalfDayFormat": "{days} days ({session})",
+  "@leaveHalfDayFormat": {
+    "description": "Half day badge with session name",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "session": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveCardReasonLabel": "Reason",
+  "@leaveCardReasonLabel": {
+    "description": "Label for leave reason"
+  },
+  "leaveCardReviewNoteLabel": "Review Note",
+  "@leaveCardReviewNoteLabel": {
+    "description": "Label for review or rejection note"
+  },
+  "leaveCardCancelAction": "Cancel Request",
+  "@leaveCardCancelAction": {
+    "description": "Action button to cancel pending leave"
+  },
+  "leaveCardCancelApprovedAction": "Cancel Approved Leave",
+  "@leaveCardCancelApprovedAction": {
+    "description": "Action button to cancel approved leave"
+  },
+  "leaveCancelConfirmTitle": "Cancel Leave Request?",
+  "@leaveCancelConfirmTitle": {
+    "description": "Dialog title for cancelling leave request"
+  },
+  "leaveCancelConfirmMessage": "Are you sure you want to cancel this leave application?",
+  "@leaveCancelConfirmMessage": {
+    "description": "Dialog body message for cancelling pending leave"
+  },
+  "leaveCancelApprovedConfirmMessage": "Are you sure you want to cancel this approved leave? Deducted balances and attendance records will be restored.",
+  "@leaveCancelApprovedConfirmMessage": {
+    "description": "Dialog body message for cancelling approved leave"
+  },
+  "leaveCancelReasonLabel": "Cancellation Reason (Optional)",
+  "@leaveCancelReasonLabel": {
+    "description": "Label for cancellation reason input"
+  },
+  "leaveCancelReasonHint": "Explain why you are cancelling this leave",
+  "@leaveCancelReasonHint": {
+    "description": "Hint for cancellation reason input"
+  },
+  "leaveCancelSuccess": "Leave request cancelled successfully.",
+  "@leaveCancelSuccess": {
+    "description": "Snackbar message upon successful cancellation"
+  },
+  "leaveApplyTitle": "Apply for Leave",
+  "@leaveApplyTitle": {
+    "description": "Bottom sheet title for applying for leave"
+  },
+  "leaveApplyCategoryLabel": "Leave Category",
+  "@leaveApplyCategoryLabel": {
+    "description": "Dropdown label for leave type category"
+  },
+  "leaveApplyCategoryHint": "Select leave category",
+  "@leaveApplyCategoryHint": {
+    "description": "Dropdown hint for leave type category"
+  },
+  "leaveApplyHalfDayToggle": "Half Day Application",
+  "@leaveApplyHalfDayToggle": {
+    "description": "Switch toggle for half-day application"
+  },
+  "leaveApplyHalfDaySessionLabel": "Half Day Session",
+  "@leaveApplyHalfDaySessionLabel": {
+    "description": "Segmented button label for session"
+  },
+  "leaveApplyDateRangeLabel": "Date Range",
+  "@leaveApplyDateRangeLabel": {
+    "description": "Label for date range picker"
+  },
+  "leaveApplySingleDateLabel": "Leave Date",
+  "@leaveApplySingleDateLabel": {
+    "description": "Label for single date picker when half-day is enabled"
+  },
+  "leaveApplyWorkingDaysCount": "Working Days: {days}",
+  "@leaveApplyWorkingDaysCount": {
+    "description": "Live working days count badge",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveApplyCalculatingPreview": "Calculating working days...",
+  "@leaveApplyCalculatingPreview": {
+    "description": "Indicator when server is calculating working days"
+  },
+  "leaveApplyReasonLabel": "Reason for Leave",
+  "@leaveApplyReasonLabel": {
+    "description": "Label for leave reason text field"
+  },
+  "leaveApplyReasonHint": "Describe the reason for your leave request (minimum 3 characters)",
+  "@leaveApplyReasonHint": {
+    "description": "Hint for leave reason text field"
+  },
+  "leaveApplySubmitButton": "Submit Application",
+  "@leaveApplySubmitButton": {
+    "description": "Button to submit leave application"
+  },
+  "leaveApplySuccess": "Leave application submitted successfully.",
+  "@leaveApplySuccess": {
+    "description": "Snackbar message upon successful leave submission"
+  },
+  "leaveHolidayOptionalBadge": "Optional",
+  "@leaveHolidayOptionalBadge": {
+    "description": "Chip label for optional holiday"
+  },
+  "leaveDetailTitle": "Leave Details",
+  "@leaveDetailTitle": {
+    "description": "Screen title for leave detail"
+  },
+  "leaveDetailStatusLabel": "Status",
+  "@leaveDetailStatusLabel": {
+    "description": "Field label for status in detail screen"
+  },
+  "leaveDetailEmployeeLabel": "Employee",
+  "@leaveDetailEmployeeLabel": {
+    "description": "Field label for employee in detail screen"
+  },
+  "leaveDetailAppliedOnLabel": "Applied On",
+  "@leaveDetailAppliedOnLabel": {
+    "description": "Field label for creation timestamp"
+  },
+  "leaveDetailReviewedByLabel": "Reviewed By",
+  "@leaveDetailReviewedByLabel": {
+    "description": "Field label for reviewer"
+  },
+  "leaveDetailReviewedOnLabel": "Reviewed On",
+  "@leaveDetailReviewedOnLabel": {
+    "description": "Field label for review timestamp"
   }
 }

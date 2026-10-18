@@ -12,10 +12,10 @@
 | `05_profile_and_account.md` | Profile and account | Completed | `ProfileScreen` & `ProfileController` consuming `GET /api/v1/employees/me` (displaying `employee_code`, `full_name`, `email`, `role_name`, `department_name`, `designation`, `manager_name`, `joining_date`, `attendance_policy_name` verbatim from API with zero role logic) and `PATCH /api/v1/employees/me` (self-editable `phone_number` & `avatar_url`), `PhotoPickerService` (camera/gallery picker with compression and `RuntimeAppConfig` `max_upload_mb` / `allowed_upload_mime_types` validation), `ChangePasswordBottomSheet` with dynamic `PasswordPolicySummary` hints from `/app/config`, 422 field error mapping onto form fields, theme/language/biometric toggles, `DeviceInfoService` ("device info" + app version), logout & logout-all confirmation flows, and unit/widget tests. |
 | `06_attendance_employee.md` | Attendance (Employee view) | Completed | `AttendanceScreen` (`route_key: 'attendance'`) & `TodayAttendanceController` consuming `/me/attendance-policy`, `/attendance/today`, `/attendance/check-in`, `/attendance/check-out`, `/attendance/me`, `/reports/attendance/employee/{id}/monthly`, and `/reports/attendance/employee/{id}/yearly`. 100% policy-driven (zero role checks) geofence proximity & selfie requirements, Haversine office distance calculation with outside-radius warnings, `position.isMocked` blocking, GPS horizontal accuracy retry prompt, `openAppSettings()` / `openLocationSettings()` deep linking, bound `device_id` verification (403 mismatch handling), server UTC time truth with live worked-duration timer, app timezone display via `AppFormatters`, server-driven `status_label` + `status_color` via `StatusChip` / `DynamicColorParser`, monthly calendar grid with day detail sheet (manual/correction flags & remarks), 12-month yearly summary breakdown, and live status badge on Home Dashboard quick card. |
 | `07_tasks_employee.md` | Tasks (Employee side) | Completed | `TasksScreen` (`route_key: 'tasks'`) & `TaskDetailScreen` (`/tasks/:id`). Server-ordered dynamic status tabs (`/task-statuses`), dynamic priority & status chips via `DynamicColorParser`, assigner & assignees avatars, filter sheet (priority, department, client, project, due date range, overdue toggle), infinite scroll pagination (`PagedListView`) + pull-to-refresh. Overdue highlight using server's `is_overdue` and non-terminal status + due date. Strictly data-driven status transitions (`/task-status-transitions`) gated by user permissions (`required_permission_code`) with confirmation dialog and optimistic UI rollback on failure. Client NEVER stamps `completed_at` locally. Comments (`/tasks/{id}/comments`) and attachments (`/tasks/{id}/attachments`) with file size & MIME type validation against `RuntimeAppConfig.maxUploadMb` and `allowedUploadMimeTypes`. Signed URLs + download progress, full activity audit timeline (`TaskActivityTile`), deep linking, and unit/widget test suite. |
+| `08_leave_and_holidays.md` | Leave and Holidays (Employee side) | Completed | `LeavesScreen` (`route_key: 'leaves'`) with TabBar ("My Leaves" & "Company Holidays"), `LeaveDetailScreen` (`/leaves/:id`), and `ApplyLeaveBottomSheet`. Server-driven leave balance cards (allocated, carried forward, used, available quota) via `GET /api/v1/leaves/my-balances`. Leave request history with status chips (`pending`, `approved`, `rejected`, `cancelled`) and pull-to-refresh + infinite scroll. Live working-days server preview via debounced `POST /api/v1/leaves/preview` calculating working days (excluding employee attendance policy week-offs and company holidays), live balance validation, and overlap conflict warnings. Half-day toggle with `first_half`/`second_half` session selection. Cancellation flow with confirmation dialog and optimistic rollback for pending (`POST /api/v1/leaves/{id}/cancel`) and approved requests (`POST /api/v1/leaves/{id}/cancel-approved`). Annual company holidays calendar with optional badges from `GET /api/v1/holidays?year=...`. Deep links `/leaves/:id` and `/holidays`. Full test coverage (repository, controllers, widgets) and zero static analysis issues. |
 
 ## Pending Prompts
 
-- `08_leave_and_holidays.md`
 - `09_announcements_notifications.md`
 - **[STOP GATE: Backend Addendum A2 required before 10]** `10_daily_work_report.md`
 - **[STOP GATE: Backend Addendum A3 required before 11]** `11_dynamic_module_renderer.md`
@@ -82,6 +82,15 @@ Mirrors all 34 granular permission codes in the backend `PERMISSIONS_CATALOG` pl
 - `GET /api/v1/departments` (`ApiEndpoints.departments`)
 - `GET /api/v1/clients` (`ApiEndpoints.clients`)
 - `GET /api/v1/projects` (`ApiEndpoints.projects`)
+- `GET /api/v1/leaves/my-balances` (`ApiEndpoints.leaveBalances`)
+- `GET /api/v1/leaves/types` (`ApiEndpoints.leaveTypes`)
+- `GET /api/v1/leaves/my-requests` (`ApiEndpoints.leaveMyRequests`)
+- `GET /api/v1/leaves/{id}` (`ApiEndpoints.leaveDetail`)
+- `POST /api/v1/leaves/preview` (`ApiEndpoints.leavePreview`)
+- `POST /api/v1/leaves/apply` (`ApiEndpoints.leaveApply`)
+- `POST /api/v1/leaves/{id}/cancel` (`ApiEndpoints.leaveCancel`)
+- `POST /api/v1/leaves/{id}/cancel-approved` (`ApiEndpoints.leaveCancelApproved`)
+- `GET /api/v1/holidays` (`ApiEndpoints.holidays`)
 
 ---
 

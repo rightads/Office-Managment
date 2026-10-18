@@ -9,5 +9,8 @@ abstract final class RoutePaths {
   static const String home = '/';
   static const String tasks = '/tasks';
   static const String taskDetail = '/tasks/:id';
+  static const String leaves = '/leaves';
+  static const String leaveDetail = '/leaves/:id';
+  static const String holidays = '/holidays';
   static const String devGallery = '/dev/gallery';
 }

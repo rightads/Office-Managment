@@ -289,7 +289,7 @@ final class TaskListControllerProvider
 }
 
 String _$taskListControllerHash() =>
-    r'542c3b1bf825c57e6f29e6a6c7895ec2c70122c9';
+    r'54084fdaa9264aec96154e4c8e37f8b44eedcc69';
 
 abstract class _$TaskListController extends $Notifier<TaskListState> {
   TaskListState build();

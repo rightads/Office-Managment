@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.database import get_db_session
-from app.dependencies.auth import require_permission
+from app.dependencies.auth import require_any_permissions, require_permission
 from app.models.attendance import AttendancePolicy, AttendanceStatus
 from app.models.leave import LeaveType
 from app.models.organization import Department, Holiday, OfficeLocation
@@ -177,11 +177,12 @@ async def update_office_location(
 async def list_holidays(
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=settings.DEFAULT_PAGE_SIZE, ge=1, le=settings.MAX_PAGE_SIZE),
-    _user: User = Depends(require_permission("leave.view_all")),
+    year: int | None = Query(default=None, ge=2000, le=2100, description="Target calendar year"),
+    _user: User = Depends(require_any_permissions("leave.view_all", "leave.view_own", "attendance.view_own")),
     session: AsyncSession = Depends(get_db_session),
 ) -> Page[HolidayResponse]:
     service = MasterDataService(session)
-    items, total = await service.repo.list_paginated(Holiday, page=page, page_size=page_size)
+    items, total = await service.repo.list_holidays(page=page, page_size=page_size, year=year)
     return Page.create(
         items=[HolidayResponse.model_validate(h) for h in items],
         total=total,

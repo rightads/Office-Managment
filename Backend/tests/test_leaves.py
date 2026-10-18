@@ -614,3 +614,92 @@ async def test_annual_balance_allocation_job(
     # Carry forward must be capped at max_carry_forward (5)
     assert new_bal.carried_forward == 5.0
     assert new_bal.used == 0.0
+
+
+@pytest.mark.asyncio
+async def test_leave_preview_and_holidays(
+    async_client: AsyncClient,
+    employee_auth_headers: tuple[User, dict[str, str]],
+    db_session: AsyncSession,
+) -> None:
+    """Verify live working-day calculation, balance checking, and holiday listing for employees."""
+    emp, headers = employee_auth_headers
+    today = get_local_today()
+
+    casual_type = (
+        await db_session.execute(select(LeaveType).where(LeaveType.name == "Casual Leave"))
+    ).scalar_one()
+
+    # 1. Allocate 3 days balance
+    bal = LeaveBalance(
+        user_id=emp.id,
+        leave_type_id=casual_type.id,
+        year=today.year,
+        allocated=3.0,
+        carried_forward=0.0,
+        used=0.0,
+    )
+    db_session.add(bal)
+
+    # Add a holiday next Wednesday
+    days_ahead = (2 - today.weekday() + 7) % 7
+    if days_ahead == 0:
+        days_ahead = 7
+    next_wed = today + datetime.timedelta(days=days_ahead)
+    next_tue = next_wed - datetime.timedelta(days=1)
+    next_thu = next_wed + datetime.timedelta(days=1)
+
+    holiday = Holiday(
+        name="Festival Holiday",
+        date=next_wed,
+        year=next_wed.year,
+        is_optional=False,
+    )
+    db_session.add(holiday)
+    await db_session.commit()
+
+    # 2. Test employee fetching holidays
+    hol_res = await async_client.get(
+        f"/api/v1/holidays?year={next_wed.year}",
+        headers=headers,
+    )
+    assert hol_res.status_code == 200
+    hol_data = hol_res.json()
+    assert any(h["name"] == "Festival Holiday" for h in hol_data["items"])
+
+    # 3. Test Preview for Tuesday to Thursday (3 days total, but Wednesday is Holiday -> 2 working days)
+    preview_res = await async_client.post(
+        "/api/v1/leaves/preview",
+        json={
+            "leave_type_id": str(casual_type.id),
+            "from_date": next_tue.isoformat(),
+            "to_date": next_thu.isoformat(),
+            "is_half_day": False,
+        },
+        headers=headers,
+    )
+    assert preview_res.status_code == 200
+    preview_data = preview_res.json()
+    assert preview_data["is_valid"] is True
+    # Tuesday + Thursday = 2 working days (Wednesday is Holiday!)
+    assert preview_data["working_days"] == 2.0
+    assert preview_data["available_balance"] == 3.0
+    assert preview_data["has_overlap"] is False
+
+    # 4. Test Half-day Preview on Tuesday
+    half_day_res = await async_client.post(
+        "/api/v1/leaves/preview",
+        json={
+            "leave_type_id": str(casual_type.id),
+            "from_date": next_tue.isoformat(),
+            "to_date": next_tue.isoformat(),
+            "is_half_day": True,
+            "half_day_session": "first_half",
+        },
+        headers=headers,
+    )
+    assert half_day_res.status_code == 200
+    half_day_data = half_day_res.json()
+    assert half_day_data["is_valid"] is True
+    assert half_day_data["working_days"] == 0.5
+

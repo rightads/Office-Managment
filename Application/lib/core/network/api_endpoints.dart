@@ -51,6 +51,17 @@ abstract final class ApiEndpoints {
   static const String clients = '/clients';
   static const String projects = '/projects';
 
+  // Leaves & Holidays (Prompt 08)
+  static const String leaveBalances = '/leaves/my-balances';
+  static const String leaveTypes = '/leaves/types';
+  static const String leaveMyRequests = '/leaves/my-requests';
+  static const String leaveApply = '/leaves/apply';
+  static const String leavePreview = '/leaves/preview';
+  static String leaveDetail(String id) => '/leaves/$id';
+  static String leaveCancel(String id) => '/leaves/$id/cancel';
+  static String leaveCancelApproved(String id) => '/leaves/$id/cancel-approved';
+  static const String holidays = '/holidays';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{

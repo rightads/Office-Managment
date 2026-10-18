@@ -59,7 +59,7 @@ final class TaskDetailControllerProvider
 }
 
 String _$taskDetailControllerHash() =>
-    r'4ef90fe63695ec0e666e1ead9c8de704e893f013';
+    r'2a8d51beed619615166f6075ac1c2fda4ce73b53';
 
 final class TaskDetailControllerFamily extends $Family
     with

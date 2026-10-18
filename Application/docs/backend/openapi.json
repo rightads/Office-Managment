@@ -2226,6 +2226,53 @@
         ]
       }
     },
+    "/api/v1/leaves/preview": {
+      "post": {
+        "tags": [
+          "Leave Management"
+        ],
+        "summary": "Preview Leave Application & Calculate Working Days",
+        "description": "Live calculation of working days, balance availability, and overlap check prior to submission.",
+        "operationId": "preview_leave_api_v1_leaves_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeavePreviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeavePreviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/leaves/apply": {
       "post": {
         "tags": [
@@ -6069,6 +6116,26 @@
               "default": 20,
               "title": "Page Size"
             }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Target calendar year",
+              "title": "Year"
+            },
+            "description": "Target calendar year"
           }
         ],
         "responses": {
@@ -10669,6 +10736,148 @@
           "available"
         ],
         "title": "LeaveBalanceResponse"
+      },
+      "LeavePreviewRequest": {
+        "properties": {
+          "leave_type_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leave Type Id",
+            "description": "Optional ID of the leave type"
+          },
+          "from_date": {
+            "type": "string",
+            "format": "date",
+            "title": "From Date",
+            "description": "Start date of leave (inclusive)"
+          },
+          "to_date": {
+            "type": "string",
+            "format": "date",
+            "title": "To Date",
+            "description": "End date of leave (inclusive)"
+          },
+          "is_half_day": {
+            "type": "boolean",
+            "title": "Is Half Day",
+            "description": "Flag for single-day half day leave",
+            "default": false
+          },
+          "half_day_session": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "first_half",
+                  "second_half"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Half Day Session",
+            "description": "Half day session: 'first_half' or 'second_half'"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_date",
+          "to_date"
+        ],
+        "title": "LeavePreviewRequest"
+      },
+      "LeavePreviewResponse": {
+        "properties": {
+          "from_date": {
+            "type": "string",
+            "format": "date",
+            "title": "From Date"
+          },
+          "to_date": {
+            "type": "string",
+            "format": "date",
+            "title": "To Date"
+          },
+          "is_half_day": {
+            "type": "boolean",
+            "title": "Is Half Day"
+          },
+          "half_day_session": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Half Day Session"
+          },
+          "working_days": {
+            "type": "number",
+            "title": "Working Days"
+          },
+          "is_valid": {
+            "type": "boolean",
+            "title": "Is Valid"
+          },
+          "validation_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validation Error"
+          },
+          "available_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available Balance"
+          },
+          "has_overlap": {
+            "type": "boolean",
+            "title": "Has Overlap",
+            "default": false
+          },
+          "overlapping_request_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Overlapping Request Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_date",
+          "to_date",
+          "is_half_day",
+          "working_days",
+          "is_valid"
+        ],
+        "title": "LeavePreviewResponse"
       },
       "LeaveRejectRequest": {
         "properties": {

@@ -17,6 +17,8 @@ from app.schemas.leave import (
     AnnualAllocationResultResponse,
     LeaveApplyRequest,
     LeaveBalanceResponse,
+    LeavePreviewRequest,
+    LeavePreviewResponse,
     LeaveRejectRequest,
     LeaveRequestListResponse,
     LeaveRequestResponse,
@@ -40,6 +42,21 @@ async def list_leave_types(
 ) -> list[LeaveTypeResponse]:
     service = LeaveService(db)
     return await service.list_active_leave_types()
+
+
+@router.post(
+    "/preview",
+    response_model=LeavePreviewResponse,
+    summary="Preview Leave Application & Calculate Working Days",
+    description="Live calculation of working days, balance availability, and overlap check prior to submission.",
+)
+async def preview_leave(
+    payload: LeavePreviewRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_permission("leave.apply")),
+) -> LeavePreviewResponse:
+    service = LeaveService(db)
+    return await service.preview_leave(user=current_user, payload=payload)
 
 
 @router.post(

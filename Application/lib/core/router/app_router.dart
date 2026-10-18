@@ -10,6 +10,8 @@ import 'package:right_ads/features/auth/presentation/force_change_password_scree
 import 'package:right_ads/features/auth/presentation/forgot_password_screen.dart';
 import 'package:right_ads/features/auth/presentation/login_screen.dart';
 import 'package:right_ads/features/auth/presentation/reset_password_screen.dart';
+import 'package:right_ads/features/leaves/presentation/leave_detail_screen.dart';
+import 'package:right_ads/features/leaves/presentation/leaves_screen.dart';
 import 'package:right_ads/features/navigation/presentation/adaptive_shell_screen.dart';
 import 'package:right_ads/features/navigation/presentation/forbidden_screen.dart';
 import 'package:right_ads/features/navigation/presentation/force_update_screen.dart';
@@ -124,6 +126,22 @@ GoRouter appRouter(Ref ref) {
           final id = state.pathParameters['id'] ?? '';
           return TaskDetailScreen(taskId: id);
         },
+      ),
+      GoRoute(
+        path: RoutePaths.leaves,
+        builder: (context, state) => const LeavesScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.leaveDetail,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return LeaveDetailScreen(leaveId: id);
+        },
+      ),
+      GoRoute(
+        path: RoutePaths.holidays,
+        builder: (context, state) =>
+            const LeavesScreen(initialTab: LeavesInitialTab.holidays),
       ),
       if (kDebugMode)
         GoRoute(

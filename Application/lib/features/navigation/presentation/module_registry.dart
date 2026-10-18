@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/features/attendance/presentation/attendance_screen.dart';
+import 'package:right_ads/features/leaves/presentation/leaves_screen.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
 import 'package:right_ads/features/profile/presentation/profile_screen.dart';
@@ -34,7 +35,10 @@ abstract final class ModuleRegistry {
       <String, ModuleWidgetBuilder>{
         'attendance': (context, module) => const AttendanceScreen(),
         'tasks': (context, module) => const TasksScreen(),
-        'leave': (context, module) => BaseModulePlaceholderView(module: module),
+        'leave': (context, module) => const LeavesScreen(),
+        'leaves': (context, module) => const LeavesScreen(),
+        'holidays': (context, module) =>
+            const LeavesScreen(initialTab: LeavesInitialTab.holidays),
         'work_reports': (context, module) =>
             BaseModulePlaceholderView(module: module),
         'announcements': (context, module) =>

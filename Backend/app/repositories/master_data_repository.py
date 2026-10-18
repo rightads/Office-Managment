@@ -7,6 +7,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.models.organization import Holiday
 from app.models.rbac import Permission, Role
 from app.models.system import AppModule, SystemSetting
 from app.models.task import TaskStatusTransition
@@ -165,4 +166,31 @@ class MasterDataRepository:
         )
         res = await self.session.execute(stmt)
         return res.scalar_one_or_none()
+
+    # ==========================================================================
+    # Holidays
+    # ==========================================================================
+    async def list_holidays(
+        self,
+        page: int = 1,
+        page_size: int = 50,
+        year: int | None = None,
+    ) -> tuple[list[Holiday], int]:
+        stmt = select(Holiday)
+        count_stmt = select(func.count()).select_from(Holiday)
+
+        if year is not None:
+            stmt = stmt.where(Holiday.year == year)
+            count_stmt = count_stmt.where(Holiday.year == year)
+
+        stmt = stmt.order_by(Holiday.date.asc())
+
+        total_res = await self.session.execute(count_stmt)
+        total = total_res.scalar_one()
+
+        offset = (page - 1) * page_size
+        stmt = stmt.offset(offset).limit(page_size)
+        res = await self.session.execute(stmt)
+        return list(res.scalars().all()), total
+
 

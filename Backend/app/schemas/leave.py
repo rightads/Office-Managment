@@ -44,6 +44,32 @@ class LeaveApplyRequest(BaseModel):
     reason: str = Field(..., min_length=3, max_length=500, description="Reason for leave request")
 
 
+class LeavePreviewRequest(BaseModel):
+    leave_type_id: uuid.UUID | None = Field(default=None, description="Optional ID of the leave type")
+    from_date: datetime.date = Field(..., description="Start date of leave (inclusive)")
+    to_date: datetime.date = Field(..., description="End date of leave (inclusive)")
+    is_half_day: bool = Field(default=False, description="Flag for single-day half day leave")
+    half_day_session: Literal["first_half", "second_half"] | None = Field(
+        default=None, description="Half day session: 'first_half' or 'second_half'"
+    )
+
+
+class LeavePreviewResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    from_date: datetime.date
+    to_date: datetime.date
+    is_half_day: bool
+    half_day_session: str | None = None
+    working_days: float
+    is_valid: bool
+    validation_error: str | None = None
+    available_balance: float | None = None
+    has_overlap: bool = False
+    overlapping_request_id: uuid.UUID | None = None
+
+
+
 class LeaveReviewRequest(BaseModel):
     review_note: str | None = Field(
         default=None, max_length=500, description="Optional review/approval note"
