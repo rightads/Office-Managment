@@ -4,6 +4,8 @@ abstract final class RoutePaths {
   static const String forgotPassword = '/forgot-password';
   static const String resetPassword = '/reset-password';
   static const String forceChangePassword = '/force-change-password';
+  static const String forceUpdate = '/force-update';
+  static const String forbidden = '/forbidden';
   static const String home = '/';
   static const String devGallery = '/dev/gallery';
 }

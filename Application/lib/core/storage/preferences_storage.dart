@@ -26,6 +26,21 @@ class PreferencesStorageService {
 
   Future<bool> writeBiometricEnabled({required bool enabled}) =>
       _prefs.setBool(StorageKeys.biometricEnabled, enabled);
+
+  String? readCachedAppConfigJson() =>
+      _prefs.getString(StorageKeys.cachedAppConfigJson);
+
+  Future<bool> writeCachedAppConfigJson(String rawJson) =>
+      _prefs.setString(StorageKeys.cachedAppConfigJson, rawJson);
+
+  String? readCachedNavigationJson() =>
+      _prefs.getString(StorageKeys.cachedNavigationJson);
+
+  Future<bool> writeCachedNavigationJson(String rawJson) =>
+      _prefs.setString(StorageKeys.cachedNavigationJson, rawJson);
+
+  Future<bool> clearCachedNavigationJson() =>
+      _prefs.remove(StorageKeys.cachedNavigationJson);
 }
 
 @Riverpod(keepAlive: true)

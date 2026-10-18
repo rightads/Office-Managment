@@ -21,6 +21,10 @@ void main() {
 
       const endpointsToCheck = <String>[
         ApiEndpoints.health,
+        ApiEndpoints.appConfig,
+        ApiEndpoints.meNavigation,
+        ApiEndpoints.meAttendancePolicy,
+        ApiEndpoints.appModules,
         ApiEndpoints.authLogin,
         ApiEndpoints.authRefresh,
         ApiEndpoints.authLogout,

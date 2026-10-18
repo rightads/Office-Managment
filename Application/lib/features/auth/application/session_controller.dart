@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:right_ads/core/auth/biometric_service.dart';
+import 'package:right_ads/core/config/runtime_app_config.dart';
 import 'package:right_ads/core/errors/app_failure.dart';
 import 'package:right_ads/core/network/dio_provider.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_user.dart';
+import 'package:right_ads/features/navigation/application/navigation_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'session_controller.g.dart';
@@ -30,6 +32,10 @@ class SessionController extends _$SessionController {
   }
 
   Future<void> _bootstrapSession() async {
+    unawaited(
+      ref.read(runtimeAppConfigControllerProvider.notifier).refreshFromServer(),
+    );
+
     final repo = ref.read(authRepositoryProvider);
     final hasSession = await repo.hasStoredSession();
     if (!hasSession) {
@@ -160,10 +166,14 @@ class SessionController extends _$SessionController {
         user: user,
         isBiometricLocked: isBiometricLocked,
       );
+      unawaited(
+        ref.read(navigationControllerProvider.notifier).loadInitialNavigation(),
+      );
     }
   }
 
   void _clearPermissions() {
     ref.read(userPermissionsControllerProvider.notifier).clear();
+    unawaited(ref.read(navigationControllerProvider.notifier).clear());
   }
 }

@@ -457,5 +457,119 @@
   "authLogoutAllSuccess": "All active sessions have been signed out.",
   "@authLogoutAllSuccess": {
     "description": "Snackbar message when all sessions are revoked"
+  },
+  "navHomeLabel": "Home",
+  "@navHomeLabel": {
+    "description": "Home destination label in adaptive navigation shell"
+  },
+  "navMoreSheetTitle": "More Modules",
+  "@navMoreSheetTitle": {
+    "description": "Title of bottom sheet showing overflow navigation modules"
+  },
+  "navUnknownModuleTitle": "Update Required",
+  "@navUnknownModuleTitle": {
+    "description": "Title for unknown route_key module fallback"
+  },
+  "navUnknownModuleMessage": "Update the app to use this module",
+  "@navUnknownModuleMessage": {
+    "description": "Message shown when server returns an unknown route_key"
+  },
+  "navModuleReadyPlaceholder": "{moduleLabel} module is active.",
+  "@navModuleReadyPlaceholder": {
+    "description": "Subtitle on base module shell view",
+    "placeholders": {
+      "moduleLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "homeGreetingTitle": "Welcome, {fullName}",
+  "@homeGreetingTitle": {
+    "description": "Greeting header on Home dashboard",
+    "placeholders": {
+      "fullName": {
+        "type": "String"
+      }
+    }
+  },
+  "homeQuickOverviewSection": "Today's Overview",
+  "@homeQuickOverviewSection": {
+    "description": "Section title for quick summary cards on Home dashboard"
+  },
+  "homeCardAttendanceTitle": "Today's Attendance",
+  "@homeCardAttendanceTitle": {
+    "description": "Quick card title for today's attendance status"
+  },
+  "homeCardAttendanceSubtitle": "Tap to check in or view attendance",
+  "@homeCardAttendanceSubtitle": {
+    "description": "Quick card subtitle for today's attendance status"
+  },
+  "homeCardTasksTitle": "My Open Tasks",
+  "@homeCardTasksTitle": {
+    "description": "Quick card title for open tasks count"
+  },
+  "homeCardTasksSubtitle": "Assigned tasks and deliverables",
+  "@homeCardTasksSubtitle": {
+    "description": "Quick card subtitle for open tasks"
+  },
+  "homeCardLeaveTitle": "Pending Leave",
+  "@homeCardLeaveTitle": {
+    "description": "Quick card title for pending leave"
+  },
+  "homeCardLeaveSubtitle": "Leave balances and requests",
+  "@homeCardLeaveSubtitle": {
+    "description": "Quick card subtitle for pending leave"
+  },
+  "homeCardAnnouncementsTitle": "Latest Announcements",
+  "@homeCardAnnouncementsTitle": {
+    "description": "Quick card title for latest announcements"
+  },
+  "homeCardAnnouncementsSubtitle": "Company updates and notices",
+  "@homeCardAnnouncementsSubtitle": {
+    "description": "Quick card subtitle for latest announcements"
+  },
+  "homeModulesSection": "Workspace Modules",
+  "@homeModulesSection": {
+    "description": "Section title for base workspace modules on Home dashboard"
+  },
+  "homeExtraModulesSection": "Additional Modules",
+  "@homeExtraModulesSection": {
+    "description": "Section title for extra permission-driven modules on Home dashboard"
+  },
+  "forbiddenTitle": "No Access",
+  "@forbiddenTitle": {
+    "description": "Title on the 403 forbidden screen"
+  },
+  "forbiddenMessage": "You do not have permission to access this screen. If you believe this is an error, please contact your administrator.",
+  "@forbiddenMessage": {
+    "description": "Explanation on the 403 forbidden screen"
+  },
+  "forbiddenBackHomeButton": "Back to Home",
+  "@forbiddenBackHomeButton": {
+    "description": "CTA button on the 403 forbidden screen"
+  },
+  "forceUpdateTitle": "App Update Required",
+  "@forceUpdateTitle": {
+    "description": "Title on the force update gate screen"
+  },
+  "forceUpdateSubtitle": "A newer version of Right Ads is required to continue. Please update the app to the latest version.",
+  "@forceUpdateSubtitle": {
+    "description": "Explanation on the force update gate screen"
+  },
+  "forceUpdateVersionInfo": "Current version: {currentVersion} • Minimum required: {minVersion}",
+  "@forceUpdateVersionInfo": {
+    "description": "Displays current vs minimum required version on force update gate",
+    "placeholders": {
+      "currentVersion": {
+        "type": "String"
+      },
+      "minVersion": {
+        "type": "String"
+      }
+    }
+  },
+  "forceUpdateRefreshButton": "Check Again",
+  "@forceUpdateRefreshButton": {
+    "description": "Button to re-check server app config on force update screen"
   }
 }

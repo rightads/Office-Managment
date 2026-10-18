@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:right_ads/core/constants/storage_keys.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,27 +10,62 @@ class SecureStorageService {
 
   final FlutterSecureStorage _storage;
 
-  Future<String?> readAccessToken() =>
-      _storage.read(key: StorageKeys.accessToken);
-
-  Future<void> writeAccessToken(String token) =>
-      _storage.write(key: StorageKeys.accessToken, value: token);
-
-  Future<String?> readRefreshToken() =>
-      _storage.read(key: StorageKeys.refreshToken);
-
-  Future<void> writeRefreshToken(String token) =>
-      _storage.write(key: StorageKeys.refreshToken, value: token);
-
-  Future<void> clearTokens() async {
-    await _storage.delete(key: StorageKeys.accessToken);
-    await _storage.delete(key: StorageKeys.refreshToken);
+  Future<String?> readAccessToken() async {
+    try {
+      return await _storage.read(key: StorageKeys.accessToken);
+    } on MissingPluginException {
+      return null;
+    }
   }
 
-  Future<String?> readDeviceId() => _storage.read(key: StorageKeys.deviceId);
+  Future<void> writeAccessToken(String token) async {
+    try {
+      await _storage.write(key: StorageKeys.accessToken, value: token);
+    } on MissingPluginException {
+      // No-op in headless widget tests without platform channels.
+    }
+  }
 
-  Future<void> writeDeviceId(String deviceId) =>
-      _storage.write(key: StorageKeys.deviceId, value: deviceId);
+  Future<String?> readRefreshToken() async {
+    try {
+      return await _storage.read(key: StorageKeys.refreshToken);
+    } on MissingPluginException {
+      return null;
+    }
+  }
+
+  Future<void> writeRefreshToken(String token) async {
+    try {
+      await _storage.write(key: StorageKeys.refreshToken, value: token);
+    } on MissingPluginException {
+      // No-op in headless widget tests without platform channels.
+    }
+  }
+
+  Future<void> clearTokens() async {
+    try {
+      await _storage.delete(key: StorageKeys.accessToken);
+      await _storage.delete(key: StorageKeys.refreshToken);
+    } on MissingPluginException {
+      // No-op in headless widget tests without platform channels.
+    }
+  }
+
+  Future<String?> readDeviceId() async {
+    try {
+      return await _storage.read(key: StorageKeys.deviceId);
+    } on MissingPluginException {
+      return null;
+    }
+  }
+
+  Future<void> writeDeviceId(String deviceId) async {
+    try {
+      await _storage.write(key: StorageKeys.deviceId, value: deviceId);
+    } on MissingPluginException {
+      // No-op in headless widget tests without platform channels.
+    }
+  }
 }
 
 @Riverpod(keepAlive: true)

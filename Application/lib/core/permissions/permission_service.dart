@@ -47,6 +47,8 @@ class PermissionSet {
   int get hashCode => Object.hashAllUnordered(_codes);
 }
 
+typedef PermissionService = PermissionSet;
+
 @Riverpod(keepAlive: true)
 class UserPermissionsController extends _$UserPermissionsController {
   @override
@@ -59,6 +61,11 @@ class UserPermissionsController extends _$UserPermissionsController {
   void clear() {
     state = PermissionSet.empty;
   }
+}
+
+@Riverpod(keepAlive: true)
+PermissionService permissionService(Ref ref) {
+  return ref.watch(userPermissionsControllerProvider);
 }
 
 extension WidgetRefPermissionX on WidgetRef {

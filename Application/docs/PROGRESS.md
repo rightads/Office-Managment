@@ -7,10 +7,11 @@
 | `01_scaffold_architecture.md` | Scaffold, architecture, environments | Completed | Feature-first Clean Architecture (`lib/core/`, `lib/features/`), `dev`/`staging`/`prod` flavors, fail-fast `AppConfig` via `--dart-define-from-file`, ARB l10n (`app_en.arb`), Material 3 theme tokens, `PermissionCodes` catalog, global error handling, unit & widget tests. |
 | `02_design_system_l10n.md` | Design system, theming, localization, shared widgets | Completed | Centralized design tokens (`AppBrandColors`, `AppSpacing`, `AppRadius`, `AppElevation`, `AppBreakpoints`, `AppDurations`, `AppTypography`), Material 3 light & dark themes, `DynamicColorParser` with WCAG contrast foreground calculation, English (`en`) & Hindi (`hi`) ARB files + automated widget raw-string scanner test, `AppFormatters` (UTC -> configured display timezone, number, currency), `AppValidators`, 14 shared widgets, `/dev/gallery` debug route, and full unit/widget test suite. |
 | `03_api_layer_and_auth.md` | Networking, token refresh, error mapping, authentication | Completed | Dio client configured from `AppConfig`, `RequestIdInterceptor`, `AuthHeaderInterceptor`, single-flight `TokenRefreshInterceptor` (supporting token rotation and reuse detection), `RedactingLogInterceptor`, `ErrorMapper` (`StandardErrorResponse` + FastAPI 422 `HTTPValidationError` -> `AppFailure`), `DeviceIdentityService`, optional `BiometricService`, full Auth feature (`LoginScreen`, `ForgotPasswordScreen`, `ResetPasswordScreen`, `ForceChangePasswordScreen`, `SessionController`), GoRouter auth redirect state machine, OpenAPI & permission contract verification tests. |
+| `backend_addendum/A1_navigation_and_app_config.md` | Backend A1: Navigation, modules registry, public app config | Completed | Added `app_modules` table + Alembic migration, `modules.manage` permission, seeded 7 base modules in `app/seed_data/app_modules.json`, added `GET /api/v1/app/config`, `GET /api/v1/me/navigation`, `GET /api/v1/me/attendance-policy`, and Admin CRUD `/api/v1/app-modules`, exported updated `docs/backend/openapi.json`. |
+| `04_navigation_shell_permissions.md` | Permission-driven navigation shell | Completed | `RuntimeAppConfigController` + `NavigationController` loading `/app/config` and `/me/navigation` with offline cache fallback in `PreferencesStorageService`, `PermissionService` (`can`, `canAny`, `canAll`, `ref.can()`, `PermissionGate`), `ModuleRegistry` (safe fallback for unknown `route_key`) & `ModuleIconMapper` (safe fallback for unknown `icon_key`), `AdaptiveShellScreen` (5-tab cap + "More" sheet on phones; `NavigationRail` sidebar on tablet/web; foreground resume hot-reload after `N` minutes), `HomeDashboardView` (quick cards + module tiles), `ForbiddenScreen` (403), `ForceUpdateScreen` (`min_supported_app_version` gate), and full unit & widget tests. |
 
 ## Pending Prompts
 
-- **[STOP GATE: Backend Addendum A1 required before 04]** `04_navigation_shell_permissions.md`
 - `05_profile_and_account.md`
 - `06_attendance_employee.md`
 - `07_tasks_employee.md`
@@ -31,22 +32,26 @@
 
 ## Permission Codes Defined (`lib/core/permissions/permission_codes.dart`)
 
-Mirrors the 33 granular permission codes in the backend `PERMISSIONS_CATALOG` plus `*`:
+Mirrors all 34 granular permission codes in the backend `PERMISSIONS_CATALOG` plus `*`:
 - **User Management**: `user.create`, `user.read`, `user.update`, `user.delete`, `user.manage_roles`
 - **Attendance**: `attendance.check_in`, `attendance.view_own`, `attendance.view_team`, `attendance.view_all`, `attendance.correct`, `attendance.manage_policy`
 - **Leave Management**: `leave.apply`, `leave.view_own`, `leave.view_all`, `leave.approve`, `leave.manage_types`
 - **Tasks & Deliverables**: `task.create`, `task.view_assigned`, `task.view_all`, `task.update`, `task.delete`
 - **Clients & Projects**: `client.create`, `client.view_all`, `client.update`, `client.delete`, `project.create`, `project.view_all`, `project.update`, `project.delete`
 - **Communication & Announcements**: `announcement.create`, `announcement.view`
-- **System & Audit**: `system.view_audit_logs`, `system.manage_settings`
+- **System, Modules & Audit**: `system.view_audit_logs`, `system.manage_settings`, `modules.manage`
 
-*(No role names are referenced anywhere in the Flutter codebase. `SessionController` hydrates `userPermissionsControllerProvider` from `/auth/me` on login/session restore and clears it on logout.)*
+*(No role names are referenced anywhere in the Flutter codebase. `SessionController` and `NavigationController` hydrate `userPermissionsControllerProvider` from `/auth/me` and `/me/navigation`, hot-reload permissions on foreground resume after `N` minutes, and clear permissions on logout.)*
 
 ---
 
 ## API Endpoints Consumed
 
 - `GET /api/v1/health` (`ApiEndpoints.health`)
+- `GET /api/v1/app/config` (`ApiEndpoints.appConfig`)
+- `GET /api/v1/me/navigation` (`ApiEndpoints.meNavigation`)
+- `GET /api/v1/me/attendance-policy` (`ApiEndpoints.meAttendancePolicy`)
+- `GET /api/v1/app-modules` (`ApiEndpoints.appModules`)
 - `POST /api/v1/auth/login` (`ApiEndpoints.authLogin`)
 - `POST /api/v1/auth/refresh` (`ApiEndpoints.authRefresh`)
 - `POST /api/v1/auth/logout` (`ApiEndpoints.authLogout`)
@@ -60,4 +65,4 @@ Mirrors the 33 granular permission codes in the backend `PERMISSIONS_CATALOG` pl
 
 ## Open Issues / Blockers
 
-- **Backend Addendum A1 (`backend_addendum/A1_navigation_and_app_config.md`)** must be executed in the Backend repository (`GET /api/v1/app/config` and `GET /api/v1/me/navigation`) and `docs/backend/openapi.json` refreshed before starting Flutter Prompt 04 (`04_navigation_shell_permissions.md`).
+- None for Prompts 05–09. Next stop gate will be **Backend Addendum A2** before Flutter Prompt 10.

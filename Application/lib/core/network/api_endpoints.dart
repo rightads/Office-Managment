@@ -15,10 +15,17 @@ abstract final class ApiEndpoints {
   static const String authResetPassword = '/auth/reset-password';
   static const String authMe = '/auth/me';
 
+  // App Config, Navigation & Modules (Backend Addendum A1)
+  static const String appConfig = '/app/config';
+  static const String meNavigation = '/me/navigation';
+  static const String meAttendancePolicy = '/me/attendance-policy';
+  static const String appModules = '/app-modules';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{
     health,
+    appConfig,
     authLogin,
     authRefresh,
     authForgotPassword,
