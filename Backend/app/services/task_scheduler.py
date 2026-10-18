@@ -9,6 +9,7 @@ from apscheduler.triggers.cron import CronTrigger
 from sqlalchemy import select
 
 from app.core.config import settings
+from app.core.constants import DEFAULT_TASK_DUE_REMINDER_LEAD_HOURS
 from app.core.database import async_session_factory
 from app.models.base import ensure_utc, utc_now
 from app.models.system import SystemSetting
@@ -30,7 +31,7 @@ async def send_due_soon_reminders(session: AsyncSession) -> int:
     repo = TaskRepository(session)
 
     # Lead time in hours from system_settings (zero-hardcoding)
-    lead_hours = 24
+    lead_hours = DEFAULT_TASK_DUE_REMINDER_LEAD_HOURS
     stmt = select(SystemSetting).where(SystemSetting.key == "task_due_reminder_lead_hours")
     setting_res = await session.execute(stmt)
     setting = setting_res.scalar_one_or_none()

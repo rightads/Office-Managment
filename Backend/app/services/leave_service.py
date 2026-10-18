@@ -7,6 +7,7 @@ import uuid
 from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.constants import AttendanceStatusCode, LeaveRequestStatus
 from app.core.exceptions import (
     BadRequestException,
     ConflictException,
@@ -169,7 +170,7 @@ class LeaveService:
             half_day_session=payload.half_day_session,
             total_days=working_days,
             reason=payload.reason.strip(),
-            status="pending",
+            status=LeaveRequestStatus.PENDING.value,
         )
         self.session.add(leave_req)
         await self.session.flush()
@@ -231,13 +232,13 @@ class LeaveService:
         ):
             raise ForbiddenException("You cannot cancel another employee's leave request.")
 
-        if leave_req.status != "pending":
+        if leave_req.status != LeaveRequestStatus.PENDING.value:
             raise BadRequestException(
                 f"Only pending leave requests can be cancelled (current status: '{leave_req.status}')."
             )
 
         old_status = leave_req.status
-        leave_req.status = "cancelled"
+        leave_req.status = LeaveRequestStatus.CANCELLED.value
         await self.session.flush()
 
         # Notify manager if cancelled by employee
@@ -284,7 +285,7 @@ class LeaveService:
         if "leave.approve" not in perms and "leave.view_all" not in perms and not is_direct_manager:
             raise ForbiddenException("You are not authorized to approve this leave request.")
 
-        if leave_req.status != "pending":
+        if leave_req.status != LeaveRequestStatus.PENDING.value:
             raise BadRequestException(
                 f"Cannot approve leave request with status '{leave_req.status}'."
             )
@@ -297,7 +298,11 @@ class LeaveService:
             balance.used += leave_req.total_days
 
         # Mark attendance days
-        on_leave_code = "HALF_DAY" if leave_req.is_half_day else "ON_LEAVE"
+        on_leave_code = (
+            AttendanceStatusCode.HALF_DAY.value
+            if leave_req.is_half_day
+            else AttendanceStatusCode.ON_LEAVE.value
+        )
         status_stmt = select(AttendanceStatus).where(AttendanceStatus.code == on_leave_code)
         status_res = await self.session.execute(status_stmt)
         att_status = status_res.scalar_one_or_none()
@@ -334,7 +339,7 @@ class LeaveService:
             await invalidate_cache_pattern("reports:attendance:today:*")
 
         old_status = leave_req.status
-        leave_req.status = "approved"
+        leave_req.status = LeaveRequestStatus.APPROVED.value
         leave_req.reviewed_by = actor.id
         leave_req.reviewed_at = now_utc()
         leave_req.review_note = payload.review_note.strip() if payload.review_note else None
@@ -389,13 +394,13 @@ class LeaveService:
         if "leave.approve" not in perms and "leave.view_all" not in perms and not is_direct_manager:
             raise ForbiddenException("You are not authorized to reject this leave request.")
 
-        if leave_req.status != "pending":
+        if leave_req.status != LeaveRequestStatus.PENDING.value:
             raise BadRequestException(
                 f"Cannot reject leave request with status '{leave_req.status}'."
             )
 
         old_status = leave_req.status
-        leave_req.status = "rejected"
+        leave_req.status = LeaveRequestStatus.REJECTED.value
         leave_req.reviewed_by = actor.id
         leave_req.reviewed_at = now_utc()
         leave_req.review_note = payload.review_note.strip()
@@ -455,7 +460,7 @@ class LeaveService:
                 "You are not authorized to cancel this approved leave request."
             )
 
-        if leave_req.status != "approved":
+        if leave_req.status != LeaveRequestStatus.APPROVED.value:
             raise BadRequestException("Only approved leave requests can have approval cancelled.")
 
         # 1. Restore balance
@@ -485,7 +490,7 @@ class LeaveService:
         await invalidate_cache_pattern("reports:attendance:today:*")
 
         old_status = leave_req.status
-        leave_req.status = "cancelled"
+        leave_req.status = LeaveRequestStatus.CANCELLED.value
         if reason:
             leave_req.review_note = f"Approved leave cancelled: {reason.strip()}"
 

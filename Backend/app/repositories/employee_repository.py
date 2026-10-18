@@ -6,7 +6,7 @@ from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models.rbac import Role
+from app.models.rbac import Permission, Role, RolePermission
 from app.models.user import User
 
 
@@ -117,20 +117,28 @@ class EmployeeRepository:
         res = await self.session.execute(stmt)
         return list(res.scalars().all()), total
 
-    async def count_active_admins(self) -> int:
-        """Counts active users holding an administrator role."""
+    async def count_active_users_with_permission(
+        self, permission_code: str = "user.manage_roles"
+    ) -> int:
+        """Counts active users holding a role that grants the specified permission or wildcard '*'."""
         stmt = (
-            select(func.count())
+            select(func.count(func.distinct(User.id)))
             .select_from(User)
             .join(Role, User.role_id == Role.id)
+            .join(RolePermission, Role.id == RolePermission.role_id)
+            .join(Permission, RolePermission.permission_id == Permission.id)
             .where(
                 User.is_active.is_(True),
                 User.deleted_at.is_(None),
-                Role.name == "Admin",
+                or_(Permission.code == permission_code, Permission.code == "*"),
             )
         )
         res = await self.session.execute(stmt)
         return res.scalar_one()
+
+    async def count_active_admins(self) -> int:
+        """Counts active users holding administrative privileges (user.manage_roles or '*')."""
+        return await self.count_active_users_with_permission("user.manage_roles")
 
     async def count_total_employees(self) -> int:
         """Returns the total number of employees ever created (for sequential code generation)."""

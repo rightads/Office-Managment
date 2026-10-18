@@ -7,6 +7,7 @@ from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.core.constants import LeaveRequestStatus
 from app.models.attendance import (
     AttendancePolicy,
     AttendanceRecord,
@@ -111,7 +112,7 @@ class AttendanceRepository:
             .where(
                 and_(
                     LeaveRequest.user_id == user_id,
-                    LeaveRequest.status == "approved",
+                    LeaveRequest.status == LeaveRequestStatus.APPROVED.value,
                     LeaveRequest.from_date <= end_date,
                     LeaveRequest.to_date >= start_date,
                 )
@@ -129,7 +130,7 @@ class AttendanceRepository:
             .where(
                 and_(
                     LeaveRequest.user_id == user_id,
-                    LeaveRequest.status == "approved",
+                    LeaveRequest.status == LeaveRequestStatus.APPROVED.value,
                     LeaveRequest.from_date <= check_date,
                     LeaveRequest.to_date >= check_date,
                 )

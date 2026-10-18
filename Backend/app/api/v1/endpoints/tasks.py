@@ -50,16 +50,12 @@ router = APIRouter(prefix="/tasks", tags=["Task Management"])
 def _has_permission(user: User, perm: str) -> bool:
     if not user.role:
         return False
-    if user.role.name == "Admin":
-        return True
     return any(p.code == "*" or p.code == perm for p in user.role.permissions)
 
 
 def _get_user_permissions(user: User) -> set[str]:
     if not user.role:
         return set()
-    if user.role.name == "Admin":
-        return {"*"}
     return {p.code for p in user.role.permissions}
 
 

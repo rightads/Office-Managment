@@ -9,6 +9,7 @@ from sqlalchemy import and_, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.core.constants import AttendanceStatusCode, LeaveRequestStatus
 from app.core.exceptions import (
     ForbiddenException,
     NotFoundException,
@@ -149,7 +150,7 @@ class AttendanceReportService:
         # Query today's approved leaves
         leave_stmt = select(LeaveRequest).where(
             and_(
-                LeaveRequest.status == "approved",
+                LeaveRequest.status == LeaveRequestStatus.APPROVED.value,
                 LeaveRequest.from_date <= today_date,
                 LeaveRequest.to_date >= today_date,
                 LeaveRequest.user_id.in_(employee_ids),
@@ -345,33 +346,33 @@ class AttendanceReportService:
                 if policy and hours_worked > policy.full_day_min_hours:
                     overtime = round(hours_worked - policy.full_day_min_hours, 2)
 
-                if status_code == "PRESENT":
+                if status_code == AttendanceStatusCode.PRESENT.value:
                     present_days += 1
-                elif status_code == "LATE":
+                elif status_code == AttendanceStatusCode.LATE.value:
                     late_days += 1
                     present_days += 1
                     is_late = True
-                elif status_code == "HALF_DAY":
+                elif status_code == AttendanceStatusCode.HALF_DAY.value:
                     half_days += 1
                     is_half_day = True
-                elif status_code == "ABSENT":
+                elif status_code == AttendanceStatusCode.ABSENT.value:
                     absent_days += 1
             elif active_leave is not None:
-                status_code = "ON_LEAVE"
+                status_code = AttendanceStatusCode.ON_LEAVE.value
                 status_name = "Approved Leave"
                 badge_color = "#6366F1"
                 leave_days += 1
             elif is_holiday:
-                status_code = "HOLIDAY"
+                status_code = AttendanceStatusCode.HOLIDAY.value
                 status_name = holiday_obj.name if holiday_obj else "Public Holiday"
                 badge_color = "#8B5CF6"
             elif is_week_off:
-                status_code = "WEEK_OFF"
+                status_code = AttendanceStatusCode.WEEK_OFF.value
                 status_name = "Weekly Off"
                 badge_color = "#64748B"
             else:
                 if curr_date <= local_today:
-                    status_code = "ABSENT"
+                    status_code = AttendanceStatusCode.ABSENT.value
                     status_name = "Absent"
                     badge_color = "#EF4444"
                     absent_days += 1
@@ -612,7 +613,7 @@ class AttendanceReportService:
         # Batch query leaves
         leave_stmt = select(LeaveRequest).where(
             and_(
-                LeaveRequest.status == "approved",
+                LeaveRequest.status == LeaveRequestStatus.APPROVED.value,
                 LeaveRequest.user_id.in_(employee_ids),
                 LeaveRequest.from_date <= end_date,
                 LeaveRequest.to_date >= start_date,

@@ -8,6 +8,11 @@ from typing import Any
 from fastapi import Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.constants import (
+    DEFAULT_FULL_DAY_HOURS,
+    DEFAULT_HALF_DAY_HOURS,
+    AttendanceStatusCode,
+)
 from app.core.exceptions import (
     BadRequestException,
     ConflictException,
@@ -225,25 +230,25 @@ class AttendanceService:
 
         # 7. Status calculation using policy thresholds
         policy = await self.repo.get_effective_policy(user)
-        full_day_hours = policy.full_day_min_hours if policy else 8.0
-        half_day_hours = policy.half_day_min_hours if policy else 4.0
+        full_day_hours = policy.full_day_min_hours if policy else DEFAULT_FULL_DAY_HOURS
+        half_day_hours = policy.half_day_min_hours if policy else DEFAULT_HALF_DAY_HOURS
         hours_worked = total_minutes / 60.0
 
         if hours_worked >= full_day_hours:
             # If initially marked late, preserve LATE; otherwise PRESENT
-            if record.status and record.status.code == "LATE":
+            if record.status and record.status.code == AttendanceStatusCode.LATE.value:
                 pass
             else:
-                pres_status = await self.repo.get_status_by_code("PRESENT")
+                pres_status = await self.repo.get_status_by_code(AttendanceStatusCode.PRESENT.value)
                 if pres_status:
                     record.status_id = pres_status.id
         elif hours_worked >= half_day_hours:
-            half_status = await self.repo.get_status_by_code("HALF_DAY")
+            half_status = await self.repo.get_status_by_code(AttendanceStatusCode.HALF_DAY.value)
             if half_status:
                 record.status_id = half_status.id
         else:
             # Under half-day threshold marks as ABSENT due to insufficient hours
-            abs_status = await self.repo.get_status_by_code("ABSENT")
+            abs_status = await self.repo.get_status_by_code(AttendanceStatusCode.ABSENT.value)
             if abs_status:
                 record.status_id = abs_status.id
 
@@ -382,17 +387,20 @@ class AttendanceService:
                     status_color = "#6366F1"
             elif is_week_off:
                 if not status_code:
-                    status_code = "WEEK_OFF"
+                    status_code = AttendanceStatusCode.WEEK_OFF.value
                     status_label = "Weekly Off"
                     status_color = "#64748B"
             else:
                 total_working_days += 1
-                if status_code in ("PRESENT", "LATE"):
+                if status_code in (
+                    AttendanceStatusCode.PRESENT.value,
+                    AttendanceStatusCode.LATE.value,
+                ):
                     total_present_days += 1.0
-                elif status_code == "HALF_DAY":
+                elif status_code == AttendanceStatusCode.HALF_DAY.value:
                     total_present_days += 0.5
                     total_half_days += 1
-                elif status_code == "ABSENT":
+                elif status_code == AttendanceStatusCode.ABSENT.value:
                     total_absent_days += 1
 
             calendar_days.append(

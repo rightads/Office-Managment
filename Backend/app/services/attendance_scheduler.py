@@ -8,6 +8,13 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app.core.config import settings
+from app.core.constants import (
+    DEFAULT_AUTO_CHECKOUT_DURATION_HOURS,
+    DEFAULT_FULL_DAY_HOURS,
+    DEFAULT_HALF_DAY_HOURS,
+    DEFAULT_SHIFT_END_TIME,
+    AttendanceStatusCode,
+)
 from app.core.database import async_session_factory
 from app.models.attendance import AttendanceRecord
 from app.repositories.attendance_repository import AttendanceRepository
@@ -41,13 +48,15 @@ async def auto_close_unclosed_checkouts(session: AsyncSession) -> int:
             continue
 
         policy = await repo.get_effective_policy(rec.user)
-        shift_end = policy.shift_end if policy else datetime.time(18, 30)
+        shift_end = policy.shift_end if policy else DEFAULT_SHIFT_END_TIME
         auto_checkout_utc = combine_date_time_to_utc(rec.date, shift_end)
 
         # Ensure checkout is after check-in
         check_in_utc = to_utc(rec.check_in_at)
         if auto_checkout_utc <= check_in_utc:
-            auto_checkout_utc = check_in_utc + datetime.timedelta(hours=8)
+            auto_checkout_utc = check_in_utc + datetime.timedelta(
+                hours=DEFAULT_AUTO_CHECKOUT_DURATION_HOURS
+            )
 
         diff_seconds = (auto_checkout_utc - check_in_utc).total_seconds()
         total_mins = max(0, int(diff_seconds // 60))
@@ -58,22 +67,22 @@ async def auto_close_unclosed_checkouts(session: AsyncSession) -> int:
 
         # Re-evaluate status based on policy thresholds
         hours = total_mins / 60.0
-        full_day = policy.full_day_min_hours if policy else 8.0
-        half_day = policy.half_day_min_hours if policy else 4.0
+        full_day = policy.full_day_min_hours if policy else DEFAULT_FULL_DAY_HOURS
+        half_day = policy.half_day_min_hours if policy else DEFAULT_HALF_DAY_HOURS
 
         if hours >= full_day:
-            if rec.status and rec.status.code == "LATE":
+            if rec.status and rec.status.code == AttendanceStatusCode.LATE.value:
                 pass
             else:
-                pres = await repo.get_status_by_code("PRESENT")
+                pres = await repo.get_status_by_code(AttendanceStatusCode.PRESENT.value)
                 if pres:
                     rec.status_id = pres.id
         elif hours >= half_day:
-            half = await repo.get_status_by_code("HALF_DAY")
+            half = await repo.get_status_by_code(AttendanceStatusCode.HALF_DAY.value)
             if half:
                 rec.status_id = half.id
         else:
-            absent = await repo.get_status_by_code("ABSENT")
+            absent = await repo.get_status_by_code(AttendanceStatusCode.ABSENT.value)
             if absent:
                 rec.status_id = absent.id
 
@@ -103,17 +112,17 @@ async def nightly_attendance_processor(
     created_count = 0
 
     for user in missing_users:
-        status_code = "ABSENT"
+        status_code = AttendanceStatusCode.ABSENT.value
         remarks = "Unexcused absence"
 
         if holiday:
-            status_code = "HOLIDAY"
+            status_code = AttendanceStatusCode.HOLIDAY.value
             remarks = holiday.name
         else:
             # Check for approved leave
             approved_leave = await repo.get_approved_leave_on_date(user.id, date_to_process)
             if approved_leave:
-                status_code = "ON_LEAVE"
+                status_code = AttendanceStatusCode.ON_LEAVE.value
                 leave_name = (
                     approved_leave.leave_type.name
                     if approved_leave.leave_type
@@ -124,12 +133,12 @@ async def nightly_attendance_processor(
                 policy = await repo.get_effective_policy(user)
                 week_off_days = policy.week_off_days if policy else [6]
                 if date_to_process.weekday() in week_off_days:
-                    status_code = "WEEK_OFF"
+                    status_code = AttendanceStatusCode.WEEK_OFF.value
                     remarks = "Weekly scheduled off"
 
         status_obj = await repo.get_status_by_code(status_code)
         if not status_obj:
-            status_obj = await repo.get_status_by_code("ABSENT")
+            status_obj = await repo.get_status_by_code(AttendanceStatusCode.ABSENT.value)
             if not status_obj:
                 continue
 

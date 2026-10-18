@@ -11,6 +11,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.core.config import settings
 from app.core.database import async_session_factory
 from app.core.permissions_registry import PERMISSIONS_CATALOG
 from app.core.security import hash_password, validate_password_policy
@@ -307,11 +308,13 @@ async def _async_create_admin(
     await _async_seed_defaults(session)
 
     # Fetch Admin role
-    stmt = select(Role).where(Role.name == "Admin")
+    stmt = select(Role).where(Role.name == settings.DEFAULT_ADMIN_ROLE_NAME)
     res = await session.execute(stmt)
     admin_role = res.scalar_one_or_none()
     if not admin_role:
-        raise RuntimeError("Admin role not found. Run seed-defaults first.")
+        raise RuntimeError(
+            f"Admin role '{settings.DEFAULT_ADMIN_ROLE_NAME}' not found. Run seed-defaults first."
+        )
 
     # Check existing user
     stmt_user = select(User).where(User.email == email.strip().lower())

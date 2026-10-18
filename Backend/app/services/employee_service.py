@@ -8,6 +8,7 @@ from typing import Any
 from fastapi import Request
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.core.config import settings
 from app.core.exceptions import (
@@ -363,9 +364,14 @@ class EmployeeService:
         if not user:
             raise NotFoundException(f"Employee with ID '{user_id}' not found.")
 
-        # Last Admin Protection
-        if user.is_active and user.role and user.role.name == "Admin":
-            active_admins = await self.employee_repo.count_active_admins()
+        # Last Admin Protection: Check if user holds administrative capability (user.manage_roles or *)
+        user_has_admin_perm = bool(
+            user.role and any(p.code in ("*", "user.manage_roles") for p in user.role.permissions)
+        )
+        if user.is_active and user_has_admin_perm:
+            active_admins = await self.employee_repo.count_active_users_with_permission(
+                "user.manage_roles"
+            )
             if active_admins <= 1:
                 raise BusinessRuleViolationException(
                     "Cannot deactivate the last active system administrator."
@@ -436,15 +442,25 @@ class EmployeeService:
         if not user:
             raise NotFoundException(f"Employee with ID '{user_id}' not found.")
 
-        stmt_role = select(Role).where(Role.id == new_role_id)
+        stmt_role = (
+            select(Role).where(Role.id == new_role_id).options(selectinload(Role.permissions))
+        )
         res_role = await self.session.execute(stmt_role)
         target_role = res_role.scalar_one_or_none()
         if not target_role:
             raise NotFoundException(f"Role with ID '{new_role_id}' not found.")
 
-        # Last Admin Protection
-        if user.role and user.role.name == "Admin" and target_role.name != "Admin":
-            active_admins = await self.employee_repo.count_active_admins()
+        # Last Admin Protection: Check if user holds administrative capability and target role does not
+        user_has_admin_perm = bool(
+            user.role and any(p.code in ("*", "user.manage_roles") for p in user.role.permissions)
+        )
+        target_has_admin_perm = any(
+            p.code in ("*", "user.manage_roles") for p in target_role.permissions
+        )
+        if user_has_admin_perm and not target_has_admin_perm:
+            active_admins = await self.employee_repo.count_active_users_with_permission(
+                "user.manage_roles"
+            )
             if active_admins <= 1:
                 raise BusinessRuleViolationException(
                     "Cannot demote the last active system administrator."

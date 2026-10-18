@@ -224,6 +224,12 @@ class Settings(BaseSettings):
         description="Minute of hour for nightly attendance auto-marking",
     )
 
+    # Initial Provisioning Defaults
+    DEFAULT_ADMIN_ROLE_NAME: str = Field(
+        default="Admin",
+        description="Default initial role name for CLI admin provisioning",
+    )
+
     @field_validator("JWT_SECRET_KEY")
     @classmethod
     def validate_jwt_secret_key(cls, v: str) -> str:

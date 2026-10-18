@@ -21,6 +21,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.constants import LeaveRequestStatus
 from app.core.database import Base
 from app.models.base import TimestampMixin, UUIDMixin
 
@@ -149,7 +150,9 @@ class AttendanceCorrection(Base, UUIDMixin, TimestampMixin):
     old_value: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
     new_value: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
     reason: Mapped[str] = mapped_column(String(500), nullable=False)
-    status: Mapped[str] = mapped_column(String(50), default="approved", nullable=False)
+    status: Mapped[str] = mapped_column(
+        String(50), default=LeaveRequestStatus.APPROVED.value, nullable=False
+    )
 
     # Relationships
     attendance_record: Mapped[AttendanceRecord] = relationship(

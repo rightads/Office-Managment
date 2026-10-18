@@ -8,6 +8,7 @@ from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.core.constants import LeaveRequestStatus
 from app.models.leave import LeaveBalance, LeaveRequest, LeaveType
 from app.models.system import SystemSetting
 from app.models.user import User
@@ -101,7 +102,9 @@ class LeaveRepository:
         stmt = select(LeaveRequest).where(
             and_(
                 LeaveRequest.user_id == user_id,
-                LeaveRequest.status.in_(["pending", "approved"]),
+                LeaveRequest.status.in_(
+                    [LeaveRequestStatus.PENDING.value, LeaveRequestStatus.APPROVED.value]
+                ),
                 LeaveRequest.from_date <= to_date,
                 LeaveRequest.to_date >= from_date,
             )
