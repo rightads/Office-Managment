@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.database import get_db_session
-from app.dependencies.auth import require_permission
+from app.dependencies.auth import require_any_permissions, require_permission
 from app.models.task import Client, Project
 from app.models.user import User
 from app.schemas.common import Page
@@ -46,7 +46,7 @@ async def list_clients(
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=settings.DEFAULT_PAGE_SIZE, ge=1, le=settings.MAX_PAGE_SIZE),
     is_active: bool | None = Query(default=None),
-    _user: User = Depends(require_permission("client.view_all")),
+    _user: User = Depends(require_any_permissions("client.view_all", "task.view_assigned")),
     session: AsyncSession = Depends(get_db_session),
 ) -> Page[ClientResponse]:
     service = MasterDataService(session)
@@ -96,7 +96,7 @@ async def list_projects(
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=settings.DEFAULT_PAGE_SIZE, ge=1, le=settings.MAX_PAGE_SIZE),
     is_active: bool | None = Query(default=None),
-    _user: User = Depends(require_permission("project.view_all")),
+    _user: User = Depends(require_any_permissions("project.view_all", "task.view_assigned")),
     session: AsyncSession = Depends(get_db_session),
 ) -> Page[ProjectResponse]:
     service = MasterDataService(session)

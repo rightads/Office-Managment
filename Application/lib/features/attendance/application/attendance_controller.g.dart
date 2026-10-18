@@ -48,7 +48,7 @@ final class TodayAttendanceControllerProvider
 }
 
 String _$todayAttendanceControllerHash() =>
-    r'864ed584fcad313569e5cb9fac83355083c35de4';
+    r'4b2d4bbbab7fb49d8a864b2c8f8fad3b095823be';
 
 /// Controller managing Today's attendance status, effective policy, live
 /// geofence distance check, and check-in/check-out mutations.
@@ -137,7 +137,7 @@ final class MonthlyAttendanceProvider
   }
 }
 
-String _$monthlyAttendanceHash() => r'31748ce81d68d76e5215c63658420b4e3d332f93';
+String _$monthlyAttendanceHash() => r'7908d50d6044c4650ae4d0cd123e0e2d27f6d39a';
 
 /// Fetches the monthly calendar (`/attendance/me`) and detailed monthly report
 /// (`/reports/attendance/employee/{id}/monthly`) for `(month, year)`.
@@ -235,7 +235,7 @@ final class YearlyAttendanceProvider
   }
 }
 
-String _$yearlyAttendanceHash() => r'0b71cb63fa34724e3cad7acdfaab39c10e364551';
+String _$yearlyAttendanceHash() => r'28f511a4525d1628d62026d95c598296996a5e11';
 
 /// Fetches the yearly month-wise attendance summary report
 /// (`/reports/attendance/employee/{id}/yearly?year=`).

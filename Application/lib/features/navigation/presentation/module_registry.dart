@@ -5,6 +5,7 @@ import 'package:right_ads/features/attendance/presentation/attendance_screen.dar
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
 import 'package:right_ads/features/profile/presentation/profile_screen.dart';
+import 'package:right_ads/features/tasks/presentation/tasks_screen.dart';
 
 typedef ModuleWidgetBuilder =
     Widget Function(
@@ -32,7 +33,7 @@ abstract final class ModuleRegistry {
   static final Map<String, ModuleWidgetBuilder> _registeredBuilders =
       <String, ModuleWidgetBuilder>{
         'attendance': (context, module) => const AttendanceScreen(),
-        'tasks': (context, module) => BaseModulePlaceholderView(module: module),
+        'tasks': (context, module) => const TasksScreen(),
         'leave': (context, module) => BaseModulePlaceholderView(module: module),
         'work_reports': (context, module) =>
             BaseModulePlaceholderView(module: module),

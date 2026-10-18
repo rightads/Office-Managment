@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.database import get_db_session
-from app.dependencies.auth import require_permission
+from app.dependencies.auth import require_any_permissions, require_permission
 from app.models.task import TaskPriority, TaskStatus
 from app.models.user import User
 from app.schemas.common import MessageResponse, Page
@@ -36,7 +36,7 @@ async def list_task_statuses(
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=settings.DEFAULT_PAGE_SIZE, ge=1, le=settings.MAX_PAGE_SIZE),
     is_active: bool | None = Query(default=None),
-    _user: User = Depends(require_permission("task.view_all")),
+    _user: User = Depends(require_any_permissions("task.view_all", "task.view_assigned")),
     session: AsyncSession = Depends(get_db_session),
 ) -> Page[TaskStatusResponse]:
     service = MasterDataService(session)
@@ -95,7 +95,7 @@ async def list_task_priorities(
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=settings.DEFAULT_PAGE_SIZE, ge=1, le=settings.MAX_PAGE_SIZE),
     is_active: bool | None = Query(default=None),
-    _user: User = Depends(require_permission("task.view_all")),
+    _user: User = Depends(require_any_permissions("task.view_all", "task.view_assigned")),
     session: AsyncSession = Depends(get_db_session),
 ) -> Page[TaskPriorityResponse]:
     service = MasterDataService(session)
@@ -153,7 +153,7 @@ async def update_task_priority(
     summary="List allowed status transitions",
 )
 async def list_task_status_transitions(
-    _user: User = Depends(require_permission("task.view_all")),
+    _user: User = Depends(require_any_permissions("task.view_all", "task.view_assigned")),
     session: AsyncSession = Depends(get_db_session),
 ) -> list[TaskStatusTransitionResponse]:
     service = MasterDataService(session)

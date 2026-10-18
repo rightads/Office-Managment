@@ -7,5 +7,7 @@ abstract final class RoutePaths {
   static const String forceUpdate = '/force-update';
   static const String forbidden = '/forbidden';
   static const String home = '/';
+  static const String tasks = '/tasks';
+  static const String taskDetail = '/tasks/:id';
   static const String devGallery = '/dev/gallery';
 }

@@ -13,6 +13,8 @@ import 'package:right_ads/features/auth/presentation/reset_password_screen.dart'
 import 'package:right_ads/features/navigation/presentation/adaptive_shell_screen.dart';
 import 'package:right_ads/features/navigation/presentation/forbidden_screen.dart';
 import 'package:right_ads/features/navigation/presentation/force_update_screen.dart';
+import 'package:right_ads/features/tasks/presentation/task_detail_screen.dart';
+import 'package:right_ads/features/tasks/presentation/tasks_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -111,6 +113,17 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: RoutePaths.home,
         builder: (context, state) => const AdaptiveShellScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.tasks,
+        builder: (context, state) => const TasksScreen(isRootNavigation: false),
+      ),
+      GoRoute(
+        path: RoutePaths.taskDetail,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return TaskDetailScreen(taskId: id);
+        },
       ),
       if (kDebugMode)
         GoRoute(

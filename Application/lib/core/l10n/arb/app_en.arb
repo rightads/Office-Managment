@@ -1185,5 +1185,328 @@
         "type": "String"
       }
     }
+  },
+  "tasksTitle": "My Tasks",
+  "@tasksTitle": {
+    "description": "App bar title for the tasks list screen"
+  },
+  "taskOverdueLabel": "OVERDUE",
+  "@taskOverdueLabel": {
+    "description": "Badge label for overdue tasks"
+  },
+  "taskSearchPlaceholder": "Search tasks by title...",
+  "@taskSearchPlaceholder": {
+    "description": "Placeholder hint in task search bar"
+  },
+  "taskFilterTooltip": "Filter & Sort Tasks",
+  "@taskFilterTooltip": {
+    "description": "Tooltip for filter action button"
+  },
+  "taskStatusTabAll": "All",
+  "@taskStatusTabAll": {
+    "description": "First tab label showing all task statuses"
+  },
+  "taskEmptyStateTitle": "No tasks found",
+  "@taskEmptyStateTitle": {
+    "description": "Empty state title when task list has no items"
+  },
+  "taskEmptyStateSubtitle": "You're all caught up! No tasks match your current filters.",
+  "@taskEmptyStateSubtitle": {
+    "description": "Empty state subtitle when task list has no items"
+  },
+  "taskDetailTitle": "Task Details",
+  "@taskDetailTitle": {
+    "description": "App bar title for task detail screen"
+  },
+  "taskDetailLoadError": "Failed to load task details.",
+  "@taskDetailLoadError": {
+    "description": "Error message when task detail query fails"
+  },
+  "taskChangeStatusButton": "Change Status",
+  "@taskChangeStatusButton": {
+    "description": "Action button in task details to update workflow status"
+  },
+  "taskTabOverview": "Overview",
+  "@taskTabOverview": {
+    "description": "Tab label for task details overview"
+  },
+  "taskTabComments": "Comments",
+  "@taskTabComments": {
+    "description": "Tab label for task comments"
+  },
+  "taskTabAttachments": "Attachments",
+  "@taskTabAttachments": {
+    "description": "Tab label for task attachments"
+  },
+  "taskTabTimeline": "Timeline",
+  "@taskTabTimeline": {
+    "description": "Tab label for task activity audit timeline"
+  },
+  "taskOverdueBannerMessage": "This task is past its due date. Please update progress or complete it.",
+  "@taskOverdueBannerMessage": {
+    "description": "Warning banner in task details for overdue tasks"
+  },
+  "taskDescriptionLabel": "Description",
+  "@taskDescriptionLabel": {
+    "description": "Header for task description section"
+  },
+  "taskProjectLabel": "Project",
+  "@taskProjectLabel": {
+    "description": "Label for project field"
+  },
+  "taskClientLabel": "Client",
+  "@taskClientLabel": {
+    "description": "Label for client field"
+  },
+  "taskDepartmentLabel": "Department",
+  "@taskDepartmentLabel": {
+    "description": "Label for department field"
+  },
+  "taskDueDateLabel": "Due Date",
+  "@taskDueDateLabel": {
+    "description": "Label for due date field"
+  },
+  "taskNoDueDate": "No due date assigned",
+  "@taskNoDueDate": {
+    "description": "Displayed when task due date is null"
+  },
+  "taskCompletedDateLabel": "Completed On",
+  "@taskCompletedDateLabel": {
+    "description": "Label for completed timestamp stamped by backend"
+  },
+  "taskAssignerLabel": "Assigner",
+  "@taskAssignerLabel": {
+    "description": "Header for task assigner"
+  },
+  "taskAssigneesLabel": "Assignees",
+  "@taskAssigneesLabel": {
+    "description": "Header for task assignees list"
+  },
+  "taskNoAssignees": "No team members assigned",
+  "@taskNoAssignees": {
+    "description": "Message when task assignees list is empty"
+  },
+  "taskNoCommentsYet": "No comments yet. Start the conversation below!",
+  "@taskNoCommentsYet": {
+    "description": "Empty state for task comments list"
+  },
+  "taskAddCommentPlaceholder": "Write a comment...",
+  "@taskAddCommentPlaceholder": {
+    "description": "Hint text for comment input text field"
+  },
+  "taskSendCommentTooltip": "Send comment",
+  "@taskSendCommentTooltip": {
+    "description": "Tooltip for send comment button"
+  },
+  "taskUploadAttachmentButton": "Upload File",
+  "@taskUploadAttachmentButton": {
+    "description": "Action button to upload an attachment"
+  },
+  "taskUploadingAttachmentProgress": "Uploading attachment...",
+  "@taskUploadingAttachmentProgress": {
+    "description": "Status text while attachment is uploading"
+  },
+  "taskNoAttachmentsYet": "No attachments uploaded for this task.",
+  "@taskNoAttachmentsYet": {
+    "description": "Empty state for task attachments list"
+  },
+  "taskNoTimelineYet": "No audit history recorded yet.",
+  "@taskNoTimelineYet": {
+    "description": "Empty state for task timeline list"
+  },
+  "taskFilterSheetTitle": "Filter & Sort Tasks",
+  "@taskFilterSheetTitle": {
+    "description": "Title on the task filter bottom sheet"
+  },
+  "taskFilterResetButton": "Reset",
+  "@taskFilterResetButton": {
+    "description": "Reset filters button"
+  },
+  "taskFilterApplyButton": "Apply Filters",
+  "@taskFilterApplyButton": {
+    "description": "Apply filters button"
+  },
+  "taskFilterOverdueOnlyLabel": "Overdue Only",
+  "@taskFilterOverdueOnlyLabel": {
+    "description": "Label for overdue only filter switch"
+  },
+  "taskFilterOverdueOnlySubtitle": "Show only overdue, incomplete tasks",
+  "@taskFilterOverdueOnlySubtitle": {
+    "description": "Subtitle for overdue only filter switch"
+  },
+  "taskPriorityLabel": "Priority",
+  "@taskPriorityLabel": {
+    "description": "Label for task priority"
+  },
+  "taskFilterAllPriorities": "All Priorities",
+  "@taskFilterAllPriorities": {
+    "description": "Option to clear priority filter"
+  },
+  "taskFilterAllDepartments": "All Departments",
+  "@taskFilterAllDepartments": {
+    "description": "Option to clear department filter"
+  },
+  "taskFilterAllClients": "All Clients",
+  "@taskFilterAllClients": {
+    "description": "Option to clear client filter"
+  },
+  "taskFilterAllProjects": "All Projects",
+  "@taskFilterAllProjects": {
+    "description": "Option to clear project filter"
+  },
+  "taskFilterDueRangeLabel": "Due Date Range",
+  "@taskFilterDueRangeLabel": {
+    "description": "Header for due date range pickers"
+  },
+  "taskFilterDueFrom": "From Date",
+  "@taskFilterDueFrom": {
+    "description": "Button label for start of due date range"
+  },
+  "taskFilterDueTo": "To Date",
+  "@taskFilterDueTo": {
+    "description": "Button label for end of due date range"
+  },
+  "taskSortByLabel": "Sort By",
+  "@taskSortByLabel": {
+    "description": "Header for task sort options"
+  },
+  "taskSortCreated": "Date Created",
+  "@taskSortCreated": {
+    "description": "Sort option by creation date"
+  },
+  "taskSortDue": "Due Date",
+  "@taskSortDue": {
+    "description": "Sort option by due date"
+  },
+  "taskSortTitle": "Task Title",
+  "@taskSortTitle": {
+    "description": "Sort option by title"
+  },
+  "taskSortDescending": "Descending",
+  "@taskSortDescending": {
+    "description": "Sort direction descending tooltip"
+  },
+  "taskSortAscending": "Ascending",
+  "@taskSortAscending": {
+    "description": "Sort direction ascending tooltip"
+  },
+  "taskTransitionSheetTitle": "Update Task Status",
+  "@taskTransitionSheetTitle": {
+    "description": "Title of status transition sheet"
+  },
+  "taskCurrentStatusLabel": "Current Status:",
+  "@taskCurrentStatusLabel": {
+    "description": "Label indicating current task status"
+  },
+  "taskSelectTargetStatusLabel": "Select New Status",
+  "@taskSelectTargetStatusLabel": {
+    "description": "Instruction to pick permitted target status"
+  },
+  "taskNoTransitionsAvailable": "No status transitions are currently permitted from this state.",
+  "@taskNoTransitionsAvailable": {
+    "description": "Message when task is in terminal status or has no permitted transitions"
+  },
+  "taskTransitionRemarksLabel": "Remarks / Notes (Optional)",
+  "@taskTransitionRemarksLabel": {
+    "description": "Label for remarks input during transition"
+  },
+  "taskTransitionRemarksHint": "Explain the reason or progress update...",
+  "@taskTransitionRemarksHint": {
+    "description": "Hint for transition remarks input"
+  },
+  "taskTransitionSubmitButton": "Update Status",
+  "@taskTransitionSubmitButton": {
+    "description": "Button to trigger transition confirmation"
+  },
+  "taskTransitionConfirmTitle": "Confirm Status Change",
+  "@taskTransitionConfirmTitle": {
+    "description": "Title of status transition confirmation dialog"
+  },
+  "taskTransitionConfirmMessage": "Are you sure you want to transition this task from \"{fromStatus}\" to \"{toStatus}\"?",
+  "@taskTransitionConfirmMessage": {
+    "description": "Body message of status transition confirmation dialog",
+    "placeholders": {
+      "fromStatus": {
+        "type": "String"
+      },
+      "toStatus": {
+        "type": "String"
+      }
+    }
+  },
+  "taskTransitionConfirmAction": "Confirm Transition",
+  "@taskTransitionConfirmAction": {
+    "description": "Confirmation button label in transition confirm dialog"
+  },
+  "taskStatusTransitionSuccess": "Task status updated successfully.",
+  "@taskStatusTransitionSuccess": {
+    "description": "Snackbar message on successful status transition"
+  },
+  "taskStatusTransitionFailed": "Failed to update task status. Changes were reverted.",
+  "@taskStatusTransitionFailed": {
+    "description": "Snackbar message when status transition fails and rolls back"
+  },
+  "taskAttachmentDownloadTooltip": "Download attachment",
+  "@taskAttachmentDownloadTooltip": {
+    "description": "Tooltip for downloading attachment file"
+  },
+  "taskAttachmentOpenError": "Unable to open attachment link.",
+  "@taskAttachmentOpenError": {
+    "description": "Snackbar error message when download link cannot be opened"
+  },
+  "taskAttachmentUploadTitle": "Add Attachment",
+  "@taskAttachmentUploadTitle": {
+    "description": "Title of attachment source picker sheet"
+  },
+  "taskAttachmentLimitHint": "Max file size: {maxMb} MB",
+  "@taskAttachmentLimitHint": {
+    "description": "Hint displaying server max upload size in MB",
+    "placeholders": {
+      "maxMb": {
+        "type": "int"
+      }
+    }
+  },
+  "taskAttachmentSourceCamera": "Take Photo",
+  "@taskAttachmentSourceCamera": {
+    "description": "Picker option for camera"
+  },
+  "taskAttachmentSourceCameraSubtitle": "Capture photo using your device camera",
+  "@taskAttachmentSourceCameraSubtitle": {
+    "description": "Subtitle for camera picker option"
+  },
+  "taskAttachmentSourceGallery": "Choose Photo",
+  "@taskAttachmentSourceGallery": {
+    "description": "Picker option for gallery"
+  },
+  "taskAttachmentSourceGallerySubtitle": "Select photo from your photo library",
+  "@taskAttachmentSourceGallerySubtitle": {
+    "description": "Subtitle for gallery picker option"
+  },
+  "taskAttachmentSizeExceeded": "File size exceeds the allowed limit of {maxMb} MB.",
+  "@taskAttachmentSizeExceeded": {
+    "description": "Error when selected file exceeds maxUploadMb",
+    "placeholders": {
+      "maxMb": {
+        "type": "int"
+      }
+    }
+  },
+  "taskAttachmentUploadSuccess": "Attachment uploaded successfully.",
+  "@taskAttachmentUploadSuccess": {
+    "description": "Snackbar message when attachment upload completes"
+  },
+  "taskAttachmentUploadFailed": "Failed to upload attachment.",
+  "@taskAttachmentUploadFailed": {
+    "description": "Snackbar message when attachment upload fails"
+  },
+  "taskRemainingAssigneesCount": "+{count}",
+  "@taskRemainingAssigneesCount": {
+    "description": "Counter for remaining assignees in task avatar stack",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

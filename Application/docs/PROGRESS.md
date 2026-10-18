@@ -11,10 +11,10 @@
 | `04_navigation_shell_permissions.md` | Permission-driven navigation shell | Completed | `RuntimeAppConfigController` + `NavigationController` loading `/app/config` and `/me/navigation` with offline cache fallback in `PreferencesStorageService`, `PermissionService` (`can`, `canAny`, `canAll`, `ref.can()`, `PermissionGate`), `ModuleRegistry` (safe fallback for unknown `route_key`) & `ModuleIconMapper` (safe fallback for unknown `icon_key`), `AdaptiveShellScreen` (5-tab cap + "More" sheet on phones; `NavigationRail` sidebar on tablet/web; foreground resume hot-reload after `N` minutes), `HomeDashboardView` (quick cards + module tiles), `ForbiddenScreen` (403), `ForceUpdateScreen` (`min_supported_app_version` gate), and full unit & widget tests. |
 | `05_profile_and_account.md` | Profile and account | Completed | `ProfileScreen` & `ProfileController` consuming `GET /api/v1/employees/me` (displaying `employee_code`, `full_name`, `email`, `role_name`, `department_name`, `designation`, `manager_name`, `joining_date`, `attendance_policy_name` verbatim from API with zero role logic) and `PATCH /api/v1/employees/me` (self-editable `phone_number` & `avatar_url`), `PhotoPickerService` (camera/gallery picker with compression and `RuntimeAppConfig` `max_upload_mb` / `allowed_upload_mime_types` validation), `ChangePasswordBottomSheet` with dynamic `PasswordPolicySummary` hints from `/app/config`, 422 field error mapping onto form fields, theme/language/biometric toggles, `DeviceInfoService` ("device info" + app version), logout & logout-all confirmation flows, and unit/widget tests. |
 | `06_attendance_employee.md` | Attendance (Employee view) | Completed | `AttendanceScreen` (`route_key: 'attendance'`) & `TodayAttendanceController` consuming `/me/attendance-policy`, `/attendance/today`, `/attendance/check-in`, `/attendance/check-out`, `/attendance/me`, `/reports/attendance/employee/{id}/monthly`, and `/reports/attendance/employee/{id}/yearly`. 100% policy-driven (zero role checks) geofence proximity & selfie requirements, Haversine office distance calculation with outside-radius warnings, `position.isMocked` blocking, GPS horizontal accuracy retry prompt, `openAppSettings()` / `openLocationSettings()` deep linking, bound `device_id` verification (403 mismatch handling), server UTC time truth with live worked-duration timer, app timezone display via `AppFormatters`, server-driven `status_label` + `status_color` via `StatusChip` / `DynamicColorParser`, monthly calendar grid with day detail sheet (manual/correction flags & remarks), 12-month yearly summary breakdown, and live status badge on Home Dashboard quick card. |
+| `07_tasks_employee.md` | Tasks (Employee side) | Completed | `TasksScreen` (`route_key: 'tasks'`) & `TaskDetailScreen` (`/tasks/:id`). Server-ordered dynamic status tabs (`/task-statuses`), dynamic priority & status chips via `DynamicColorParser`, assigner & assignees avatars, filter sheet (priority, department, client, project, due date range, overdue toggle), infinite scroll pagination (`PagedListView`) + pull-to-refresh. Overdue highlight using server's `is_overdue` and non-terminal status + due date. Strictly data-driven status transitions (`/task-status-transitions`) gated by user permissions (`required_permission_code`) with confirmation dialog and optimistic UI rollback on failure. Client NEVER stamps `completed_at` locally. Comments (`/tasks/{id}/comments`) and attachments (`/tasks/{id}/attachments`) with file size & MIME type validation against `RuntimeAppConfig.maxUploadMb` and `allowedUploadMimeTypes`. Signed URLs + download progress, full activity audit timeline (`TaskActivityTile`), deep linking, and unit/widget test suite. |
 
 ## Pending Prompts
 
-- `07_tasks_employee.md`
 - `08_leave_and_holidays.md`
 - `09_announcements_notifications.md`
 - **[STOP GATE: Backend Addendum A2 required before 10]** `10_daily_work_report.md`
@@ -68,6 +68,20 @@ Mirrors all 34 granular permission codes in the backend `PERMISSIONS_CATALOG` pl
 - `GET /api/v1/attendance/me` (`ApiEndpoints.attendanceMe`)
 - `GET /api/v1/reports/attendance/employee/{id}/monthly` (`ApiEndpoints.employeeMonthlyAttendanceReport`)
 - `GET /api/v1/reports/attendance/employee/{id}/yearly` (`ApiEndpoints.employeeYearlyAttendanceReport`)
+- `GET /api/v1/tasks` (`ApiEndpoints.tasks`)
+- `GET /api/v1/tasks/{id}` (`ApiEndpoints.taskDetail`)
+- `POST /api/v1/tasks/{id}/status` (`ApiEndpoints.taskStatusTransition`)
+- `GET /api/v1/tasks/{id}/comments` (`ApiEndpoints.taskComments`)
+- `POST /api/v1/tasks/{id}/comments` (`ApiEndpoints.taskComments`)
+- `GET /api/v1/tasks/{id}/attachments` (`ApiEndpoints.taskAttachments`)
+- `POST /api/v1/tasks/{id}/attachments` (`ApiEndpoints.taskAttachments`)
+- `GET /api/v1/tasks/{id}/activity` (`ApiEndpoints.taskActivity`)
+- `GET /api/v1/task-statuses` (`ApiEndpoints.taskStatuses`)
+- `GET /api/v1/task-priorities` (`ApiEndpoints.taskPriorities`)
+- `GET /api/v1/task-status-transitions` (`ApiEndpoints.taskStatusTransitions`)
+- `GET /api/v1/departments` (`ApiEndpoints.departments`)
+- `GET /api/v1/clients` (`ApiEndpoints.clients`)
+- `GET /api/v1/projects` (`ApiEndpoints.projects`)
 
 ---
 

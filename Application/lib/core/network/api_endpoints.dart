@@ -36,6 +36,21 @@ abstract final class ApiEndpoints {
   static String employeeYearlyAttendanceReport(String employeeId) =>
       '/reports/attendance/employee/$employeeId/yearly';
 
+  // Tasks & Master Workflow (Prompt 07)
+  static const String myTasks = '/tasks/my';
+  static const String tasks = '/tasks';
+  static String taskDetail(String id) => '/tasks/$id';
+  static String taskStatus(String id) => '/tasks/$id/status';
+  static String taskTimeline(String id) => '/tasks/$id/timeline';
+  static String taskComments(String id) => '/tasks/$id/comments';
+  static String taskAttachments(String id) => '/tasks/$id/attachments';
+  static const String taskStatuses = '/task-statuses';
+  static const String taskPriorities = '/task-priorities';
+  static const String taskStatusTransitions = '/task-status-transitions';
+  static const String departments = '/departments';
+  static const String clients = '/clients';
+  static const String projects = '/projects';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{
