@@ -10,6 +10,9 @@ import 'package:right_ads/features/auth/presentation/force_change_password_scree
 import 'package:right_ads/features/auth/presentation/forgot_password_screen.dart';
 import 'package:right_ads/features/auth/presentation/login_screen.dart';
 import 'package:right_ads/features/auth/presentation/reset_password_screen.dart';
+import 'package:right_ads/features/communication/presentation/announcement_detail_screen.dart';
+import 'package:right_ads/features/communication/presentation/announcements_screen.dart';
+import 'package:right_ads/features/communication/presentation/notifications_screen.dart';
 import 'package:right_ads/features/leaves/presentation/leave_detail_screen.dart';
 import 'package:right_ads/features/leaves/presentation/leaves_screen.dart';
 import 'package:right_ads/features/navigation/presentation/adaptive_shell_screen.dart';
@@ -142,6 +145,21 @@ GoRouter appRouter(Ref ref) {
         path: RoutePaths.holidays,
         builder: (context, state) =>
             const LeavesScreen(initialTab: LeavesInitialTab.holidays),
+      ),
+      GoRoute(
+        path: RoutePaths.notifications,
+        builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.announcements,
+        builder: (context, state) => const AnnouncementsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.announcementDetail,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return AnnouncementDetailScreen(announcementId: id);
+        },
       ),
       if (kDebugMode)
         GoRoute(

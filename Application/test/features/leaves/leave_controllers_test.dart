@@ -21,7 +21,9 @@ class _FakeLeaveRepository implements LeaveRepository {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 
   @override
-  Future<(List<LeaveBalanceModel>?, AppFailure?)> getMyBalances({int? year}) async {
+  Future<(List<LeaveBalanceModel>?, AppFailure?)> getMyBalances({
+    int? year,
+  }) async {
     if (failureToReturn != null) return (null, failureToReturn);
     return (balancesToReturn, null);
   }
@@ -76,7 +78,9 @@ class _FakeLeaveRepository implements LeaveRepository {
   }
 
   @override
-  Future<(LeaveRequestModel?, AppFailure?)> cancelPendingLeave(String id) async {
+  Future<(LeaveRequestModel?, AppFailure?)> cancelPendingLeave(
+    String id,
+  ) async {
     if (failureToReturn != null) return (null, failureToReturn);
     return (cancelledLeaveToReturn, null);
   }
@@ -109,13 +113,21 @@ void main() {
       container.dispose();
     });
 
-    test('SelectedLeaveYearController initializes with current year and updates', () {
-      final currentYear = DateTime.now().year;
-      expect(container.read(selectedLeaveYearControllerProvider), currentYear);
+    test(
+      'SelectedLeaveYearController initializes with current year and updates',
+      () {
+        final currentYear = DateTime.now().year;
+        expect(
+          container.read(selectedLeaveYearControllerProvider),
+          currentYear,
+        );
 
-      container.read(selectedLeaveYearControllerProvider.notifier).setYear(2027);
-      expect(container.read(selectedLeaveYearControllerProvider), 2027);
-    });
+        container
+            .read(selectedLeaveYearControllerProvider.notifier)
+            .setYear(2027);
+        expect(container.read(selectedLeaveYearControllerProvider), 2027);
+      },
+    );
 
     test('leaveTypesProvider loads active categories', () async {
       fakeRepo.typesToReturn = [
@@ -160,7 +172,7 @@ void main() {
           HolidayModel(
             id: 'h-1',
             name: 'New Year',
-            date: DateTime(2026, 1, 1),
+            date: DateTime(2026),
             year: 2026,
           ),
         ],
@@ -174,132 +186,160 @@ void main() {
       expect(holidays.first.name, 'New Year');
     });
 
-    test('LeaveRequestsController loads initial page and filters by status', () async {
-      fakeRepo.requestsToReturn = LeaveRequestListResponse(
-        items: [
-          LeaveRequestModel(
-            id: 'lr-1',
+    test(
+      'LeaveRequestsController loads initial page and filters by status',
+      () async {
+        fakeRepo.requestsToReturn = LeaveRequestListResponse(
+          items: [
+            LeaveRequestModel(
+              id: 'lr-1',
+              userId: 'u-1',
+              userFullName: 'John Doe',
+              employeeCode: 'EMP001',
+              leaveTypeId: 'lt-1',
+              leaveTypeName: 'Casual Leave',
+              fromDate: DateTime(2026, 10, 20),
+              toDate: DateTime(2026, 10, 21),
+              isHalfDay: false,
+              totalDays: 2,
+              reason: 'Vacation',
+              status: 'pending',
+              createdAt: DateTime(2026, 10, 18),
+            ),
+          ],
+          total: 1,
+          page: 1,
+          size: 20,
+          pages: 1,
+        );
+
+        final state = await container.read(
+          leaveRequestsControllerProvider.future,
+        );
+        expect(state.items.length, 1);
+        expect(state.items.first.id, 'lr-1');
+        expect(state.statusFilter, 'all');
+
+        // Filter by approved
+        fakeRepo.requestsToReturn = const LeaveRequestListResponse(
+          items: [],
+          total: 0,
+          page: 1,
+          size: 20,
+          pages: 0,
+        );
+
+        await container
+            .read(leaveRequestsControllerProvider.notifier)
+            .setStatusFilter('approved');
+
+        final updatedState = container
+            .read(leaveRequestsControllerProvider)
+            .value!;
+        expect(updatedState.statusFilter, 'approved');
+        expect(updatedState.items, isEmpty);
+      },
+    );
+
+    test(
+      'LeaveApplyController validation, preview debounce, and successful submit',
+      () async {
+        final controller = container.read(
+          leaveApplyControllerProvider.notifier,
+        );
+
+        // Initially empty -> submit fails validation
+        final initialSubmit = await controller.submit();
+        expect(initialSubmit, isFalse);
+        expect(
+          container
+              .read(leaveApplyControllerProvider)
+              .fieldErrors
+              .containsKey('leave_type_id'),
+          isTrue,
+        );
+
+        // Fill valid values
+        controller
+          ..setLeaveType('lt-1')
+          ..setDateRange(
+            DateTime(2026, 10, 20),
+            DateTime(2026, 10, 22),
+          )
+          ..setReason('Family celebration');
+
+        fakeRepo
+          ..previewToReturn = LeavePreviewResponse(
+            fromDate: DateTime(2026, 10, 20),
+            toDate: DateTime(2026, 10, 22),
+            isHalfDay: false,
+            workingDays: 3,
+            isValid: true,
+          )
+          ..createdLeaveToReturn = LeaveRequestModel(
+            id: 'lr-created',
             userId: 'u-1',
             userFullName: 'John Doe',
             employeeCode: 'EMP001',
             leaveTypeId: 'lt-1',
             leaveTypeName: 'Casual Leave',
             fromDate: DateTime(2026, 10, 20),
-            toDate: DateTime(2026, 10, 21),
+            toDate: DateTime(2026, 10, 22),
             isHalfDay: false,
-            totalDays: 2,
-            reason: 'Vacation',
+            totalDays: 3,
+            reason: 'Family celebration',
             status: 'pending',
-            createdAt: DateTime(2026, 10, 18),
-          ),
-        ],
-        total: 1,
-        page: 1,
-        size: 20,
-        pages: 1,
-      );
+            createdAt: DateTime.now(),
+          );
 
-      final state = await container.read(leaveRequestsControllerProvider.future);
-      expect(state.items.length, 1);
-      expect(state.items.first.id, 'lr-1');
-      expect(state.statusFilter, 'all');
+        final success = await controller.submit();
+        expect(success, isTrue);
+        expect(
+          container.read(leaveApplyControllerProvider).isSubmitting,
+          isFalse,
+        );
+      },
+    );
 
-      // Filter by approved
-      fakeRepo.requestsToReturn = const LeaveRequestListResponse(
-        items: [],
-        total: 0,
-        page: 1,
-        size: 20,
-        pages: 0,
-      );
+    test(
+      'LeaveDetailController loads request and cancels pending leave',
+      () async {
+        final singleLeave = LeaveRequestModel(
+          id: 'lr-detail',
+          userId: 'u-1',
+          userFullName: 'John Doe',
+          employeeCode: 'EMP001',
+          leaveTypeId: 'lt-1',
+          leaveTypeName: 'Casual Leave',
+          fromDate: DateTime(2026, 10, 20),
+          toDate: DateTime(2026, 10, 21),
+          isHalfDay: false,
+          totalDays: 2,
+          reason: 'Vacation',
+          status: 'pending',
+          createdAt: DateTime.now(),
+        );
 
-      await container
-          .read(leaveRequestsControllerProvider.notifier)
-          .setStatusFilter('approved');
+        fakeRepo
+          ..singleLeaveToReturn = singleLeave
+          ..cancelledLeaveToReturn = singleLeave.copyWith(status: 'cancelled');
 
-      final updatedState = container.read(leaveRequestsControllerProvider).value!;
-      expect(updatedState.statusFilter, 'approved');
-      expect(updatedState.items, isEmpty);
-    });
+        final leave = await container.read(
+          leaveDetailControllerProvider('lr-detail').future,
+        );
+        expect(leave.id, 'lr-detail');
+        expect(leave.status, 'pending');
 
-    test('LeaveApplyController validation, preview debounce, and successful submit', () async {
-      final controller = container.read(leaveApplyControllerProvider.notifier);
+        final cancelled = await container
+            .read(leaveDetailControllerProvider('lr-detail').notifier)
+            .cancel();
 
-      // Initially empty -> submit fails validation
-      final initialSubmit = await controller.submit();
-      expect(initialSubmit, isFalse);
-      expect(
-        container.read(leaveApplyControllerProvider).fieldErrors.containsKey('leave_type_id'),
-        isTrue,
-      );
-
-      // Fill valid values
-      controller.setLeaveType('lt-1');
-      controller.setDateRange(DateTime(2026, 10, 20), DateTime(2026, 10, 22));
-      controller.setReason('Family celebration');
-
-      fakeRepo.previewToReturn = LeavePreviewResponse(
-        fromDate: DateTime(2026, 10, 20),
-        toDate: DateTime(2026, 10, 22),
-        isHalfDay: false,
-        workingDays: 3,
-        isValid: true,
-      );
-
-      fakeRepo.createdLeaveToReturn = LeaveRequestModel(
-        id: 'lr-created',
-        userId: 'u-1',
-        userFullName: 'John Doe',
-        employeeCode: 'EMP001',
-        leaveTypeId: 'lt-1',
-        leaveTypeName: 'Casual Leave',
-        fromDate: DateTime(2026, 10, 20),
-        toDate: DateTime(2026, 10, 22),
-        isHalfDay: false,
-        totalDays: 3,
-        reason: 'Family celebration',
-        status: 'pending',
-        createdAt: DateTime.now(),
-      );
-
-      final success = await controller.submit();
-      expect(success, isTrue);
-      expect(container.read(leaveApplyControllerProvider).isSubmitting, isFalse);
-    });
-
-    test('LeaveDetailController loads request and cancels pending leave', () async {
-      fakeRepo.singleLeaveToReturn = LeaveRequestModel(
-        id: 'lr-detail',
-        userId: 'u-1',
-        userFullName: 'John Doe',
-        employeeCode: 'EMP001',
-        leaveTypeId: 'lt-1',
-        leaveTypeName: 'Casual Leave',
-        fromDate: DateTime(2026, 10, 20),
-        toDate: DateTime(2026, 10, 21),
-        isHalfDay: false,
-        totalDays: 2,
-        reason: 'Vacation',
-        status: 'pending',
-        createdAt: DateTime.now(),
-      );
-
-      fakeRepo.cancelledLeaveToReturn = fakeRepo.singleLeaveToReturn!.copyWith(
-        status: 'cancelled',
-      );
-
-      final leave = await container.read(leaveDetailControllerProvider('lr-detail').future);
-      expect(leave.id, 'lr-detail');
-      expect(leave.status, 'pending');
-
-      final cancelled = await container
-          .read(leaveDetailControllerProvider('lr-detail').notifier)
-          .cancel();
-
-      expect(cancelled, isTrue);
-      final currentLeave =
-          container.read(leaveDetailControllerProvider('lr-detail')).value!;
-      expect(currentLeave.status, 'cancelled');
-    });
+        expect(cancelled, isTrue);
+        final currentLeave = container
+            .read(leaveDetailControllerProvider('lr-detail'))
+            .value!;
+        expect(currentLeave.status, 'cancelled');
+      },
+    );
   });
 }

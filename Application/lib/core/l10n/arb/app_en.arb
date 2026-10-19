@@ -1754,5 +1754,107 @@
   "leaveDetailReviewedOnLabel": "Reviewed On",
   "@leaveDetailReviewedOnLabel": {
     "description": "Field label for review timestamp"
+  },
+  "notificationsTitle": "Notifications",
+  "@notificationsTitle": {
+    "description": "Screen title for notifications inbox"
+  },
+  "notificationsEmptyTitle": "No notifications yet",
+  "@notificationsEmptyTitle": {
+    "description": "Header when notifications list is empty"
+  },
+  "notificationsEmptySubtitle": "When you receive task updates, leave approvals, or company alerts, they will appear here.",
+  "@notificationsEmptySubtitle": {
+    "description": "Subtitle when notifications list is empty"
+  },
+  "notificationsFilterAll": "All",
+  "@notificationsFilterAll": {
+    "description": "Filter tab for all notifications"
+  },
+  "notificationsFilterUnread": "Unread Only",
+  "@notificationsFilterUnread": {
+    "description": "Filter tab for unread notifications"
+  },
+  "notificationsMarkAllRead": "Mark all as read",
+  "@notificationsMarkAllRead": {
+    "description": "Action button to mark all notifications as read"
+  },
+  "notificationsMarkAllReadSuccess": "All notifications marked as read.",
+  "@notificationsMarkAllReadSuccess": {
+    "description": "Snackbar message after marking all notifications as read"
+  },
+  "notificationsPermissionPromptTitle": "Enable push notifications",
+  "@notificationsPermissionPromptTitle": {
+    "description": "Notification permission banner title"
+  },
+  "notificationsPermissionPromptSubtitle": "Get real-time alerts for task assignments, approvals, and company updates.",
+  "@notificationsPermissionPromptSubtitle": {
+    "description": "Notification permission banner subtitle"
+  },
+  "notificationsEnableButton": "Enable",
+  "@notificationsEnableButton": {
+    "description": "Button to request push notification permission"
+  },
+  "notificationsDismissButton": "Dismiss",
+  "@notificationsDismissButton": {
+    "description": "Button to dismiss permission prompt"
+  },
+  "announcementsTitle": "Announcements",
+  "@announcementsTitle": {
+    "description": "Screen title for announcements bulletin"
+  },
+  "announcementsEmptyTitle": "No active announcements",
+  "@announcementsEmptyTitle": {
+    "description": "Header when announcements list is empty"
+  },
+  "announcementsEmptySubtitle": "Company-wide bulletins and department notices will appear here.",
+  "@announcementsEmptySubtitle": {
+    "description": "Subtitle when announcements list is empty"
+  },
+  "announcementsCompanyWideBadge": "Company-wide",
+  "@announcementsCompanyWideBadge": {
+    "description": "Badge for company-wide announcement"
+  },
+  "announcementsExpiresOn": "Expires: {date}",
+  "@announcementsExpiresOn": {
+    "description": "Expiration date label for announcement",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "announcementsExpiredBadge": "Expired",
+  "@announcementsExpiredBadge": {
+    "description": "Badge for expired announcement"
+  },
+  "announcementsPublishedOn": "Published {date}",
+  "@announcementsPublishedOn": {
+    "description": "Publication date label",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "announcementDetailTitle": "Announcement Details",
+  "@announcementDetailTitle": {
+    "description": "Screen title for announcement details"
+  },
+  "announcementDetailTargetLabel": "Target Audience",
+  "@announcementDetailTargetLabel": {
+    "description": "Label for target department audience"
+  },
+  "announcementDetailPostedByLabel": "Posted By",
+  "@announcementDetailPostedByLabel": {
+    "description": "Label for announcement author"
+  },
+  "announcementDetailExpiresLabel": "Expiration Date",
+  "@announcementDetailExpiresLabel": {
+    "description": "Label for announcement expiration date"
+  },
+  "announcementsNewBadge": "New",
+  "@announcementsNewBadge": {
+    "description": "Badge indicating new or recent announcements"
   }
 }

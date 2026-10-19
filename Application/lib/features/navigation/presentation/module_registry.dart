@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/features/attendance/presentation/attendance_screen.dart';
+import 'package:right_ads/features/communication/presentation/announcements_screen.dart';
+import 'package:right_ads/features/communication/presentation/notifications_screen.dart';
 import 'package:right_ads/features/leaves/presentation/leaves_screen.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
@@ -42,9 +44,8 @@ abstract final class ModuleRegistry {
         'work_reports': (context, module) =>
             BaseModulePlaceholderView(module: module),
         'announcements': (context, module) =>
-            BaseModulePlaceholderView(module: module),
-        'notifications': (context, module) =>
-            BaseModulePlaceholderView(module: module),
+            const AnnouncementsScreen(isRootNavigation: true),
+        'notifications': (context, module) => const NotificationsScreen(),
         'profile': (context, module) => const ProfileScreen(),
       };
 

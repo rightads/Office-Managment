@@ -36,52 +36,55 @@ void main() {
       capturedOptions = null;
     });
 
-    test('getMyBalances parses balances and passes year query parameter', () async {
-      dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
-        capturedOptions = options;
-        final responseList = [
-          {
-            'id': 'bal-1',
-            'user_id': 'u-1',
-            'leave_type_id': 'lt-1',
-            'leave_type_name': 'Casual Leave',
-            'year': 2026,
-            'allocated': 12.0,
-            'carried_forward': 2.0,
-            'used': 4.0,
-            'available': 10.0,
-          },
-          {
-            'id': 'bal-2',
-            'user_id': 'u-1',
-            'leave_type_id': 'lt-2',
-            'leave_type_name': 'Sick Leave',
-            'year': 2026,
-            'allocated': 10.0,
-            'carried_forward': 0.0,
-            'used': 1.0,
-            'available': 9.0,
-          },
-        ];
+    test(
+      'getMyBalances parses balances and passes year query parameter',
+      () async {
+        dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
+          capturedOptions = options;
+          final responseList = [
+            {
+              'id': 'bal-1',
+              'user_id': 'u-1',
+              'leave_type_id': 'lt-1',
+              'leave_type_name': 'Casual Leave',
+              'year': 2026,
+              'allocated': 12.0,
+              'carried_forward': 2.0,
+              'used': 4.0,
+              'available': 10.0,
+            },
+            {
+              'id': 'bal-2',
+              'user_id': 'u-1',
+              'leave_type_id': 'lt-2',
+              'leave_type_name': 'Sick Leave',
+              'year': 2026,
+              'allocated': 10.0,
+              'carried_forward': 0.0,
+              'used': 1.0,
+              'available': 9.0,
+            },
+          ];
 
-        return ResponseBody.fromString(
-          jsonEncode(responseList),
-          200,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
-        );
-      });
+          return ResponseBody.fromString(
+            jsonEncode(responseList),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        });
 
-      final (balances, failure) = await repository.getMyBalances(year: 2026);
+        final (balances, failure) = await repository.getMyBalances(year: 2026);
 
-      expect(failure, isNull);
-      expect(balances, isNotNull);
-      expect(balances!.length, 2);
-      expect(balances.first.leaveTypeName, 'Casual Leave');
-      expect(balances.first.available, 10.0);
-      expect(capturedOptions?.queryParameters['year'], 2026);
-    });
+        expect(failure, isNull);
+        expect(balances, isNotNull);
+        expect(balances!.length, 2);
+        expect(balances.first.leaveTypeName, 'Casual Leave');
+        expect(balances.first.available, 10.0);
+        expect(capturedOptions?.queryParameters['year'], 2026);
+      },
+    );
 
     test('getLeaveTypes parses list of leave types', () async {
       dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
@@ -116,57 +119,58 @@ void main() {
       expect(types.first.isPaid, isTrue);
     });
 
-    test('getMyRequests parses paginated items and passes query filters', () async {
-      dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
-        capturedOptions = options;
-        final responseMap = {
-          'items': [
-            {
-              'id': 'lr-1',
-              'user_id': 'u-1',
-              'user_full_name': 'John Doe',
-              'employee_code': 'EMP001',
-              'leave_type_id': 'lt-1',
-              'leave_type_name': 'Casual Leave',
-              'from_date': '2026-10-20T00:00:00.000Z',
-              'to_date': '2026-10-21T00:00:00.000Z',
-              'is_half_day': false,
-              'total_days': 2.0,
-              'reason': 'Family vacation trip',
-              'status': 'pending',
-              'created_at': '2026-10-18T10:00:00.000Z',
+    test(
+      'getMyRequests parses paginated items and passes query filters',
+      () async {
+        dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
+          capturedOptions = options;
+          final responseMap = {
+            'items': [
+              {
+                'id': 'lr-1',
+                'user_id': 'u-1',
+                'user_full_name': 'John Doe',
+                'employee_code': 'EMP001',
+                'leave_type_id': 'lt-1',
+                'leave_type_name': 'Casual Leave',
+                'from_date': '2026-10-20T00:00:00.000Z',
+                'to_date': '2026-10-21T00:00:00.000Z',
+                'is_half_day': false,
+                'total_days': 2.0,
+                'reason': 'Family vacation trip',
+                'status': 'pending',
+                'created_at': '2026-10-18T10:00:00.000Z',
+              },
+            ],
+            'total': 1,
+            'page': 1,
+            'size': 20,
+            'pages': 1,
+          };
+
+          return ResponseBody.fromString(
+            jsonEncode(responseMap),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
             },
-          ],
-          'total': 1,
-          'page': 1,
-          'size': 20,
-          'pages': 1,
-        };
+          );
+        });
 
-        return ResponseBody.fromString(
-          jsonEncode(responseMap),
-          200,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
+        final (result, failure) = await repository.getMyRequests(
+          status: 'pending',
+          year: 2026,
         );
-      });
 
-      final (result, failure) = await repository.getMyRequests(
-        status: 'pending',
-        year: 2026,
-        page: 1,
-        size: 20,
-      );
-
-      expect(failure, isNull);
-      expect(result, isNotNull);
-      expect(result!.items.length, 1);
-      expect(result.items.first.id, 'lr-1');
-      expect(result.items.first.status, 'pending');
-      expect(capturedOptions?.queryParameters['status'], 'pending');
-      expect(capturedOptions?.queryParameters['year'], 2026);
-    });
+        expect(failure, isNull);
+        expect(result, isNotNull);
+        expect(result!.items.length, 1);
+        expect(result.items.first.id, 'lr-1');
+        expect(result.items.first.status, 'pending');
+        expect(capturedOptions?.queryParameters['status'], 'pending');
+        expect(capturedOptions?.queryParameters['year'], 2026);
+      },
+    );
 
     test('getLeaveById fetches single leave details', () async {
       dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
@@ -211,85 +215,91 @@ void main() {
       expect(leave.reviewerName, 'Boss Smith');
     });
 
-    test('previewLeave posts payload and returns working day calculation', () async {
-      dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
-        capturedOptions = options;
-        final responseMap = {
-          'from_date': '2026-10-20T00:00:00.000Z',
-          'to_date': '2026-10-22T00:00:00.000Z',
-          'is_half_day': false,
-          'working_days': 3.0,
-          'is_valid': true,
-          'available_balance': 10.0,
-          'has_overlap': false,
-        };
+    test(
+      'previewLeave posts payload and returns working day calculation',
+      () async {
+        dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
+          capturedOptions = options;
+          final responseMap = {
+            'from_date': '2026-10-20T00:00:00.000Z',
+            'to_date': '2026-10-22T00:00:00.000Z',
+            'is_half_day': false,
+            'working_days': 3.0,
+            'is_valid': true,
+            'available_balance': 10.0,
+            'has_overlap': false,
+          };
 
-        return ResponseBody.fromString(
-          jsonEncode(responseMap),
-          200,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
+          return ResponseBody.fromString(
+            jsonEncode(responseMap),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        });
+
+        const payload = LeavePreviewPayload(
+          leaveTypeId: 'lt-1',
+          fromDate: '2026-10-20',
+          toDate: '2026-10-22',
         );
-      });
 
-      const payload = LeavePreviewPayload(
-        leaveTypeId: 'lt-1',
-        fromDate: '2026-10-20',
-        toDate: '2026-10-22',
-      );
+        final (preview, failure) = await repository.previewLeave(payload);
 
-      final (preview, failure) = await repository.previewLeave(payload);
+        expect(failure, isNull);
+        expect(preview, isNotNull);
+        expect(preview!.workingDays, 3.0);
+        expect(preview.isValid, isTrue);
+        expect(preview.hasOverlap, isFalse);
+      },
+    );
 
-      expect(failure, isNull);
-      expect(preview, isNotNull);
-      expect(preview!.workingDays, 3.0);
-      expect(preview.isValid, isTrue);
-      expect(preview.hasOverlap, isFalse);
-    });
+    test(
+      'applyLeave submits application and returns created LeaveRequestModel',
+      () async {
+        dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
+          capturedOptions = options;
+          final responseMap = {
+            'id': 'lr-new',
+            'user_id': 'u-1',
+            'user_full_name': 'John Doe',
+            'employee_code': 'EMP001',
+            'leave_type_id': 'lt-1',
+            'leave_type_name': 'Casual Leave',
+            'from_date': '2026-10-20T00:00:00.000Z',
+            'to_date': '2026-10-22T00:00:00.000Z',
+            'is_half_day': false,
+            'total_days': 3.0,
+            'reason': 'Family event',
+            'status': 'pending',
+            'created_at': '2026-10-18T10:00:00.000Z',
+          };
 
-    test('applyLeave submits application and returns created LeaveRequestModel', () async {
-      dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
-        capturedOptions = options;
-        final responseMap = {
-          'id': 'lr-new',
-          'user_id': 'u-1',
-          'user_full_name': 'John Doe',
-          'employee_code': 'EMP001',
-          'leave_type_id': 'lt-1',
-          'leave_type_name': 'Casual Leave',
-          'from_date': '2026-10-20T00:00:00.000Z',
-          'to_date': '2026-10-22T00:00:00.000Z',
-          'is_half_day': false,
-          'total_days': 3.0,
-          'reason': 'Family event',
-          'status': 'pending',
-          'created_at': '2026-10-18T10:00:00.000Z',
-        };
+          return ResponseBody.fromString(
+            jsonEncode(responseMap),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        });
 
-        return ResponseBody.fromString(
-          jsonEncode(responseMap),
-          200,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
+        const payload = LeaveApplyPayload(
+          leaveTypeId: 'lt-1',
+          fromDate: '2026-10-20',
+          toDate: '2026-10-22',
+          reason: 'Family event',
         );
-      });
 
-      const payload = LeaveApplyPayload(
-        leaveTypeId: 'lt-1',
-        fromDate: '2026-10-20',
-        toDate: '2026-10-22',
-        reason: 'Family event',
-      );
+        final (created, failure) = await repository.applyLeave(payload);
 
-      final (created, failure) = await repository.applyLeave(payload);
-
-      expect(failure, isNull);
-      expect(created, isNotNull);
-      expect(created!.id, 'lr-new');
-      expect(created.status, 'pending');
-    });
+        expect(failure, isNull);
+        expect(created, isNotNull);
+        expect(created!.id, 'lr-new');
+        expect(created.status, 'pending');
+      },
+    );
 
     test('cancelPendingLeave posts to cancel endpoint', () async {
       dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {

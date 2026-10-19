@@ -79,10 +79,10 @@ void main() {
       leaveTypeId: 'lt-1',
       leaveTypeName: 'Casual Leave',
       year: 2026,
-      allocated: 12.0,
-      carriedForward: 2.0,
-      used: 4.0,
-      available: 10.0,
+      allocated: 12,
+      carriedForward: 2,
+      used: 4,
+      available: 10,
     ),
     const LeaveBalanceModel(
       id: 'bal-2',
@@ -90,10 +90,10 @@ void main() {
       leaveTypeId: 'lt-2',
       leaveTypeName: 'Sick Leave',
       year: 2026,
-      allocated: 10.0,
-      carriedForward: 0.0,
-      used: 1.0,
-      available: 9.0,
+      allocated: 10,
+      carriedForward: 0,
+      used: 1,
+      available: 9,
     ),
   ];
 
@@ -103,7 +103,6 @@ void main() {
       name: 'Republic Day',
       date: DateTime(2026, 1, 26),
       year: 2026,
-      isOptional: false,
     ),
     HolidayModel(
       id: 'hol-2',
@@ -125,7 +124,7 @@ void main() {
       fromDate: DateTime(2026, 10, 20),
       toDate: DateTime(2026, 10, 22),
       isHalfDay: false,
-      totalDays: 3.0,
+      totalDays: 3,
       reason: 'Family wedding ceremony',
       status: 'pending',
       createdAt: DateTime(2026, 10, 18),
@@ -158,13 +157,11 @@ void main() {
     },
     LeaveRequestsState? requestsState,
   }) {
-    final state = requestsState ??
+    final state =
+        requestsState ??
         LeaveRequestsState(
           items: sampleRequests,
           total: sampleRequests.length,
-          page: 1,
-          hasMore: false,
-          statusFilter: 'all',
         );
 
     return ProviderScope(
@@ -247,7 +244,9 @@ void main() {
   }
 
   group('LeavesScreen Widget Tests', () {
-    testWidgets('renders TabBar with My Leaves and Holidays tabs', (tester) async {
+    testWidgets('renders TabBar with My Leaves and Holidays tabs', (
+      tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(600, 960));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 
@@ -259,20 +258,28 @@ void main() {
       expect(find.text('Company Holidays'), findsOneWidget);
     });
 
-    testWidgets('renders Leave Balance Cards with allocated, used, and available balance', (tester) async {
-      await tester.binding.setSurfaceSize(const Size(600, 960));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
+    testWidgets(
+      'renders Leave Balance Cards with allocated, used, and available balance',
+      (tester) async {
+        await tester.binding.setSurfaceSize(const Size(600, 960));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
 
-      await tester.pumpWidget(buildLeavesScreenHarness());
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(buildLeavesScreenHarness());
+        await tester.pumpAndSettle();
 
-      expect(find.byType(LeaveBalanceCard), findsNWidgets(2));
-      expect(find.text('Casual Leave'), findsWidgets);
-      expect(find.text('Sick Leave'), findsWidgets);
-      expect(find.text('10'), findsOneWidget); // available balance (formatted as int)
-    });
+        expect(find.byType(LeaveBalanceCard), findsNWidgets(2));
+        expect(find.text('Casual Leave'), findsWidgets);
+        expect(find.text('Sick Leave'), findsWidgets);
+        expect(
+          find.text('10'),
+          findsOneWidget,
+        ); // available balance (formatted as int)
+      },
+    );
 
-    testWidgets('renders Leave Request Cards with status chips and details', (tester) async {
+    testWidgets('renders Leave Request Cards with status chips and details', (
+      tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(600, 960));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 
@@ -286,22 +293,27 @@ void main() {
       expect(find.text('Approved'), findsWidgets);
     });
 
-    testWidgets('switches to Holidays tab and renders HolidayListTile widgets', (tester) async {
-      await tester.binding.setSurfaceSize(const Size(600, 960));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
+    testWidgets(
+      'switches to Holidays tab and renders HolidayListTile widgets',
+      (tester) async {
+        await tester.binding.setSurfaceSize(const Size(600, 960));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
 
-      await tester.pumpWidget(
-        buildLeavesScreenHarness(initialTab: LeavesInitialTab.holidays),
-      );
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(
+          buildLeavesScreenHarness(initialTab: LeavesInitialTab.holidays),
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.byType(HolidayListTile), findsNWidgets(2));
-      expect(find.text('Republic Day'), findsOneWidget);
-      expect(find.text('Maha Shivratri'), findsOneWidget);
-      expect(find.text('Optional'), findsOneWidget);
-    });
+        expect(find.byType(HolidayListTile), findsNWidgets(2));
+        expect(find.text('Republic Day'), findsOneWidget);
+        expect(find.text('Maha Shivratri'), findsOneWidget);
+        expect(find.text('Optional'), findsOneWidget);
+      },
+    );
 
-    testWidgets('displays Apply Leave FAB and opens bottom sheet on tap', (tester) async {
+    testWidgets('displays Apply Leave FAB and opens bottom sheet on tap', (
+      tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(600, 960));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 
@@ -320,19 +332,22 @@ void main() {
       expect(find.text('Reason for Leave'), findsOneWidget);
     });
 
-    testWidgets('LeaveDetailScreen renders metadata, working days, and cancel action', (tester) async {
-      await tester.binding.setSurfaceSize(const Size(600, 960));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
+    testWidgets(
+      'LeaveDetailScreen renders metadata, working days, and cancel action',
+      (tester) async {
+        await tester.binding.setSurfaceSize(const Size(600, 960));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
 
-      final pendingLeave = sampleRequests.first;
-      await tester.pumpWidget(buildLeaveDetailHarness(leave: pendingLeave));
-      await tester.pumpAndSettle();
+        final pendingLeave = sampleRequests.first;
+        await tester.pumpWidget(buildLeaveDetailHarness(leave: pendingLeave));
+        await tester.pumpAndSettle();
 
-      expect(find.text('Leave Details'), findsOneWidget);
-      expect(find.text('Casual Leave'), findsOneWidget);
-      expect(find.text('3 days'), findsOneWidget);
-      expect(find.text('Family wedding ceremony'), findsOneWidget);
-      expect(find.text('Cancel Request'), findsOneWidget);
-    });
+        expect(find.text('Leave Details'), findsOneWidget);
+        expect(find.text('Casual Leave'), findsOneWidget);
+        expect(find.text('3 days'), findsOneWidget);
+        expect(find.text('Family wedding ceremony'), findsOneWidget);
+        expect(find.text('Cancel Request'), findsOneWidget);
+      },
+    );
   });
 }

@@ -105,271 +105,277 @@ class _ApplyLeaveBottomSheetState extends ConsumerState<ApplyLeaveBottomSheet> {
           right: AppSpacing.lg,
         ),
         child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.outlineVariant,
-                  borderRadius: BorderRadius.circular(AppRadius.pill),
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  l10n.leaveApplyTitle,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.outlineVariant,
+                    borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                 ),
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close),
-                ),
-              ],
-            ),
-            const Divider(),
-            const SizedBox(height: AppSpacing.sm),
-
-            // 1. Leave Category Picker
-            typesAsync.when(
-              data: (types) {
-                return DropdownButtonFormField<String>(
-                  initialValue: state.leaveTypeId,
-                  decoration: InputDecoration(
-                    labelText: l10n.leaveApplyCategoryLabel,
-                    hintText: l10n.leaveApplyCategoryHint,
-                    errorText: state.fieldErrors['leave_type_id'],
-                    border: const OutlineInputBorder(),
-                  ),
-                  items: types.map((type) {
-                    return DropdownMenuItem<String>(
-                      value: type.id,
-                      child: Text(
-                        '${type.name} (${type.isPaid ? 'Paid' : 'Unpaid'})',
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (val) {
-                    if (val != null) {
-                      controller.setLeaveType(val);
-                    }
-                  },
-                );
-              },
-              loading: () => const LinearProgressIndicator(),
-              error: (err, _) => Text(
-                err.toString(),
-                style: TextStyle(color: theme.colorScheme.error),
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-
-            // 2. Half Day Toggle
-            SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(l10n.leaveApplyHalfDayToggle),
-              value: state.isHalfDay,
-              onChanged: (val) => controller.toggleHalfDay(isHalfDay: val),
-            ),
-
-            if (state.isHalfDay) ...[
-              const SizedBox(height: AppSpacing.xs),
-              SegmentedButton<String>(
-                segments: [
-                  ButtonSegment<String>(
-                    value: 'first_half',
-                    label: Text(l10n.leaveHalfDaySessionFirstHalf),
-                  ),
-                  ButtonSegment<String>(
-                    value: 'second_half',
-                    label: Text(l10n.leaveHalfDaySessionSecondHalf),
-                  ),
-                ],
-                selected: {state.halfDaySession},
-                onSelectionChanged: (newSelection) {
-                  controller.setHalfDaySession(newSelection.first);
-                },
-              ),
-            ],
-            const SizedBox(height: AppSpacing.md),
-
-            // 3. Date Selection
-            InkWell(
-              onTap: () async {
-                if (state.isHalfDay) {
-                  await _pickSingleDate(context);
-                } else {
-                  await _pickDateRange(context);
-                }
-              },
-              borderRadius: BorderRadius.circular(AppRadius.md),
-              child: InputDecorator(
-                decoration: InputDecoration(
-                  labelText: state.isHalfDay
-                      ? l10n.leaveApplySingleDateLabel
-                      : l10n.leaveApplyDateRangeLabel,
-                  border: const OutlineInputBorder(),
-                  suffixIcon: const Icon(Icons.calendar_month_outlined),
-                ),
-                child: Text(
-                  state.isHalfDay
-                      ? dateFormat.format(state.fromDate ?? DateTime.now())
-                      : '${dateFormat.format(state.fromDate ?? DateTime.now())}  —  ${dateFormat.format(state.toDate ?? DateTime.now())}',
-                  style: theme.textTheme.bodyMedium,
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-
-            // 4. Server-Calculated Live Preview & Working Days
-            if (state.isPreviewLoading) ...[
+              const SizedBox(height: AppSpacing.md),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
                   Text(
-                    l10n.leaveApplyCalculatingPreview,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+                    l10n.leaveApplyTitle,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close),
+                  ),
                 ],
               ),
+              const Divider(),
               const SizedBox(height: AppSpacing.sm),
-            ] else if (state.preview != null) ...[
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  color: state.preview!.isValid
-                      ? theme.colorScheme.primary.withValues(alpha: 0.1)
-                      : theme.colorScheme.errorContainer.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                  border: Border.all(
-                    color: state.preview!.isValid
-                        ? theme.colorScheme.primary.withValues(alpha: 0.3)
-                        : theme.colorScheme.error,
+
+              // 1. Leave Category Picker
+              typesAsync.when(
+                data: (types) {
+                  return DropdownButtonFormField<String>(
+                    initialValue: state.leaveTypeId,
+                    decoration: InputDecoration(
+                      labelText: l10n.leaveApplyCategoryLabel,
+                      hintText: l10n.leaveApplyCategoryHint,
+                      errorText: state.fieldErrors['leave_type_id'],
+                      border: const OutlineInputBorder(),
+                    ),
+                    items: types.map((type) {
+                      return DropdownMenuItem<String>(
+                        value: type.id,
+                        child: Text(
+                          '${type.name} (${type.isPaid ? 'Paid' : 'Unpaid'})',
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) {
+                        controller.setLeaveType(val);
+                      }
+                    },
+                  );
+                },
+                loading: () => const LinearProgressIndicator(),
+                error: (err, _) => Text(
+                  err.toString(),
+                  style: TextStyle(color: theme.colorScheme.error),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.md),
+
+              // 2. Half Day Toggle
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(l10n.leaveApplyHalfDayToggle),
+                value: state.isHalfDay,
+                onChanged: (val) => controller.toggleHalfDay(isHalfDay: val),
+              ),
+
+              if (state.isHalfDay) ...[
+                const SizedBox(height: AppSpacing.xs),
+                SegmentedButton<String>(
+                  segments: [
+                    ButtonSegment<String>(
+                      value: 'first_half',
+                      label: Text(l10n.leaveHalfDaySessionFirstHalf),
+                    ),
+                    ButtonSegment<String>(
+                      value: 'second_half',
+                      label: Text(l10n.leaveHalfDaySessionSecondHalf),
+                    ),
+                  ],
+                  selected: {state.halfDaySession},
+                  onSelectionChanged: (newSelection) {
+                    controller.setHalfDaySession(newSelection.first);
+                  },
+                ),
+              ],
+              const SizedBox(height: AppSpacing.md),
+
+              // 3. Date Selection
+              InkWell(
+                onTap: () async {
+                  if (state.isHalfDay) {
+                    await _pickSingleDate(context);
+                  } else {
+                    await _pickDateRange(context);
+                  }
+                },
+                borderRadius: BorderRadius.circular(AppRadius.md),
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    labelText: state.isHalfDay
+                        ? l10n.leaveApplySingleDateLabel
+                        : l10n.leaveApplyDateRangeLabel,
+                    border: const OutlineInputBorder(),
+                    suffixIcon: const Icon(Icons.calendar_month_outlined),
+                  ),
+                  child: Text(
+                    state.isHalfDay
+                        ? dateFormat.format(state.fromDate ?? DateTime.now())
+                        : '${dateFormat.format(state.fromDate ?? DateTime.now())}  —  ${dateFormat.format(state.toDate ?? DateTime.now())}',
+                    style: theme.textTheme.bodyMedium,
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              const SizedBox(height: AppSpacing.md),
+
+              // 4. Server-Calculated Live Preview & Working Days
+              if (state.isPreviewLoading) ...[
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          state.preview!.isValid
-                              ? Icons.check_circle_outline
-                              : Icons.warning_amber_rounded,
-                          size: 18,
-                          color: state.preview!.isValid
-                              ? theme.colorScheme.primary
-                              : theme.colorScheme.error,
-                        ),
-                        const SizedBox(width: AppSpacing.xs),
-                        Text(
-                          l10n.leaveApplyWorkingDaysCount(
-                            state.preview!.workingDays % 1 == 0
-                                ? state.preview!.workingDays.toInt().toString()
-                                : state.preview!.workingDays.toStringAsFixed(1),
+                    const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Text(
+                      l10n.leaveApplyCalculatingPreview,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.sm),
+              ] else if (state.preview != null) ...[
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: state.preview!.isValid
+                        ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                        : theme.colorScheme.errorContainer.withValues(
+                            alpha: 0.5,
                           ),
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                    border: Border.all(
+                      color: state.preview!.isValid
+                          ? theme.colorScheme.primary.withValues(alpha: 0.3)
+                          : theme.colorScheme.error,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            state.preview!.isValid
+                                ? Icons.check_circle_outline
+                                : Icons.warning_amber_rounded,
+                            size: 18,
                             color: state.preview!.isValid
                                 ? theme.colorScheme.primary
                                 : theme.colorScheme.error,
                           ),
+                          const SizedBox(width: AppSpacing.xs),
+                          Text(
+                            l10n.leaveApplyWorkingDaysCount(
+                              state.preview!.workingDays % 1 == 0
+                                  ? state.preview!.workingDays
+                                        .toInt()
+                                        .toString()
+                                  : state.preview!.workingDays.toStringAsFixed(
+                                      1,
+                                    ),
+                            ),
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: state.preview!.isValid
+                                  ? theme.colorScheme.primary
+                                  : theme.colorScheme.error,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (state.preview!.validationError != null) ...[
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(
+                          state.preview!.validationError!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.error,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ],
-                    ),
-                    if (state.preview!.validationError != null) ...[
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        state.preview!.validationError!,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.error,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
                     ],
-                  ],
-                ),
-              ),
-              const SizedBox(height: AppSpacing.md),
-            ],
-
-            // 5. Submission Global Error
-            if (state.submissionError != null) ...[
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.errorContainer,
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                ),
-                child: Text(
-                  state.submissionError!,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onErrorContainer,
                   ),
                 ),
+                const SizedBox(height: AppSpacing.md),
+              ],
+
+              // 5. Submission Global Error
+              if (state.submissionError != null) ...[
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.errorContainer,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: Text(
+                    state.submissionError!,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onErrorContainer,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.md),
+              ],
+
+              // 6. Reason Field
+              TextField(
+                controller: _reasonController,
+                maxLines: 3,
+                maxLength: 500,
+                decoration: InputDecoration(
+                  labelText: l10n.leaveApplyReasonLabel,
+                  hintText: l10n.leaveApplyReasonHint,
+                  errorText: state.fieldErrors['reason'],
+                  border: const OutlineInputBorder(),
+                ),
+                onChanged: controller.setReason,
               ),
-              const SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.lg),
+
+              // 7. Submit Button
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                ),
+                onPressed:
+                    state.isSubmitting ||
+                        (state.preview != null && !state.preview!.isValid)
+                    ? null
+                    : () async {
+                        final success = await controller.submit();
+                        if (success && context.mounted) {
+                          Navigator.of(context).pop(true);
+                        }
+                      },
+                child: state.isSubmitting
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(l10n.leaveApplySubmitButton),
+              ),
             ],
-
-            // 6. Reason Field
-            TextField(
-              controller: _reasonController,
-              maxLines: 3,
-              maxLength: 500,
-              decoration: InputDecoration(
-                labelText: l10n.leaveApplyReasonLabel,
-                hintText: l10n.leaveApplyReasonHint,
-                errorText: state.fieldErrors['reason'],
-                border: const OutlineInputBorder(),
-              ),
-              onChanged: controller.setReason,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-
-            // 7. Submit Button
-            FilledButton(
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-              ),
-              onPressed:
-                  state.isSubmitting ||
-                      (state.preview != null && !state.preview!.isValid)
-                  ? null
-                  : () async {
-                      final success = await controller.submit();
-                      if (success && context.mounted) {
-                        Navigator.of(context).pop(true);
-                      }
-                    },
-              child: state.isSubmitting
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : Text(l10n.leaveApplySubmitButton),
-            ),
-          ],
+          ),
         ),
-      ),
       ),
     );
   }

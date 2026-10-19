@@ -46,7 +46,7 @@ final class SelectedLeaveYearControllerProvider
 }
 
 String _$selectedLeaveYearControllerHash() =>
-    r'106b79c8bf962fb0a1f412d4ef9732cd2b10b76d';
+    r'be7a29fb40f15ff58b0a8932c08ac6140ece35b2';
 
 /// Currently selected calendar year for leave queries.
 
@@ -112,7 +112,7 @@ final class LeaveTypesProvider
   }
 }
 
-String _$leaveTypesHash() => r'd253494a975e12095cfed65e5ec55dac39075228';
+String _$leaveTypesHash() => r'f9fac2466cd302488ba13a978491861baf75bb12';
 
 /// Provider for employee leave balances for a specific or current year.
 
@@ -176,7 +176,7 @@ final class LeaveBalancesProvider
   }
 }
 
-String _$leaveBalancesHash() => r'a195ad21549271c60b88664cf9512a1e503fe212';
+String _$leaveBalancesHash() => r'b51820f8bf6f342c1b4f8a4edeb06b419c43e82e';
 
 /// Provider for employee leave balances for a specific or current year.
 
@@ -262,7 +262,7 @@ final class HolidaysProvider
   }
 }
 
-String _$holidaysHash() => r'97fb731699db94847c6118345d39c3c44357b21d';
+String _$holidaysHash() => r'14b328d4f121c01d0aa17361f9dd9b593cc7ac83';
 
 /// Provider for calendar holidays for a specific or current year.
 
@@ -312,7 +312,7 @@ final class LeaveRequestsControllerProvider
 }
 
 String _$leaveRequestsControllerHash() =>
-    r'6b3ff05209af9b93c00a0777aaf0502d62510448';
+    r'f349caa93ebbe667013574eb69f70c33ee12d90d';
 
 abstract class _$LeaveRequestsController
     extends $AsyncNotifier<LeaveRequestsState> {
@@ -367,7 +367,7 @@ final class LeaveApplyControllerProvider
 }
 
 String _$leaveApplyControllerHash() =>
-    r'5ca10df849fae349bcd7c0c16a61d7b08bbad234';
+    r'8ffbe9da76a9f80851ba8667bbd430b94a32a2c2';
 
 abstract class _$LeaveApplyController extends $Notifier<LeaveApplyState> {
   LeaveApplyState build();
@@ -433,7 +433,7 @@ final class LeaveDetailControllerProvider
 }
 
 String _$leaveDetailControllerHash() =>
-    r'77541d360f02caf3707272cf165868013a72006a';
+    r'b30b9a5267a28ed133d0eb930b8153aba13bcbc5';
 
 /// Controller for single leave request details (for deep link `/leaves/:id`).
 

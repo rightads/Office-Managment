@@ -14,6 +14,7 @@ import 'package:right_ads/core/widgets/status_chip.dart';
 import 'package:right_ads/features/attendance/application/attendance_controller.dart';
 import 'package:right_ads/features/auth/application/session_controller.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
+import 'package:right_ads/features/communication/application/announcements_controller.dart';
 import 'package:right_ads/features/navigation/application/navigation_controller.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
@@ -71,6 +72,7 @@ class HomeDashboardView extends ConsumerWidget {
     final navState = ref.watch(navigationControllerProvider);
     final todayAttendance = ref.watch(todayAttendanceControllerProvider);
     final todayRecord = todayAttendance.todayRecord;
+    final hasNewAnnounce = ref.watch(hasNewAnnouncementsProvider);
     final navData = navState.data;
     final modules = navData.modules;
 
@@ -255,6 +257,26 @@ class HomeDashboardView extends ConsumerWidget {
                             icon: Icons.campaign,
                             title: l10n.homeCardAnnouncementsTitle,
                             subtitle: l10n.homeCardAnnouncementsSubtitle,
+                            badge: hasNewAnnounce
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: AppSpacing.sm,
+                                      vertical: AppSpacing.xxs,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: colorScheme.error,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      l10n.announcementsNewBadge,
+                                      style: theme.textTheme.labelSmall
+                                          ?.copyWith(
+                                            color: colorScheme.onError,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  )
+                                : null,
                             onTap: () =>
                                 _openQuickModule(modules, 'announcements'),
                           ),

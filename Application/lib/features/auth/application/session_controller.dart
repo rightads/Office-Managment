@@ -4,6 +4,7 @@ import 'package:right_ads/core/auth/biometric_service.dart';
 import 'package:right_ads/core/config/runtime_app_config.dart';
 import 'package:right_ads/core/errors/app_failure.dart';
 import 'package:right_ads/core/network/dio_provider.dart';
+import 'package:right_ads/core/notifications/notification_service.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
@@ -132,12 +133,18 @@ class SessionController extends _$SessionController {
   }
 
   Future<void> logout() async {
+    try {
+      await ref.read(notificationServiceProvider).unregisterDeviceToken();
+    } on Object catch (_) {}
     await ref.read(authRepositoryProvider).logout();
     _clearPermissions();
     state = const AuthState.unauthenticated();
   }
 
   Future<AppFailure?> logoutAll() async {
+    try {
+      await ref.read(notificationServiceProvider).unregisterDeviceToken();
+    } on Object catch (_) {}
     final failure = await ref.read(authRepositoryProvider).logoutAll();
     _clearPermissions();
     state = const AuthState.unauthenticated();
@@ -147,6 +154,9 @@ class SessionController extends _$SessionController {
   void handleSessionExpired({
     SessionExpiryReason reason = SessionExpiryReason.expired,
   }) {
+    try {
+      unawaited(ref.read(notificationServiceProvider).unregisterDeviceToken());
+    } on Object catch (_) {}
     _clearPermissions();
     state = AuthState.unauthenticated(expiryReason: reason);
   }

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
+import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/core/widgets/app_button.dart';
 import 'package:right_ads/core/widgets/app_scaffold.dart';
@@ -11,6 +13,7 @@ import 'package:right_ads/core/widgets/error_state.dart';
 import 'package:right_ads/core/widgets/loading_skeleton.dart';
 import 'package:right_ads/features/auth/application/session_controller.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
+import 'package:right_ads/features/communication/application/notifications_controller.dart';
 import 'package:right_ads/features/navigation/application/navigation_controller.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/forbidden_screen.dart';
@@ -34,6 +37,13 @@ class _AdaptiveShellScreenState extends ConsumerState<AdaptiveShellScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        ref
+            .read(unreadNotificationCountControllerProvider.notifier)
+            .loadCount(),
+      );
+    });
   }
 
   @override
@@ -47,6 +57,11 @@ class _AdaptiveShellScreenState extends ConsumerState<AdaptiveShellScreen>
     if (state == AppLifecycleState.resumed) {
       unawaited(
         ref.read(navigationControllerProvider.notifier).onAppResumed(),
+      );
+      unawaited(
+        ref
+            .read(unreadNotificationCountControllerProvider.notifier)
+            .loadCount(),
       );
     }
   }
@@ -68,6 +83,7 @@ class _AdaptiveShellScreenState extends ConsumerState<AdaptiveShellScreen>
     final authState = ref.watch(sessionControllerProvider);
     final navState = ref.watch(navigationControllerProvider);
     final permissions = ref.watch(userPermissionsControllerProvider);
+    final unreadCount = ref.watch(unreadNotificationCountControllerProvider);
 
     if (authState is AuthAuthenticated && authState.isBiometricLocked) {
       return AppScaffold(
@@ -210,6 +226,15 @@ class _AdaptiveShellScreenState extends ConsumerState<AdaptiveShellScreen>
         });
       },
       actions: <Widget>[
+        IconButton(
+          icon: Badge.count(
+            count: unreadCount,
+            isLabelVisible: unreadCount > 0,
+            child: const Icon(Icons.notifications_outlined),
+          ),
+          tooltip: l10n.notificationsTitle,
+          onPressed: () => context.push(RoutePaths.notifications),
+        ),
         AppButton(
           label: l10n.authLogoutButton,
           icon: Icons.logout,

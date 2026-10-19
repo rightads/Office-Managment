@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import uuid
+
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -97,3 +99,22 @@ async def list_announcements(
         user_department_id=current_user.department_id
     )
     return [_to_announcement_response(a) for a in announcements]
+
+
+@router.get(
+    "/{announcement_id}",
+    response_model=AnnouncementResponse,
+    summary="Get announcement details by ID",
+)
+async def get_announcement(
+    announcement_id: uuid.UUID,
+    current_user: User = Depends(require_permission("announcement.view")),
+    session: AsyncSession = Depends(get_db_session),
+) -> AnnouncementResponse:
+    repo = NotificationRepository(session)
+    ann = await repo.get_announcement_by_id(announcement_id)
+    if not ann:
+        raise NotFoundException("Announcement not found.")
+    if ann.target_department_id and ann.target_department_id != current_user.department_id:
+        raise NotFoundException("Announcement not found.")
+    return _to_announcement_response(ann)

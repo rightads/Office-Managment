@@ -62,6 +62,18 @@ abstract final class ApiEndpoints {
   static String leaveCancelApproved(String id) => '/leaves/$id/cancel-approved';
   static const String holidays = '/holidays';
 
+  // Notifications & Announcements (Prompt 09)
+  static const String notificationsDevices = '/notifications/devices';
+  static String notificationsDevice(String deviceId) =>
+      '/notifications/devices/$deviceId';
+  static const String notifications = '/notifications';
+  static const String notificationsUnreadCount = '/notifications/unread-count';
+  static String notificationRead(String id) => '/notifications/$id/read';
+  static const String notificationsReadAll = '/notifications/read-all';
+
+  static const String announcements = '/announcements';
+  static String announcementDetail(String id) => '/announcements/$id';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{

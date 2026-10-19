@@ -249,6 +249,14 @@ async def test_announcements_creation_and_visibility(
     assert "Annual Company Retreat" in titles
     assert "Expired Notice" not in titles
 
+    # 4. Employee fetches single announcement by ID
+    single_resp = await async_client.get(
+        f"/api/v1/announcements/{c_data['id']}", headers=emp_headers
+    )
+    assert single_resp.status_code == 200
+    assert single_resp.json()["id"] == c_data["id"]
+    assert single_resp.json()["title"] == "Annual Company Retreat"
+
 
 @pytest.mark.asyncio
 async def test_admin_notification_templates_crud(
