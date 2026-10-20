@@ -172,12 +172,12 @@ async def test_navigation_permission_filtering_and_admin_module_crud(
     )
     contractor_headers = {"Authorization": f"Bearer {contractor_token}"}
 
-    # Contractor should only see attendance + permissionless base modules (work_reports, notifications, profile)
+    # Contractor should only see attendance + permissionless base modules (notifications, profile)
     con_nav_res = await async_client.get("/api/v1/me/navigation", headers=contractor_headers)
     assert con_nav_res.status_code == 200
     con_nav = con_nav_res.json()
     con_codes = [m["code"] for m in con_nav["modules"]]
-    assert con_codes == ["attendance", "work_reports", "notifications", "profile"]
+    assert con_codes == ["attendance", "notifications", "profile"]
     assert con_nav["must_change_password"] is True
 
     # Deactivating audit_logs hides it from Admin navigation too

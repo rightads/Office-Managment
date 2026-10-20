@@ -1084,6 +1084,18 @@ class MasterDataService:
                 require_special=settings.PASSWORD_REQUIRE_SPECIAL,
             ),
             feature_flags=feature_flags,
+            work_report_max_minutes_per_day=int(
+                settings_map.get("work_report_max_minutes_per_day", 960)
+            ),
+            work_report_editable_window_days=int(
+                settings_map.get("work_report_editable_window_days", 7)
+            ),
+            work_report_reminder_time=str(
+                settings_map.get("work_report_reminder_time", "18:00")
+            ),
+            work_report_allow_edit_until_reviewed=bool(
+                settings_map.get("work_report_allow_edit_until_reviewed", False)
+            ),
         )
 
     async def get_user_navigation(self, user: User) -> UserNavigationResponse:

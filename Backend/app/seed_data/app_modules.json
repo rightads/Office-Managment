@@ -41,7 +41,7 @@
     "icon_key": "work_reports",
     "route_key": "work_reports",
     "sort_order": 40,
-    "required_permission": null,
+    "required_permission": "work_reports.submit_own",
     "is_base": true,
     "is_active": true,
     "show_on_home": true,

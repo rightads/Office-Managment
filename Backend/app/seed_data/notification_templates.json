@@ -70,5 +70,23 @@
     "channel_email": false,
     "channel_sms": false,
     "is_active": true
+  },
+  {
+    "code": "WORK_REPORT_SUBMITTED",
+    "title_template": "Daily Work Report Submitted",
+    "body_template": "{employee_name} submitted work report for {report_date}.",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
+  },
+  {
+    "code": "WORK_REPORT_REVIEWED",
+    "title_template": "Work Report Reviewed",
+    "body_template": "Your work report for {report_date} was reviewed by {reviewer_name}: {review_note}",
+    "channel_push": true,
+    "channel_email": false,
+    "channel_sms": false,
+    "is_active": true
   }
 ]

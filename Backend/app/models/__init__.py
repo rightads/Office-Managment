@@ -53,6 +53,11 @@ from app.models.task import (
     TaskStatusTransition,
 )
 from app.models.user import User
+from app.models.work_report import (
+    WorkReport,
+    WorkReportItem,
+    WorkReportStatus,
+)
 
 __all__ = [
     "Base",
@@ -100,4 +105,8 @@ __all__ = [
     "AuditLog",
     "SystemSetting",
     "AppModule",
+    # Work Reports
+    "WorkReport",
+    "WorkReportItem",
+    "WorkReportStatus",
 ]

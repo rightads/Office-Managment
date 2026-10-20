@@ -18,6 +18,7 @@ from app.api.v1.endpoints import (
     system_settings,
     task_master,
     tasks,
+    work_reports,
 )
 
 api_v1_router = APIRouter()
@@ -41,6 +42,9 @@ api_v1_router.include_router(leaves.router)
 api_v1_router.include_router(tasks.router)
 api_v1_router.include_router(task_master.router)
 api_v1_router.include_router(clients_projects.router)
+
+# Daily Work Reports & Timesheets (Backend Addendum A2)
+api_v1_router.include_router(work_reports.router)
 
 # Communication & Notifications
 api_v1_router.include_router(notifications.router)

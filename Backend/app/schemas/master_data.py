@@ -466,6 +466,10 @@ class AppRuntimeConfigResponse(BaseModel):
     navigation_refresh_interval_minutes: int
     password_policy: PasswordPolicySummary
     feature_flags: dict[str, Any] = Field(default_factory=dict)
+    work_report_max_minutes_per_day: int = 960
+    work_report_editable_window_days: int = 7
+    work_report_reminder_time: str = "18:00"
+    work_report_allow_edit_until_reviewed: bool = False
 
 
 class UserNavigationResponse(BaseModel):

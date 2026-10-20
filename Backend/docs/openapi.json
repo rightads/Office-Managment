@@ -361,6 +361,341 @@
         ]
       }
     },
+    "/api/v1/app/config": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get non-secret public runtime app configuration",
+        "description": "Public endpoint returning non-secret runtime settings (app timezone, pagination limits, upload limits, minimum supported version, force-update flag, password policy summary, and feature flags). Publicly accessible so mobile clients can evaluate force-update gates and password rules prior to login.",
+        "operationId": "get_app_config_api_v1_app_config_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppRuntimeConfigResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/navigation": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get permission-filtered navigation and modules for current user",
+        "description": "Returns active modules visible to the current authenticated user based on their assigned role permissions, ordered by sort_order, along with the user's permission codes, role display label, department, and security flags.",
+        "operationId": "get_my_navigation_api_v1_me_navigation_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserNavigationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/me/attendance-policy": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get effective attendance policy for current user",
+        "description": "Returns the effective attendance policy for the authenticated user (user-specific policy or system default policy), including geofence/selfie requirements, shift hours, and allowed active office locations with coordinates.",
+        "operationId": "get_my_attendance_policy_api_v1_me_attendance_policy_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EffectiveAttendancePolicyResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/app-modules": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "List all registered app modules",
+        "description": "Lists all app modules ordered by sort_order. Requires `modules.manage`.",
+        "operationId": "list_app_modules_api_v1_app_modules_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "is_active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by active status",
+              "title": "Is Active"
+            },
+            "description": "Filter by active status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppModuleResponse"
+                  },
+                  "title": "Response List App Modules Api V1 App Modules Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Create app module",
+        "description": "Creates a new app module registry entry. Requires `modules.manage`.",
+        "operationId": "create_app_module_api_v1_app_modules_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppModuleCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/app-modules/{module_id}": {
+      "get": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Get app module by ID",
+        "description": "Retrieves a single app module definition by ID. Requires `modules.manage`.",
+        "operationId": "get_app_module_api_v1_app_modules__module_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Update app module",
+        "description": "Updates an existing app module registry entry. Requires `modules.manage`.",
+        "operationId": "update_app_module_api_v1_app_modules__module_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppModuleUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Navigation, Modules & App Config"
+        ],
+        "summary": "Delete non-base app module",
+        "description": "Deletes a custom app module. Base modules are protected and cannot be deleted. Requires `modules.manage`.",
+        "operationId": "delete_app_module_api_v1_app_modules__module_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employees": {
       "post": {
         "tags": [
@@ -1879,6 +2214,53 @@
                   },
                   "type": "array",
                   "title": "Response List Leave Types Api V1 Leaves Types Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/leaves/preview": {
+      "post": {
+        "tags": [
+          "Leave Management"
+        ],
+        "summary": "Preview Leave Application & Calculate Working Days",
+        "description": "Live calculation of working days, balance availability, and overlap check prior to submission.",
+        "operationId": "preview_leave_api_v1_leaves_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeavePreviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeavePreviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -4539,6 +4921,674 @@
         }
       }
     },
+    "/api/v1/work-reports": {
+      "post": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "Create or save draft daily work report",
+        "description": "Creates a new draft daily work report or updates an existing draft for the given date. Validates future dates, editable window, and maximum logged minutes per day.",
+        "operationId": "create_or_save_draft_api_v1_work_reports_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReportCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "List all employee work reports (Manager / Admin)",
+        "description": "Lists work reports across team members or company-wide. Requires `work_reports.view_team` or `work_reports.view_all`.",
+        "operationId": "list_all_reports_api_v1_work_reports_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "employee_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by employee",
+              "title": "Employee Id"
+            },
+            "description": "Filter by employee"
+          },
+          {
+            "name": "department_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by department",
+              "title": "Department Id"
+            },
+            "description": "Filter by department"
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date filter",
+              "title": "From Date"
+            },
+            "description": "Start date filter"
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date filter",
+              "title": "To Date"
+            },
+            "description": "End date filter"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by status",
+              "title": "Status"
+            },
+            "description": "Filter by status"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkReportPageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/work-reports/me": {
+      "get": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "List personal daily work reports",
+        "description": "Lists the authenticated employee's daily work reports with pagination and date filters.",
+        "operationId": "list_my_reports_api_v1_work_reports_me_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start date filter",
+              "title": "From Date"
+            },
+            "description": "Start date filter"
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "End date filter",
+              "title": "To Date"
+            },
+            "description": "End date filter"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Status filter (draft, submitted, reviewed)",
+              "title": "Status"
+            },
+            "description": "Status filter (draft, submitted, reviewed)"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkReportPageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/work-reports/by-date/{date}": {
+      "get": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "Get personal work report for a specific date",
+        "description": "Returns the authenticated employee's work report for the specified date, or null if not yet created.",
+        "operationId": "get_my_report_by_date_api_v1_work_reports_by_date__date__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/WorkReportResponse"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Get My Report By Date Api V1 Work Reports By Date  Date  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/work-reports/missing": {
+      "get": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "List employees with missing work reports for a date",
+        "description": "Returns active employees who have not yet submitted a daily work report for the specified date. Scoped to department if the requester only has team-level permissions.",
+        "operationId": "get_missing_reports_api_v1_work_reports_missing_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "description": "Target date to check missing reports for",
+              "title": "Date"
+            },
+            "description": "Target date to check missing reports for"
+          },
+          {
+            "name": "department_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional department filter",
+              "title": "Department Id"
+            },
+            "description": "Optional department filter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MissingWorkReportListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/work-reports/{id}": {
+      "get": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "Get work report detail",
+        "description": "Returns detailed information for a specific work report including items and review comments.",
+        "operationId": "get_report_by_id_api_v1_work_reports__id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "Update draft work report",
+        "description": "Updates summary and items of a work report while still in draft mode.",
+        "operationId": "update_report_api_v1_work_reports__id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReportUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/work-reports/{id}/submit": {
+      "post": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "Submit daily work report",
+        "description": "Transitions the daily work report from draft to submitted and dispatches notifications to reviewers.",
+        "operationId": "submit_report_api_v1_work_reports__id__submit_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/work-reports/{id}/review": {
+      "post": {
+        "tags": [
+          "Daily Work Reports & Timesheets"
+        ],
+        "summary": "Review employee work report",
+        "description": "Reviews a submitted work report with feedback notes and notifies the employee.",
+        "operationId": "review_report_api_v1_work_reports__id__review_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkReportReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/notifications/devices": {
       "post": {
         "tags": [
@@ -4955,6 +6005,54 @@
             "HTTPBearer": []
           }
         ]
+      }
+    },
+    "/api/v1/announcements/{announcement_id}": {
+      "get": {
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "Get announcement details by ID",
+        "operationId": "get_announcement_api_v1_announcements__announcement_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "announcement_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Announcement Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/roles": {
@@ -5734,6 +6832,26 @@
               "default": 20,
               "title": "Page Size"
             }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Target calendar year",
+              "title": "Year"
+            },
+            "description": "Target calendar year"
           }
         ],
         "responses": {
@@ -6830,6 +7948,375 @@
           "balances_updated"
         ],
         "title": "AnnualAllocationResultResponse"
+      },
+      "AppModuleCreate": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Code",
+            "description": "Unique module code"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 2,
+            "title": "Label",
+            "description": "Display label"
+          },
+          "icon_key": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Icon Key",
+            "description": "Client icon key"
+          },
+          "route_key": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Route Key",
+            "description": "Client route key"
+          },
+          "sort_order": {
+            "type": "integer",
+            "title": "Sort Order",
+            "description": "Ascending sort order in navigation",
+            "default": 0
+          },
+          "required_permission": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Permission",
+            "description": "Permission code required to see and access this module (null if open to all authenticated users)"
+          },
+          "is_base": {
+            "type": "boolean",
+            "title": "Is Base",
+            "description": "True if part of the base employee app",
+            "default": false
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "True if currently enabled",
+            "default": true
+          },
+          "show_on_home": {
+            "type": "boolean",
+            "title": "Show On Home",
+            "description": "True if module tile appears on Home",
+            "default": true
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Module description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "label",
+          "icon_key",
+          "route_key"
+        ],
+        "title": "AppModuleCreate"
+      },
+      "AppModuleResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "icon_key": {
+            "type": "string",
+            "title": "Icon Key"
+          },
+          "route_key": {
+            "type": "string",
+            "title": "Route Key"
+          },
+          "sort_order": {
+            "type": "integer",
+            "title": "Sort Order"
+          },
+          "required_permission": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Permission"
+          },
+          "is_base": {
+            "type": "boolean",
+            "title": "Is Base"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "show_on_home": {
+            "type": "boolean",
+            "title": "Show On Home"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "label",
+          "icon_key",
+          "route_key",
+          "sort_order",
+          "is_base",
+          "is_active",
+          "show_on_home",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AppModuleResponse"
+      },
+      "AppModuleUpdate": {
+        "properties": {
+          "label": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 150,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "icon_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon Key"
+          },
+          "route_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Route Key"
+          },
+          "sort_order": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sort Order"
+          },
+          "required_permission": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Permission"
+          },
+          "is_base": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Base"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active"
+          },
+          "show_on_home": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Show On Home"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "title": "AppModuleUpdate"
+      },
+      "AppRuntimeConfigResponse": {
+        "properties": {
+          "app_timezone": {
+            "type": "string",
+            "title": "App Timezone"
+          },
+          "default_page_size": {
+            "type": "integer",
+            "title": "Default Page Size"
+          },
+          "max_page_size": {
+            "type": "integer",
+            "title": "Max Page Size"
+          },
+          "max_upload_mb": {
+            "type": "integer",
+            "title": "Max Upload Mb"
+          },
+          "allowed_upload_mime_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Allowed Upload Mime Types"
+          },
+          "min_supported_app_version": {
+            "type": "string",
+            "title": "Min Supported App Version"
+          },
+          "force_update": {
+            "type": "boolean",
+            "title": "Force Update"
+          },
+          "navigation_refresh_interval_minutes": {
+            "type": "integer",
+            "title": "Navigation Refresh Interval Minutes"
+          },
+          "password_policy": {
+            "$ref": "#/components/schemas/PasswordPolicySummary"
+          },
+          "feature_flags": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Feature Flags"
+          },
+          "work_report_max_minutes_per_day": {
+            "type": "integer",
+            "title": "Work Report Max Minutes Per Day",
+            "default": 960
+          },
+          "work_report_editable_window_days": {
+            "type": "integer",
+            "title": "Work Report Editable Window Days",
+            "default": 7
+          },
+          "work_report_reminder_time": {
+            "type": "string",
+            "title": "Work Report Reminder Time",
+            "default": "18:00"
+          },
+          "work_report_allow_edit_until_reviewed": {
+            "type": "boolean",
+            "title": "Work Report Allow Edit Until Reviewed",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "app_timezone",
+          "default_page_size",
+          "max_page_size",
+          "max_upload_mb",
+          "allowed_upload_mime_types",
+          "min_supported_app_version",
+          "force_update",
+          "navigation_refresh_interval_minutes",
+          "password_policy"
+        ],
+        "title": "AppRuntimeConfigResponse"
       },
       "AttendanceCalendarDay": {
         "properties": {
@@ -8742,6 +10229,77 @@
         ],
         "title": "DeviceTokenResponse"
       },
+      "EffectiveAttendancePolicyResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "shift_start": {
+            "type": "string",
+            "format": "time",
+            "title": "Shift Start"
+          },
+          "shift_end": {
+            "type": "string",
+            "format": "time",
+            "title": "Shift End"
+          },
+          "grace_minutes": {
+            "type": "integer",
+            "title": "Grace Minutes"
+          },
+          "half_day_min_hours": {
+            "type": "number",
+            "title": "Half Day Min Hours"
+          },
+          "full_day_min_hours": {
+            "type": "number",
+            "title": "Full Day Min Hours"
+          },
+          "week_off_days": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Week Off Days"
+          },
+          "require_geofence": {
+            "type": "boolean",
+            "title": "Require Geofence"
+          },
+          "require_selfie": {
+            "type": "boolean",
+            "title": "Require Selfie"
+          },
+          "allowed_locations": {
+            "items": {
+              "$ref": "#/components/schemas/OfficeLocationResponse"
+            },
+            "type": "array",
+            "title": "Allowed Locations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "shift_start",
+          "shift_end",
+          "grace_minutes",
+          "half_day_min_hours",
+          "full_day_min_hours",
+          "week_off_days",
+          "require_geofence",
+          "require_selfie"
+        ],
+        "title": "EffectiveAttendancePolicyResponse"
+      },
       "EmployeeAdminResetPassword": {
         "properties": {
           "new_password": {
@@ -9915,6 +11473,148 @@
         ],
         "title": "LeaveBalanceResponse"
       },
+      "LeavePreviewRequest": {
+        "properties": {
+          "leave_type_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leave Type Id",
+            "description": "Optional ID of the leave type"
+          },
+          "from_date": {
+            "type": "string",
+            "format": "date",
+            "title": "From Date",
+            "description": "Start date of leave (inclusive)"
+          },
+          "to_date": {
+            "type": "string",
+            "format": "date",
+            "title": "To Date",
+            "description": "End date of leave (inclusive)"
+          },
+          "is_half_day": {
+            "type": "boolean",
+            "title": "Is Half Day",
+            "description": "Flag for single-day half day leave",
+            "default": false
+          },
+          "half_day_session": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "first_half",
+                  "second_half"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Half Day Session",
+            "description": "Half day session: 'first_half' or 'second_half'"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_date",
+          "to_date"
+        ],
+        "title": "LeavePreviewRequest"
+      },
+      "LeavePreviewResponse": {
+        "properties": {
+          "from_date": {
+            "type": "string",
+            "format": "date",
+            "title": "From Date"
+          },
+          "to_date": {
+            "type": "string",
+            "format": "date",
+            "title": "To Date"
+          },
+          "is_half_day": {
+            "type": "boolean",
+            "title": "Is Half Day"
+          },
+          "half_day_session": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Half Day Session"
+          },
+          "working_days": {
+            "type": "number",
+            "title": "Working Days"
+          },
+          "is_valid": {
+            "type": "boolean",
+            "title": "Is Valid"
+          },
+          "validation_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validation Error"
+          },
+          "available_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available Balance"
+          },
+          "has_overlap": {
+            "type": "boolean",
+            "title": "Has Overlap",
+            "default": false
+          },
+          "overlapping_request_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Overlapping Request Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "from_date",
+          "to_date",
+          "is_half_day",
+          "working_days",
+          "is_valid"
+        ],
+        "title": "LeavePreviewResponse"
+      },
       "LeaveRejectRequest": {
         "properties": {
           "review_note": {
@@ -10281,6 +11981,96 @@
         ],
         "title": "MessageResponse",
         "description": "Standardized operation message response."
+      },
+      "MissingWorkReportListResponse": {
+        "properties": {
+          "report_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Report Date"
+          },
+          "missing_count": {
+            "type": "integer",
+            "title": "Missing Count"
+          },
+          "users": {
+            "items": {
+              "$ref": "#/components/schemas/MissingWorkReportUserResponse"
+            },
+            "type": "array",
+            "title": "Users"
+          }
+        },
+        "type": "object",
+        "required": [
+          "report_date",
+          "missing_count",
+          "users"
+        ],
+        "title": "MissingWorkReportListResponse"
+      },
+      "MissingWorkReportUserResponse": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "employee_code": {
+            "type": "string",
+            "title": "Employee Code"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "department_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Id"
+          },
+          "department_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Name"
+          },
+          "manager_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manager Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "full_name",
+          "employee_code",
+          "email"
+        ],
+        "title": "MissingWorkReportUserResponse"
       },
       "MonthSummaryItem": {
         "properties": {
@@ -11493,6 +13283,39 @@
           "total_pages"
         ],
         "title": "Page[TaskStatusResponse]"
+      },
+      "PasswordPolicySummary": {
+        "properties": {
+          "min_length": {
+            "type": "integer",
+            "title": "Min Length"
+          },
+          "require_uppercase": {
+            "type": "boolean",
+            "title": "Require Uppercase"
+          },
+          "require_lowercase": {
+            "type": "boolean",
+            "title": "Require Lowercase"
+          },
+          "require_digit": {
+            "type": "boolean",
+            "title": "Require Digit"
+          },
+          "require_special": {
+            "type": "boolean",
+            "title": "Require Special"
+          }
+        },
+        "type": "object",
+        "required": [
+          "min_length",
+          "require_uppercase",
+          "require_lowercase",
+          "require_digit",
+          "require_special"
+        ],
+        "title": "PasswordPolicySummary"
       },
       "PermissionResponse": {
         "properties": {
@@ -13576,6 +15399,66 @@
         "title": "UserBriefResponse",
         "description": "Compact employee / user reference for tasks, audits, and comments."
       },
+      "UserNavigationResponse": {
+        "properties": {
+          "modules": {
+            "items": {
+              "$ref": "#/components/schemas/AppModuleResponse"
+            },
+            "type": "array",
+            "title": "Modules"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Permissions"
+          },
+          "role_name": {
+            "type": "string",
+            "title": "Role Name"
+          },
+          "role_label": {
+            "type": "string",
+            "title": "Role Label"
+          },
+          "department_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Id"
+          },
+          "department_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Name"
+          },
+          "must_change_password": {
+            "type": "boolean",
+            "title": "Must Change Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role_name",
+          "role_label",
+          "must_change_password"
+        ],
+        "title": "UserNavigationResponse"
+      },
       "UserProfileResponse": {
         "properties": {
           "id": {
@@ -13697,6 +15580,484 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "WorkReportCreate": {
+        "properties": {
+          "report_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Report Date"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkReportItemCreate"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "report_date"
+        ],
+        "title": "WorkReportCreate"
+      },
+      "WorkReportItemCreate": {
+        "properties": {
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 2,
+            "title": "Description"
+          },
+          "minutes_spent": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Minutes Spent",
+            "description": "Minutes spent on this item (must be > 0)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "description",
+          "minutes_spent"
+        ],
+        "title": "WorkReportItemCreate"
+      },
+      "WorkReportItemResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "report_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Report Id"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          },
+          "task_title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Title"
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Name"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Id"
+          },
+          "project_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Project Name"
+          },
+          "category_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category Id"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "minutes_spent": {
+            "type": "integer",
+            "title": "Minutes Spent"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "report_id",
+          "description",
+          "minutes_spent",
+          "created_at"
+        ],
+        "title": "WorkReportItemResponse"
+      },
+      "WorkReportPageResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkReportResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          },
+          "total_pages": {
+            "type": "integer",
+            "title": "Total Pages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size",
+          "total_pages"
+        ],
+        "title": "WorkReportPageResponse"
+      },
+      "WorkReportResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "user_full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Full Name"
+          },
+          "user_employee_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Employee Code"
+          },
+          "department_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Id"
+          },
+          "department_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Department Name"
+          },
+          "report_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Report Date"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "total_minutes": {
+            "type": "integer",
+            "title": "Total Minutes",
+            "default": 0
+          },
+          "submitted_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Submitted At"
+          },
+          "reviewed_by": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewed By"
+          },
+          "reviewer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewer Name"
+          },
+          "reviewed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewed At"
+          },
+          "review_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Note"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/WorkReportItemResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "report_date",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "WorkReportResponse"
+      },
+      "WorkReportReviewRequest": {
+        "properties": {
+          "review_note": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Review Note"
+          },
+          "status": {
+            "type": "string",
+            "pattern": "^(reviewed|draft)$",
+            "title": "Status",
+            "default": "reviewed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "review_note"
+        ],
+        "title": "WorkReportReviewRequest"
+      },
+      "WorkReportUpdate": {
+        "properties": {
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/WorkReportItemCreate"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "title": "WorkReportUpdate"
       },
       "app__schemas__leave__LeaveTypeResponse": {
         "properties": {

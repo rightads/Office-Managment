@@ -85,6 +85,21 @@ PERMISSIONS_CATALOG: list[PermissionDefinition] = [
         "announcement.create", "Publish bulletin board announcements", "Communication"
     ),
     PermissionDefinition("announcement.view", "View active announcements", "Communication"),
+    # Work Reports
+    PermissionDefinition(
+        "work_reports.submit_own", "Create and submit own daily work reports", "Work Reports"
+    ),
+    PermissionDefinition(
+        "work_reports.view_team",
+        "View daily work reports of team and department members",
+        "Work Reports",
+    ),
+    PermissionDefinition(
+        "work_reports.view_all", "View company-wide daily work reports", "Work Reports"
+    ),
+    PermissionDefinition(
+        "work_reports.review", "Review and comment on employee work reports", "Work Reports"
+    ),
     # System & Audit
     PermissionDefinition(
         "system.view_audit_logs", "Inspect security and activity audit logs", "System"
