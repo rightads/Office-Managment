@@ -20,6 +20,8 @@ import 'package:right_ads/features/navigation/presentation/forbidden_screen.dart
 import 'package:right_ads/features/navigation/presentation/force_update_screen.dart';
 import 'package:right_ads/features/tasks/presentation/task_detail_screen.dart';
 import 'package:right_ads/features/tasks/presentation/tasks_screen.dart';
+import 'package:right_ads/features/work_reports/presentation/work_report_detail_screen.dart';
+import 'package:right_ads/features/work_reports/presentation/work_reports_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
@@ -159,6 +161,17 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? '';
           return AnnouncementDetailScreen(announcementId: id);
+        },
+      ),
+      GoRoute(
+        path: RoutePaths.workReports,
+        builder: (context, state) => const WorkReportsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.workReportDetail,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return WorkReportDetailScreen(reportId: id);
         },
       ),
       if (kDebugMode)

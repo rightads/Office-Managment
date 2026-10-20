@@ -52,6 +52,14 @@ _RuntimeAppConfig _$RuntimeAppConfigFromJson(Map<String, dynamic> json) =>
       featureFlags:
           json['feature_flags'] as Map<String, dynamic>? ??
           const <String, dynamic>{},
+      workReportMaxMinutesPerDay:
+          (json['work_report_max_minutes_per_day'] as num?)?.toInt() ?? 960,
+      workReportEditableWindowDays:
+          (json['work_report_editable_window_days'] as num?)?.toInt() ?? 7,
+      workReportReminderTime:
+          json['work_report_reminder_time'] as String? ?? '18:00',
+      workReportAllowEditUntilReviewed:
+          json['work_report_allow_edit_until_reviewed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$RuntimeAppConfigToJson(_RuntimeAppConfig instance) =>
@@ -69,6 +77,11 @@ Map<String, dynamic> _$RuntimeAppConfigToJson(_RuntimeAppConfig instance) =>
           instance.navigationRefreshIntervalMinutes,
       'password_policy': instance.passwordPolicy,
       'feature_flags': instance.featureFlags,
+      'work_report_max_minutes_per_day': instance.workReportMaxMinutesPerDay,
+      'work_report_editable_window_days': instance.workReportEditableWindowDays,
+      'work_report_reminder_time': instance.workReportReminderTime,
+      'work_report_allow_edit_until_reviewed':
+          instance.workReportAllowEditUntilReviewed,
     };
 
 // **************************************************************************

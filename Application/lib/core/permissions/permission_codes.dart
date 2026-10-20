@@ -49,12 +49,18 @@ abstract final class PermissionCodes {
   static const String announcementCreate = 'announcement.create';
   static const String announcementView = 'announcement.view';
 
+  // Daily Work Reports (Backend Addendum A2)
+  static const String workReportsSubmitOwn = 'work_reports.submit_own';
+  static const String workReportsViewTeam = 'work_reports.view_team';
+  static const String workReportsViewAll = 'work_reports.view_all';
+  static const String workReportsReview = 'work_reports.review';
+
   // System & Audit
   static const String systemViewAuditLogs = 'system.view_audit_logs';
   static const String systemManageSettings = 'system.manage_settings';
   static const String modulesManage = 'modules.manage';
 
-  /// Complete catalog of all 34 granular permission codes defined on the server.
+  /// Complete catalog of all 38 granular permission codes defined on the server.
   static const List<String> all = <String>[
     userCreate,
     userRead,
@@ -87,6 +93,10 @@ abstract final class PermissionCodes {
     projectDelete,
     announcementCreate,
     announcementView,
+    workReportsSubmitOwn,
+    workReportsViewTeam,
+    workReportsViewAll,
+    workReportsReview,
     systemViewAuditLogs,
     systemManageSettings,
     modulesManage,

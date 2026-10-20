@@ -1856,5 +1856,256 @@
   "announcementsNewBadge": "New",
   "@announcementsNewBadge": {
     "description": "Badge indicating new or recent announcements"
+  },
+  "workReportsTitle": "Daily Work Reports",
+  "@workReportsTitle": {
+    "description": "Screen title for Daily Work Reports"
+  },
+  "workReportsTabToday": "Today / Edit",
+  "@workReportsTabToday": {
+    "description": "Tab label for today's work report editor"
+  },
+  "workReportsTabHistory": "History",
+  "@workReportsTabHistory": {
+    "description": "Tab label for work report history list"
+  },
+  "workReportSummaryLabel": "Summary",
+  "@workReportSummaryLabel": {
+    "description": "Label for daily report summary"
+  },
+  "workReportSummaryHint": "Brief summary of today's work...",
+  "@workReportSummaryHint": {
+    "description": "Hint text for work report summary field"
+  },
+  "workReportActivitiesTitle": "Activities",
+  "@workReportActivitiesTitle": {
+    "description": "Section header for activities/tasks list in work report"
+  },
+  "workReportAddActivity": "Add Activity",
+  "@workReportAddActivity": {
+    "description": "Button label to add a new activity item row"
+  },
+  "workReportTaskLabel": "Task",
+  "@workReportTaskLabel": {
+    "description": "Label for task selector in work report item"
+  },
+  "workReportSelectTask": "Select Task (Optional)",
+  "@workReportSelectTask": {
+    "description": "Hint/option for task dropdown"
+  },
+  "workReportProjectLabel": "Project",
+  "@workReportProjectLabel": {
+    "description": "Label for project input or selector"
+  },
+  "workReportSelectProject": "Project name (Optional)",
+  "@workReportSelectProject": {
+    "description": "Hint for project text field"
+  },
+  "workReportClientLabel": "Client",
+  "@workReportClientLabel": {
+    "description": "Label for client input or selector"
+  },
+  "workReportSelectClient": "Client name (Optional)",
+  "@workReportSelectClient": {
+    "description": "Hint for client text field"
+  },
+  "workReportDescriptionLabel": "Description",
+  "@workReportDescriptionLabel": {
+    "description": "Label for item activity description"
+  },
+  "workReportDescriptionHint": "What did you work on?",
+  "@workReportDescriptionHint": {
+    "description": "Hint text for activity description"
+  },
+  "workReportMinutesLabel": "Minutes",
+  "@workReportMinutesLabel": {
+    "description": "Label for item duration in minutes"
+  },
+  "workReportMinutesHint": "e.g. 60",
+  "@workReportMinutesHint": {
+    "description": "Hint text for minutes field"
+  },
+  "workReportHoursMinutes": "{hours}h {minutes}m",
+  "@workReportHoursMinutes": {
+    "description": "Formatted duration in hours and minutes",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "workReportTotalTime": "Total Logged: {time}",
+  "@workReportTotalTime": {
+    "description": "Total logged time display",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "workReportMaxTime": "Max Allowed: {time}",
+  "@workReportMaxTime": {
+    "description": "Maximum allowed time display",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "workReportTimeBudgetExceeded": "Total time exceeds maximum allowed ({maxTime})",
+  "@workReportTimeBudgetExceeded": {
+    "description": "Warning message when time budget is exceeded",
+    "placeholders": {
+      "maxTime": {
+        "type": "String"
+      }
+    }
+  },
+  "workReportSaveDraft": "Save Draft",
+  "@workReportSaveDraft": {
+    "description": "Button label to save report as draft"
+  },
+  "workReportSubmit": "Submit Report",
+  "@workReportSubmit": {
+    "description": "Button label to submit work report"
+  },
+  "workReportSubmitting": "Submitting...",
+  "@workReportSubmitting": {
+    "description": "Loading label when submitting report"
+  },
+  "workReportSaving": "Saving...",
+  "@workReportSaving": {
+    "description": "Loading label when saving draft"
+  },
+  "workReportDraftSaved": "Draft saved successfully",
+  "@workReportDraftSaved": {
+    "description": "Snack bar message on draft save success"
+  },
+  "workReportSubmitted": "Work report submitted successfully",
+  "@workReportSubmitted": {
+    "description": "Snack bar message on submit success"
+  },
+  "workReportSubmitConfirmTitle": "Submit Work Report?",
+  "@workReportSubmitConfirmTitle": {
+    "description": "Confirmation dialog title for submit"
+  },
+  "workReportSubmitConfirmMessage": "Once submitted, this report cannot be edited unless returned by a reviewer. Submit now?",
+  "@workReportSubmitConfirmMessage": {
+    "description": "Confirmation dialog body for submit"
+  },
+  "workReportStatusDraft": "Draft",
+  "@workReportStatusDraft": {
+    "description": "Chip label for draft status"
+  },
+  "workReportStatusSubmitted": "Submitted",
+  "@workReportStatusSubmitted": {
+    "description": "Chip label for submitted status"
+  },
+  "workReportStatusReviewed": "Reviewed",
+  "@workReportStatusReviewed": {
+    "description": "Chip label for reviewed status"
+  },
+  "workReportReviewerNote": "Reviewer Note",
+  "@workReportReviewerNote": {
+    "description": "Label for reviewer feedback note"
+  },
+  "workReportReviewedBy": "Reviewed by {name}",
+  "@workReportReviewedBy": {
+    "description": "Label showing reviewer name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workReportLockedBanner": "This report is locked and cannot be edited ({reason}).",
+  "@workReportLockedBanner": {
+    "description": "Banner message when report is locked",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "workReportLockReasonFuture": "Future date cannot be reported",
+  "@workReportLockReasonFuture": {
+    "description": "Lock reason for future dates"
+  },
+  "workReportLockReasonWindow": "Editable window of {days} days has expired",
+  "@workReportLockReasonWindow": {
+    "description": "Lock reason for window expiration",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "workReportLockReasonSubmitted": "Report has already been submitted",
+  "@workReportLockReasonSubmitted": {
+    "description": "Lock reason for submitted report"
+  },
+  "workReportLockReasonReviewed": "Report has already been reviewed",
+  "@workReportLockReasonReviewed": {
+    "description": "Lock reason for reviewed report"
+  },
+  "workReportEmptyHistoryTitle": "No Work Reports Found",
+  "@workReportEmptyHistoryTitle": {
+    "description": "Empty state title for work report history"
+  },
+  "workReportEmptyHistorySubtitle": "Your submitted and drafted work reports will appear here.",
+  "@workReportEmptyHistorySubtitle": {
+    "description": "Empty state subtitle for work report history"
+  },
+  "workReportItemsCount": "{count, plural, =1{1 activity} other{{count} activities}}",
+  "@workReportItemsCount": {
+    "description": "Count of activity items in report",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workReportDateLabel": "Date",
+  "@workReportDateLabel": {
+    "description": "Label for work report date"
+  },
+  "workReportSelectDate": "Select Date",
+  "@workReportSelectDate": {
+    "description": "Button to pick report date"
+  },
+  "workReportDetailTitle": "Work Report Details",
+  "@workReportDetailTitle": {
+    "description": "Screen title for work report details"
+  },
+  "workReportDeleteActivityConfirm": "Remove this activity item?",
+  "@workReportDeleteActivityConfirm": {
+    "description": "Confirmation prompt when deleting activity item row"
+  },
+  "workReportSummaryRequired": "Summary is required",
+  "@workReportSummaryRequired": {
+    "description": "Validation message when summary is empty"
+  },
+  "workReportItemDescriptionRequired": "Activity description is required",
+  "@workReportItemDescriptionRequired": {
+    "description": "Validation message when item description is empty"
+  },
+  "workReportItemMinutesPositive": "Minutes must be greater than 0",
+  "@workReportItemMinutesPositive": {
+    "description": "Validation message when item minutes is zero or negative"
+  },
+  "workReportAtLeastOneItem": "Please add at least one activity item before submitting.",
+  "@workReportAtLeastOneItem": {
+    "description": "Validation message when submitting with 0 items"
+  },
+  "workReportReminderNotificationTitle": "Daily Work Report Reminder",
+  "@workReportReminderNotificationTitle": {
+    "description": "Title for local daily reminder notification"
+  },
+  "workReportReminderNotificationBody": "Don't forget to submit your daily work report for today!",
+  "@workReportReminderNotificationBody": {
+    "description": "Body for local daily reminder notification"
   }
 }

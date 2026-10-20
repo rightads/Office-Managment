@@ -48,7 +48,7 @@ final class UnreadNotificationCountControllerProvider
 }
 
 String _$unreadNotificationCountControllerHash() =>
-    r'9ed19db2d435976645791e67fe0350c76532f15c';
+    r'7139352e0e5a25465669759396fcf942bd98b1fd';
 
 /// Unread notification count badge provider.
 
@@ -109,7 +109,7 @@ final class NotificationsListControllerProvider
 }
 
 String _$notificationsListControllerHash() =>
-    r'368c25b9e032a4b18f0f5fb345a535f7f670f314';
+    r'661dda512b4ae19e16adc111a12633b6f08ccc55';
 
 /// Controller managing the notifications inbox list, pagination, and read actions.
 

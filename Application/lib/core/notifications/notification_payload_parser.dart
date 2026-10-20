@@ -95,6 +95,20 @@ abstract final class NotificationPayloadParser {
       );
     }
 
+    if (rawType.contains('work_report') || rawType.contains('workreport')) {
+      if (entityId != null && entityId.isNotEmpty) {
+        return NotificationDeepLink(
+          targetPath: '${RoutePaths.workReports}/$entityId',
+          type: rawType,
+          entityId: entityId,
+        );
+      }
+      return const NotificationDeepLink(
+        targetPath: RoutePaths.workReports,
+        type: 'work_reports',
+      );
+    }
+
     // Unknown types fallback to notification list
     return NotificationDeepLink(
       targetPath: RoutePaths.notifications,

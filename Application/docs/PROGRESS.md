@@ -100,7 +100,24 @@ Mirrors all 34 granular permission codes in the backend `PERMISSIONS_CATALOG` pl
 - `POST /api/v1/notifications/read-all` (`ApiEndpoints.markAllNotificationsRead`)
 - `GET /api/v1/announcements` (`ApiEndpoints.announcements`)
 - `GET /api/v1/announcements/{id}` (`ApiEndpoints.announcementDetail`)
+- `GET /api/v1/work-reports` (`ApiEndpoints.workReports`)
+- `POST /api/v1/work-reports` (`ApiEndpoints.workReports`)
+- `GET /api/v1/work-reports/me` (`ApiEndpoints.workReportsMe`)
+- `GET /api/v1/work-reports/by-date/{date}` (`ApiEndpoints.workReportByDate`)
+- `GET /api/v1/work-reports/{id}` (`ApiEndpoints.workReportDetail`)
+- `PUT /api/v1/work-reports/{id}` (`ApiEndpoints.workReportDetail`)
+- `POST /api/v1/work-reports/{id}/submit` (`ApiEndpoints.workReportSubmit`)
 
 ---
 
-- None. Backend Addendum A2 is 100% complete and verified with 117/117 passing pytest tests and refreshed openapi.json. Ready to proceed to Flutter Prompt 10 (`10_daily_work_report.md`).
+- Prompt 10 (Daily Work Reports & Timesheets) complete:
+  - Create & edit daily reports with multiple activity items (description, minutes, project, client, task linkage).
+  - Time budget enforcement against runtime-configured `work_report_max_minutes_per_day` with visual progress indicator.
+  - Strict blocking of future dates and editable window enforcement via `work_report_editable_window_days` from server config.
+  - Draft saving and submission flows with optimistic feedback and confirmation dialogs.
+  - Read-only locking with dynamic reason banners (`future_date`, `window_expired`, `already_submitted`, `already_reviewed`).
+  - History list with status chips (`draft`, `submitted`, `reviewed`) and reviewer notes.
+  - Deep linking to report details (`/work-reports/:id`).
+  - Scheduled daily local notification reminders via `WorkReportReminderService` driven by `work_report_reminder_time`, canceled when today's report is handed in.
+  - ARB localization in English and Hindi (`app_en.arb`, `app_hi.arb`) with 0 raw UI string literals.
+  - Full automated tests: 167/167 Flutter tests passing, 0 analyzer issues; 117/117 Backend pytest tests passing.

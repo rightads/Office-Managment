@@ -12,6 +12,9 @@ abstract final class RoutePaths {
   static const String leaves = '/leaves';
   static const String leaveDetail = '/leaves/:id';
   static const String holidays = '/holidays';
+  static const String workReports = '/work-reports';
+  static const String workReportEdit = '/work-reports/edit/:date';
+  static const String workReportDetail = '/work-reports/:id';
   static const String notifications = '/notifications';
   static const String announcements = '/announcements';
   static const String announcementDetail = '/announcements/:id';

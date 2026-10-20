@@ -52,6 +52,18 @@ abstract class RuntimeAppConfig with _$RuntimeAppConfig {
     @JsonKey(name: 'feature_flags')
     @Default(<String, dynamic>{})
     Map<String, dynamic> featureFlags,
+    @JsonKey(name: 'work_report_max_minutes_per_day')
+    @Default(960)
+    int workReportMaxMinutesPerDay,
+    @JsonKey(name: 'work_report_editable_window_days')
+    @Default(7)
+    int workReportEditableWindowDays,
+    @JsonKey(name: 'work_report_reminder_time')
+    @Default('18:00')
+    String workReportReminderTime,
+    @JsonKey(name: 'work_report_allow_edit_until_reviewed')
+    @Default(false)
+    bool workReportAllowEditUntilReviewed,
   }) = _RuntimeAppConfig;
 
   const RuntimeAppConfig._();

@@ -53,7 +53,7 @@ final class AnnouncementsListControllerProvider
 }
 
 String _$announcementsListControllerHash() =>
-    r'92fdb8416c89e1901ebe5df213438015b95ec886';
+    r'22cca3b176ef824cb0504542930f00dbf1040f21';
 
 /// Controller managing company & department announcements.
 ///
@@ -189,7 +189,7 @@ final class AnnouncementDetailProvider
 }
 
 String _$announcementDetailHash() =>
-    r'73a6fa7e72e6ac8deb591ec4649a15ea501329e4';
+    r'74f1d3410f6ef33afd0c3b7766b012c70392af4e';
 
 /// Family provider to load details for a single announcement by ID.
 

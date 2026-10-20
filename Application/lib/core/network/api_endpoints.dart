@@ -74,6 +74,14 @@ abstract final class ApiEndpoints {
   static const String announcements = '/announcements';
   static String announcementDetail(String id) => '/announcements/$id';
 
+  // Daily Work Reports (Prompt 10 / Backend Addendum A2)
+  static const String workReports = '/work-reports';
+  static const String workReportsMe = '/work-reports/me';
+  static String workReportByDate(String isoDate) =>
+      '/work-reports/by-date/$isoDate';
+  static String workReportDetail(String id) => '/work-reports/$id';
+  static String workReportSubmit(String id) => '/work-reports/$id/submit';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{

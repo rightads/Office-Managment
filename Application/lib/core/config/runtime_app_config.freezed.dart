@@ -291,7 +291,7 @@ as bool,
 /// @nodoc
 mixin _$RuntimeAppConfig {
 
-@JsonKey(name: 'app_timezone') String get timezone; String get localeCode; String get currencyCode;@JsonKey(name: 'default_page_size') int get defaultPageSize;@JsonKey(name: 'max_page_size') int get maxPageSize;@JsonKey(name: 'max_upload_mb') int get maxUploadMb;@JsonKey(name: 'allowed_upload_mime_types') List<String> get allowedUploadMimeTypes;@JsonKey(name: 'min_supported_app_version') String get minSupportedAppVersion;@JsonKey(name: 'force_update') bool get forceUpdate;@JsonKey(name: 'navigation_refresh_interval_minutes') int get navigationRefreshIntervalMinutes;@JsonKey(name: 'password_policy') PasswordPolicySummary get passwordPolicy;@JsonKey(name: 'feature_flags') Map<String, dynamic> get featureFlags;
+@JsonKey(name: 'app_timezone') String get timezone; String get localeCode; String get currencyCode;@JsonKey(name: 'default_page_size') int get defaultPageSize;@JsonKey(name: 'max_page_size') int get maxPageSize;@JsonKey(name: 'max_upload_mb') int get maxUploadMb;@JsonKey(name: 'allowed_upload_mime_types') List<String> get allowedUploadMimeTypes;@JsonKey(name: 'min_supported_app_version') String get minSupportedAppVersion;@JsonKey(name: 'force_update') bool get forceUpdate;@JsonKey(name: 'navigation_refresh_interval_minutes') int get navigationRefreshIntervalMinutes;@JsonKey(name: 'password_policy') PasswordPolicySummary get passwordPolicy;@JsonKey(name: 'feature_flags') Map<String, dynamic> get featureFlags;@JsonKey(name: 'work_report_max_minutes_per_day') int get workReportMaxMinutesPerDay;@JsonKey(name: 'work_report_editable_window_days') int get workReportEditableWindowDays;@JsonKey(name: 'work_report_reminder_time') String get workReportReminderTime;@JsonKey(name: 'work_report_allow_edit_until_reviewed') bool get workReportAllowEditUntilReviewed;
 /// Create a copy of RuntimeAppConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -304,16 +304,16 @@ $RuntimeAppConfigCopyWith<RuntimeAppConfig> get copyWith => _$RuntimeAppConfigCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RuntimeAppConfig&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.localeCode, localeCode) || other.localeCode == localeCode)&&(identical(other.currencyCode, currencyCode) || other.currencyCode == currencyCode)&&(identical(other.defaultPageSize, defaultPageSize) || other.defaultPageSize == defaultPageSize)&&(identical(other.maxPageSize, maxPageSize) || other.maxPageSize == maxPageSize)&&(identical(other.maxUploadMb, maxUploadMb) || other.maxUploadMb == maxUploadMb)&&const DeepCollectionEquality().equals(other.allowedUploadMimeTypes, allowedUploadMimeTypes)&&(identical(other.minSupportedAppVersion, minSupportedAppVersion) || other.minSupportedAppVersion == minSupportedAppVersion)&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.navigationRefreshIntervalMinutes, navigationRefreshIntervalMinutes) || other.navigationRefreshIntervalMinutes == navigationRefreshIntervalMinutes)&&(identical(other.passwordPolicy, passwordPolicy) || other.passwordPolicy == passwordPolicy)&&const DeepCollectionEquality().equals(other.featureFlags, featureFlags));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RuntimeAppConfig&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.localeCode, localeCode) || other.localeCode == localeCode)&&(identical(other.currencyCode, currencyCode) || other.currencyCode == currencyCode)&&(identical(other.defaultPageSize, defaultPageSize) || other.defaultPageSize == defaultPageSize)&&(identical(other.maxPageSize, maxPageSize) || other.maxPageSize == maxPageSize)&&(identical(other.maxUploadMb, maxUploadMb) || other.maxUploadMb == maxUploadMb)&&const DeepCollectionEquality().equals(other.allowedUploadMimeTypes, allowedUploadMimeTypes)&&(identical(other.minSupportedAppVersion, minSupportedAppVersion) || other.minSupportedAppVersion == minSupportedAppVersion)&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.navigationRefreshIntervalMinutes, navigationRefreshIntervalMinutes) || other.navigationRefreshIntervalMinutes == navigationRefreshIntervalMinutes)&&(identical(other.passwordPolicy, passwordPolicy) || other.passwordPolicy == passwordPolicy)&&const DeepCollectionEquality().equals(other.featureFlags, featureFlags)&&(identical(other.workReportMaxMinutesPerDay, workReportMaxMinutesPerDay) || other.workReportMaxMinutesPerDay == workReportMaxMinutesPerDay)&&(identical(other.workReportEditableWindowDays, workReportEditableWindowDays) || other.workReportEditableWindowDays == workReportEditableWindowDays)&&(identical(other.workReportReminderTime, workReportReminderTime) || other.workReportReminderTime == workReportReminderTime)&&(identical(other.workReportAllowEditUntilReviewed, workReportAllowEditUntilReviewed) || other.workReportAllowEditUntilReviewed == workReportAllowEditUntilReviewed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timezone,localeCode,currencyCode,defaultPageSize,maxPageSize,maxUploadMb,const DeepCollectionEquality().hash(allowedUploadMimeTypes),minSupportedAppVersion,forceUpdate,navigationRefreshIntervalMinutes,passwordPolicy,const DeepCollectionEquality().hash(featureFlags));
+int get hashCode => Object.hash(runtimeType,timezone,localeCode,currencyCode,defaultPageSize,maxPageSize,maxUploadMb,const DeepCollectionEquality().hash(allowedUploadMimeTypes),minSupportedAppVersion,forceUpdate,navigationRefreshIntervalMinutes,passwordPolicy,const DeepCollectionEquality().hash(featureFlags),workReportMaxMinutesPerDay,workReportEditableWindowDays,workReportReminderTime,workReportAllowEditUntilReviewed);
 
 @override
 String toString() {
-  return 'RuntimeAppConfig(timezone: $timezone, localeCode: $localeCode, currencyCode: $currencyCode, defaultPageSize: $defaultPageSize, maxPageSize: $maxPageSize, maxUploadMb: $maxUploadMb, allowedUploadMimeTypes: $allowedUploadMimeTypes, minSupportedAppVersion: $minSupportedAppVersion, forceUpdate: $forceUpdate, navigationRefreshIntervalMinutes: $navigationRefreshIntervalMinutes, passwordPolicy: $passwordPolicy, featureFlags: $featureFlags)';
+  return 'RuntimeAppConfig(timezone: $timezone, localeCode: $localeCode, currencyCode: $currencyCode, defaultPageSize: $defaultPageSize, maxPageSize: $maxPageSize, maxUploadMb: $maxUploadMb, allowedUploadMimeTypes: $allowedUploadMimeTypes, minSupportedAppVersion: $minSupportedAppVersion, forceUpdate: $forceUpdate, navigationRefreshIntervalMinutes: $navigationRefreshIntervalMinutes, passwordPolicy: $passwordPolicy, featureFlags: $featureFlags, workReportMaxMinutesPerDay: $workReportMaxMinutesPerDay, workReportEditableWindowDays: $workReportEditableWindowDays, workReportReminderTime: $workReportReminderTime, workReportAllowEditUntilReviewed: $workReportAllowEditUntilReviewed)';
 }
 
 
@@ -324,7 +324,7 @@ abstract mixin class $RuntimeAppConfigCopyWith<$Res>  {
   factory $RuntimeAppConfigCopyWith(RuntimeAppConfig value, $Res Function(RuntimeAppConfig) _then) = _$RuntimeAppConfigCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'app_timezone') String timezone, String localeCode, String currencyCode,@JsonKey(name: 'default_page_size') int defaultPageSize,@JsonKey(name: 'max_page_size') int maxPageSize,@JsonKey(name: 'max_upload_mb') int maxUploadMb,@JsonKey(name: 'allowed_upload_mime_types') List<String> allowedUploadMimeTypes,@JsonKey(name: 'min_supported_app_version') String minSupportedAppVersion,@JsonKey(name: 'force_update') bool forceUpdate,@JsonKey(name: 'navigation_refresh_interval_minutes') int navigationRefreshIntervalMinutes,@JsonKey(name: 'password_policy') PasswordPolicySummary passwordPolicy,@JsonKey(name: 'feature_flags') Map<String, dynamic> featureFlags
+@JsonKey(name: 'app_timezone') String timezone, String localeCode, String currencyCode,@JsonKey(name: 'default_page_size') int defaultPageSize,@JsonKey(name: 'max_page_size') int maxPageSize,@JsonKey(name: 'max_upload_mb') int maxUploadMb,@JsonKey(name: 'allowed_upload_mime_types') List<String> allowedUploadMimeTypes,@JsonKey(name: 'min_supported_app_version') String minSupportedAppVersion,@JsonKey(name: 'force_update') bool forceUpdate,@JsonKey(name: 'navigation_refresh_interval_minutes') int navigationRefreshIntervalMinutes,@JsonKey(name: 'password_policy') PasswordPolicySummary passwordPolicy,@JsonKey(name: 'feature_flags') Map<String, dynamic> featureFlags,@JsonKey(name: 'work_report_max_minutes_per_day') int workReportMaxMinutesPerDay,@JsonKey(name: 'work_report_editable_window_days') int workReportEditableWindowDays,@JsonKey(name: 'work_report_reminder_time') String workReportReminderTime,@JsonKey(name: 'work_report_allow_edit_until_reviewed') bool workReportAllowEditUntilReviewed
 });
 
 
@@ -341,7 +341,7 @@ class _$RuntimeAppConfigCopyWithImpl<$Res>
 
 /// Create a copy of RuntimeAppConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? timezone = null,Object? localeCode = null,Object? currencyCode = null,Object? defaultPageSize = null,Object? maxPageSize = null,Object? maxUploadMb = null,Object? allowedUploadMimeTypes = null,Object? minSupportedAppVersion = null,Object? forceUpdate = null,Object? navigationRefreshIntervalMinutes = null,Object? passwordPolicy = null,Object? featureFlags = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? timezone = null,Object? localeCode = null,Object? currencyCode = null,Object? defaultPageSize = null,Object? maxPageSize = null,Object? maxUploadMb = null,Object? allowedUploadMimeTypes = null,Object? minSupportedAppVersion = null,Object? forceUpdate = null,Object? navigationRefreshIntervalMinutes = null,Object? passwordPolicy = null,Object? featureFlags = null,Object? workReportMaxMinutesPerDay = null,Object? workReportEditableWindowDays = null,Object? workReportReminderTime = null,Object? workReportAllowEditUntilReviewed = null,}) {
   return _then(RuntimeAppConfig(
 timezone: null == timezone ? _self.timezone : timezone // ignore: cast_nullable_to_non_nullable
 as String,localeCode: null == localeCode ? _self.localeCode : localeCode // ignore: cast_nullable_to_non_nullable
@@ -355,7 +355,11 @@ as String,forceUpdate: null == forceUpdate ? _self.forceUpdate : forceUpdate // 
 as bool,navigationRefreshIntervalMinutes: null == navigationRefreshIntervalMinutes ? _self.navigationRefreshIntervalMinutes : navigationRefreshIntervalMinutes // ignore: cast_nullable_to_non_nullable
 as int,passwordPolicy: null == passwordPolicy ? _self.passwordPolicy : passwordPolicy // ignore: cast_nullable_to_non_nullable
 as PasswordPolicySummary,featureFlags: null == featureFlags ? _self.featureFlags : featureFlags // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>,
+as Map<String, dynamic>,workReportMaxMinutesPerDay: null == workReportMaxMinutesPerDay ? _self.workReportMaxMinutesPerDay : workReportMaxMinutesPerDay // ignore: cast_nullable_to_non_nullable
+as int,workReportEditableWindowDays: null == workReportEditableWindowDays ? _self.workReportEditableWindowDays : workReportEditableWindowDays // ignore: cast_nullable_to_non_nullable
+as int,workReportReminderTime: null == workReportReminderTime ? _self.workReportReminderTime : workReportReminderTime // ignore: cast_nullable_to_non_nullable
+as String,workReportAllowEditUntilReviewed: null == workReportAllowEditUntilReviewed ? _self.workReportAllowEditUntilReviewed : workReportAllowEditUntilReviewed // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of RuntimeAppConfig
@@ -449,10 +453,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'app_timezone')  String timezone,  String localeCode,  String currencyCode, @JsonKey(name: 'default_page_size')  int defaultPageSize, @JsonKey(name: 'max_page_size')  int maxPageSize, @JsonKey(name: 'max_upload_mb')  int maxUploadMb, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes, @JsonKey(name: 'min_supported_app_version')  String minSupportedAppVersion, @JsonKey(name: 'force_update')  bool forceUpdate, @JsonKey(name: 'navigation_refresh_interval_minutes')  int navigationRefreshIntervalMinutes, @JsonKey(name: 'password_policy')  PasswordPolicySummary passwordPolicy, @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'app_timezone')  String timezone,  String localeCode,  String currencyCode, @JsonKey(name: 'default_page_size')  int defaultPageSize, @JsonKey(name: 'max_page_size')  int maxPageSize, @JsonKey(name: 'max_upload_mb')  int maxUploadMb, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes, @JsonKey(name: 'min_supported_app_version')  String minSupportedAppVersion, @JsonKey(name: 'force_update')  bool forceUpdate, @JsonKey(name: 'navigation_refresh_interval_minutes')  int navigationRefreshIntervalMinutes, @JsonKey(name: 'password_policy')  PasswordPolicySummary passwordPolicy, @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags, @JsonKey(name: 'work_report_max_minutes_per_day')  int workReportMaxMinutesPerDay, @JsonKey(name: 'work_report_editable_window_days')  int workReportEditableWindowDays, @JsonKey(name: 'work_report_reminder_time')  String workReportReminderTime, @JsonKey(name: 'work_report_allow_edit_until_reviewed')  bool workReportAllowEditUntilReviewed)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RuntimeAppConfig() when $default != null:
-return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.defaultPageSize,_that.maxPageSize,_that.maxUploadMb,_that.allowedUploadMimeTypes,_that.minSupportedAppVersion,_that.forceUpdate,_that.navigationRefreshIntervalMinutes,_that.passwordPolicy,_that.featureFlags);case _:
+return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.defaultPageSize,_that.maxPageSize,_that.maxUploadMb,_that.allowedUploadMimeTypes,_that.minSupportedAppVersion,_that.forceUpdate,_that.navigationRefreshIntervalMinutes,_that.passwordPolicy,_that.featureFlags,_that.workReportMaxMinutesPerDay,_that.workReportEditableWindowDays,_that.workReportReminderTime,_that.workReportAllowEditUntilReviewed);case _:
   return orElse();
 
 }
@@ -470,10 +474,10 @@ return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.default
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'app_timezone')  String timezone,  String localeCode,  String currencyCode, @JsonKey(name: 'default_page_size')  int defaultPageSize, @JsonKey(name: 'max_page_size')  int maxPageSize, @JsonKey(name: 'max_upload_mb')  int maxUploadMb, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes, @JsonKey(name: 'min_supported_app_version')  String minSupportedAppVersion, @JsonKey(name: 'force_update')  bool forceUpdate, @JsonKey(name: 'navigation_refresh_interval_minutes')  int navigationRefreshIntervalMinutes, @JsonKey(name: 'password_policy')  PasswordPolicySummary passwordPolicy, @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'app_timezone')  String timezone,  String localeCode,  String currencyCode, @JsonKey(name: 'default_page_size')  int defaultPageSize, @JsonKey(name: 'max_page_size')  int maxPageSize, @JsonKey(name: 'max_upload_mb')  int maxUploadMb, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes, @JsonKey(name: 'min_supported_app_version')  String minSupportedAppVersion, @JsonKey(name: 'force_update')  bool forceUpdate, @JsonKey(name: 'navigation_refresh_interval_minutes')  int navigationRefreshIntervalMinutes, @JsonKey(name: 'password_policy')  PasswordPolicySummary passwordPolicy, @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags, @JsonKey(name: 'work_report_max_minutes_per_day')  int workReportMaxMinutesPerDay, @JsonKey(name: 'work_report_editable_window_days')  int workReportEditableWindowDays, @JsonKey(name: 'work_report_reminder_time')  String workReportReminderTime, @JsonKey(name: 'work_report_allow_edit_until_reviewed')  bool workReportAllowEditUntilReviewed)  $default,) {final _that = this;
 switch (_that) {
 case _RuntimeAppConfig():
-return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.defaultPageSize,_that.maxPageSize,_that.maxUploadMb,_that.allowedUploadMimeTypes,_that.minSupportedAppVersion,_that.forceUpdate,_that.navigationRefreshIntervalMinutes,_that.passwordPolicy,_that.featureFlags);case _:
+return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.defaultPageSize,_that.maxPageSize,_that.maxUploadMb,_that.allowedUploadMimeTypes,_that.minSupportedAppVersion,_that.forceUpdate,_that.navigationRefreshIntervalMinutes,_that.passwordPolicy,_that.featureFlags,_that.workReportMaxMinutesPerDay,_that.workReportEditableWindowDays,_that.workReportReminderTime,_that.workReportAllowEditUntilReviewed);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -490,10 +494,10 @@ return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.default
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'app_timezone')  String timezone,  String localeCode,  String currencyCode, @JsonKey(name: 'default_page_size')  int defaultPageSize, @JsonKey(name: 'max_page_size')  int maxPageSize, @JsonKey(name: 'max_upload_mb')  int maxUploadMb, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes, @JsonKey(name: 'min_supported_app_version')  String minSupportedAppVersion, @JsonKey(name: 'force_update')  bool forceUpdate, @JsonKey(name: 'navigation_refresh_interval_minutes')  int navigationRefreshIntervalMinutes, @JsonKey(name: 'password_policy')  PasswordPolicySummary passwordPolicy, @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'app_timezone')  String timezone,  String localeCode,  String currencyCode, @JsonKey(name: 'default_page_size')  int defaultPageSize, @JsonKey(name: 'max_page_size')  int maxPageSize, @JsonKey(name: 'max_upload_mb')  int maxUploadMb, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes, @JsonKey(name: 'min_supported_app_version')  String minSupportedAppVersion, @JsonKey(name: 'force_update')  bool forceUpdate, @JsonKey(name: 'navigation_refresh_interval_minutes')  int navigationRefreshIntervalMinutes, @JsonKey(name: 'password_policy')  PasswordPolicySummary passwordPolicy, @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags, @JsonKey(name: 'work_report_max_minutes_per_day')  int workReportMaxMinutesPerDay, @JsonKey(name: 'work_report_editable_window_days')  int workReportEditableWindowDays, @JsonKey(name: 'work_report_reminder_time')  String workReportReminderTime, @JsonKey(name: 'work_report_allow_edit_until_reviewed')  bool workReportAllowEditUntilReviewed)?  $default,) {final _that = this;
 switch (_that) {
 case _RuntimeAppConfig() when $default != null:
-return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.defaultPageSize,_that.maxPageSize,_that.maxUploadMb,_that.allowedUploadMimeTypes,_that.minSupportedAppVersion,_that.forceUpdate,_that.navigationRefreshIntervalMinutes,_that.passwordPolicy,_that.featureFlags);case _:
+return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.defaultPageSize,_that.maxPageSize,_that.maxUploadMb,_that.allowedUploadMimeTypes,_that.minSupportedAppVersion,_that.forceUpdate,_that.navigationRefreshIntervalMinutes,_that.passwordPolicy,_that.featureFlags,_that.workReportMaxMinutesPerDay,_that.workReportEditableWindowDays,_that.workReportReminderTime,_that.workReportAllowEditUntilReviewed);case _:
   return null;
 
 }
@@ -505,7 +509,7 @@ return $default(_that.timezone,_that.localeCode,_that.currencyCode,_that.default
 @JsonSerializable()
 
 class _RuntimeAppConfig extends RuntimeAppConfig {
-  const _RuntimeAppConfig({@JsonKey(name: 'app_timezone') this.timezone = 'UTC', this.localeCode = 'en_IN', this.currencyCode = 'INR', @JsonKey(name: 'default_page_size') this.defaultPageSize = 20, @JsonKey(name: 'max_page_size') this.maxPageSize = 100, @JsonKey(name: 'max_upload_mb') this.maxUploadMb = 10, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes = const <String>['image/jpeg', 'image/png', 'application/pdf'], @JsonKey(name: 'min_supported_app_version') this.minSupportedAppVersion = '1.0.0', @JsonKey(name: 'force_update') this.forceUpdate = false, @JsonKey(name: 'navigation_refresh_interval_minutes') this.navigationRefreshIntervalMinutes = 5, @JsonKey(name: 'password_policy') this.passwordPolicy = const PasswordPolicySummary(), @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags = const <String, dynamic>{}}): _allowedUploadMimeTypes = allowedUploadMimeTypes,_featureFlags = featureFlags,super._();
+  const _RuntimeAppConfig({@JsonKey(name: 'app_timezone') this.timezone = 'UTC', this.localeCode = 'en_IN', this.currencyCode = 'INR', @JsonKey(name: 'default_page_size') this.defaultPageSize = 20, @JsonKey(name: 'max_page_size') this.maxPageSize = 100, @JsonKey(name: 'max_upload_mb') this.maxUploadMb = 10, @JsonKey(name: 'allowed_upload_mime_types')  List<String> allowedUploadMimeTypes = const <String>['image/jpeg', 'image/png', 'application/pdf'], @JsonKey(name: 'min_supported_app_version') this.minSupportedAppVersion = '1.0.0', @JsonKey(name: 'force_update') this.forceUpdate = false, @JsonKey(name: 'navigation_refresh_interval_minutes') this.navigationRefreshIntervalMinutes = 5, @JsonKey(name: 'password_policy') this.passwordPolicy = const PasswordPolicySummary(), @JsonKey(name: 'feature_flags')  Map<String, dynamic> featureFlags = const <String, dynamic>{}, @JsonKey(name: 'work_report_max_minutes_per_day') this.workReportMaxMinutesPerDay = 960, @JsonKey(name: 'work_report_editable_window_days') this.workReportEditableWindowDays = 7, @JsonKey(name: 'work_report_reminder_time') this.workReportReminderTime = '18:00', @JsonKey(name: 'work_report_allow_edit_until_reviewed') this.workReportAllowEditUntilReviewed = false}): _allowedUploadMimeTypes = allowedUploadMimeTypes,_featureFlags = featureFlags,super._();
   factory _RuntimeAppConfig.fromJson(Map<String, dynamic> json) => _$RuntimeAppConfigFromJson(json);
 
 @override@JsonKey(name: 'app_timezone') final  String timezone;
@@ -532,6 +536,10 @@ class _RuntimeAppConfig extends RuntimeAppConfig {
   return EqualUnmodifiableMapView(_featureFlags);
 }
 
+@override@JsonKey(name: 'work_report_max_minutes_per_day') final  int workReportMaxMinutesPerDay;
+@override@JsonKey(name: 'work_report_editable_window_days') final  int workReportEditableWindowDays;
+@override@JsonKey(name: 'work_report_reminder_time') final  String workReportReminderTime;
+@override@JsonKey(name: 'work_report_allow_edit_until_reviewed') final  bool workReportAllowEditUntilReviewed;
 
 /// Create a copy of RuntimeAppConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -546,16 +554,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RuntimeAppConfig&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.localeCode, localeCode) || other.localeCode == localeCode)&&(identical(other.currencyCode, currencyCode) || other.currencyCode == currencyCode)&&(identical(other.defaultPageSize, defaultPageSize) || other.defaultPageSize == defaultPageSize)&&(identical(other.maxPageSize, maxPageSize) || other.maxPageSize == maxPageSize)&&(identical(other.maxUploadMb, maxUploadMb) || other.maxUploadMb == maxUploadMb)&&const DeepCollectionEquality().equals(other._allowedUploadMimeTypes, _allowedUploadMimeTypes)&&(identical(other.minSupportedAppVersion, minSupportedAppVersion) || other.minSupportedAppVersion == minSupportedAppVersion)&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.navigationRefreshIntervalMinutes, navigationRefreshIntervalMinutes) || other.navigationRefreshIntervalMinutes == navigationRefreshIntervalMinutes)&&(identical(other.passwordPolicy, passwordPolicy) || other.passwordPolicy == passwordPolicy)&&const DeepCollectionEquality().equals(other._featureFlags, _featureFlags));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RuntimeAppConfig&&(identical(other.timezone, timezone) || other.timezone == timezone)&&(identical(other.localeCode, localeCode) || other.localeCode == localeCode)&&(identical(other.currencyCode, currencyCode) || other.currencyCode == currencyCode)&&(identical(other.defaultPageSize, defaultPageSize) || other.defaultPageSize == defaultPageSize)&&(identical(other.maxPageSize, maxPageSize) || other.maxPageSize == maxPageSize)&&(identical(other.maxUploadMb, maxUploadMb) || other.maxUploadMb == maxUploadMb)&&const DeepCollectionEquality().equals(other._allowedUploadMimeTypes, _allowedUploadMimeTypes)&&(identical(other.minSupportedAppVersion, minSupportedAppVersion) || other.minSupportedAppVersion == minSupportedAppVersion)&&(identical(other.forceUpdate, forceUpdate) || other.forceUpdate == forceUpdate)&&(identical(other.navigationRefreshIntervalMinutes, navigationRefreshIntervalMinutes) || other.navigationRefreshIntervalMinutes == navigationRefreshIntervalMinutes)&&(identical(other.passwordPolicy, passwordPolicy) || other.passwordPolicy == passwordPolicy)&&const DeepCollectionEquality().equals(other._featureFlags, _featureFlags)&&(identical(other.workReportMaxMinutesPerDay, workReportMaxMinutesPerDay) || other.workReportMaxMinutesPerDay == workReportMaxMinutesPerDay)&&(identical(other.workReportEditableWindowDays, workReportEditableWindowDays) || other.workReportEditableWindowDays == workReportEditableWindowDays)&&(identical(other.workReportReminderTime, workReportReminderTime) || other.workReportReminderTime == workReportReminderTime)&&(identical(other.workReportAllowEditUntilReviewed, workReportAllowEditUntilReviewed) || other.workReportAllowEditUntilReviewed == workReportAllowEditUntilReviewed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timezone,localeCode,currencyCode,defaultPageSize,maxPageSize,maxUploadMb,const DeepCollectionEquality().hash(_allowedUploadMimeTypes),minSupportedAppVersion,forceUpdate,navigationRefreshIntervalMinutes,passwordPolicy,const DeepCollectionEquality().hash(_featureFlags));
+int get hashCode => Object.hash(runtimeType,timezone,localeCode,currencyCode,defaultPageSize,maxPageSize,maxUploadMb,const DeepCollectionEquality().hash(_allowedUploadMimeTypes),minSupportedAppVersion,forceUpdate,navigationRefreshIntervalMinutes,passwordPolicy,const DeepCollectionEquality().hash(_featureFlags),workReportMaxMinutesPerDay,workReportEditableWindowDays,workReportReminderTime,workReportAllowEditUntilReviewed);
 
 @override
 String toString() {
-  return 'RuntimeAppConfig(timezone: $timezone, localeCode: $localeCode, currencyCode: $currencyCode, defaultPageSize: $defaultPageSize, maxPageSize: $maxPageSize, maxUploadMb: $maxUploadMb, allowedUploadMimeTypes: $allowedUploadMimeTypes, minSupportedAppVersion: $minSupportedAppVersion, forceUpdate: $forceUpdate, navigationRefreshIntervalMinutes: $navigationRefreshIntervalMinutes, passwordPolicy: $passwordPolicy, featureFlags: $featureFlags)';
+  return 'RuntimeAppConfig(timezone: $timezone, localeCode: $localeCode, currencyCode: $currencyCode, defaultPageSize: $defaultPageSize, maxPageSize: $maxPageSize, maxUploadMb: $maxUploadMb, allowedUploadMimeTypes: $allowedUploadMimeTypes, minSupportedAppVersion: $minSupportedAppVersion, forceUpdate: $forceUpdate, navigationRefreshIntervalMinutes: $navigationRefreshIntervalMinutes, passwordPolicy: $passwordPolicy, featureFlags: $featureFlags, workReportMaxMinutesPerDay: $workReportMaxMinutesPerDay, workReportEditableWindowDays: $workReportEditableWindowDays, workReportReminderTime: $workReportReminderTime, workReportAllowEditUntilReviewed: $workReportAllowEditUntilReviewed)';
 }
 
 
@@ -566,7 +574,7 @@ abstract mixin class _$RuntimeAppConfigCopyWith<$Res> implements $RuntimeAppConf
   factory _$RuntimeAppConfigCopyWith(_RuntimeAppConfig value, $Res Function(_RuntimeAppConfig) _then) = __$RuntimeAppConfigCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'app_timezone') String timezone, String localeCode, String currencyCode,@JsonKey(name: 'default_page_size') int defaultPageSize,@JsonKey(name: 'max_page_size') int maxPageSize,@JsonKey(name: 'max_upload_mb') int maxUploadMb,@JsonKey(name: 'allowed_upload_mime_types') List<String> allowedUploadMimeTypes,@JsonKey(name: 'min_supported_app_version') String minSupportedAppVersion,@JsonKey(name: 'force_update') bool forceUpdate,@JsonKey(name: 'navigation_refresh_interval_minutes') int navigationRefreshIntervalMinutes,@JsonKey(name: 'password_policy') PasswordPolicySummary passwordPolicy,@JsonKey(name: 'feature_flags') Map<String, dynamic> featureFlags
+@JsonKey(name: 'app_timezone') String timezone, String localeCode, String currencyCode,@JsonKey(name: 'default_page_size') int defaultPageSize,@JsonKey(name: 'max_page_size') int maxPageSize,@JsonKey(name: 'max_upload_mb') int maxUploadMb,@JsonKey(name: 'allowed_upload_mime_types') List<String> allowedUploadMimeTypes,@JsonKey(name: 'min_supported_app_version') String minSupportedAppVersion,@JsonKey(name: 'force_update') bool forceUpdate,@JsonKey(name: 'navigation_refresh_interval_minutes') int navigationRefreshIntervalMinutes,@JsonKey(name: 'password_policy') PasswordPolicySummary passwordPolicy,@JsonKey(name: 'feature_flags') Map<String, dynamic> featureFlags,@JsonKey(name: 'work_report_max_minutes_per_day') int workReportMaxMinutesPerDay,@JsonKey(name: 'work_report_editable_window_days') int workReportEditableWindowDays,@JsonKey(name: 'work_report_reminder_time') String workReportReminderTime,@JsonKey(name: 'work_report_allow_edit_until_reviewed') bool workReportAllowEditUntilReviewed
 });
 
 
@@ -583,7 +591,7 @@ class __$RuntimeAppConfigCopyWithImpl<$Res>
 
 /// Create a copy of RuntimeAppConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? timezone = null,Object? localeCode = null,Object? currencyCode = null,Object? defaultPageSize = null,Object? maxPageSize = null,Object? maxUploadMb = null,Object? allowedUploadMimeTypes = null,Object? minSupportedAppVersion = null,Object? forceUpdate = null,Object? navigationRefreshIntervalMinutes = null,Object? passwordPolicy = null,Object? featureFlags = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? timezone = null,Object? localeCode = null,Object? currencyCode = null,Object? defaultPageSize = null,Object? maxPageSize = null,Object? maxUploadMb = null,Object? allowedUploadMimeTypes = null,Object? minSupportedAppVersion = null,Object? forceUpdate = null,Object? navigationRefreshIntervalMinutes = null,Object? passwordPolicy = null,Object? featureFlags = null,Object? workReportMaxMinutesPerDay = null,Object? workReportEditableWindowDays = null,Object? workReportReminderTime = null,Object? workReportAllowEditUntilReviewed = null,}) {
   return _then(_RuntimeAppConfig(
 timezone: null == timezone ? _self.timezone : timezone // ignore: cast_nullable_to_non_nullable
 as String,localeCode: null == localeCode ? _self.localeCode : localeCode // ignore: cast_nullable_to_non_nullable
@@ -597,7 +605,11 @@ as String,forceUpdate: null == forceUpdate ? _self.forceUpdate : forceUpdate // 
 as bool,navigationRefreshIntervalMinutes: null == navigationRefreshIntervalMinutes ? _self.navigationRefreshIntervalMinutes : navigationRefreshIntervalMinutes // ignore: cast_nullable_to_non_nullable
 as int,passwordPolicy: null == passwordPolicy ? _self.passwordPolicy : passwordPolicy // ignore: cast_nullable_to_non_nullable
 as PasswordPolicySummary,featureFlags: null == featureFlags ? _self._featureFlags : featureFlags // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>,
+as Map<String, dynamic>,workReportMaxMinutesPerDay: null == workReportMaxMinutesPerDay ? _self.workReportMaxMinutesPerDay : workReportMaxMinutesPerDay // ignore: cast_nullable_to_non_nullable
+as int,workReportEditableWindowDays: null == workReportEditableWindowDays ? _self.workReportEditableWindowDays : workReportEditableWindowDays // ignore: cast_nullable_to_non_nullable
+as int,workReportReminderTime: null == workReportReminderTime ? _self.workReportReminderTime : workReportReminderTime // ignore: cast_nullable_to_non_nullable
+as String,workReportAllowEditUntilReviewed: null == workReportAllowEditUntilReviewed ? _self.workReportAllowEditUntilReviewed : workReportAllowEditUntilReviewed // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

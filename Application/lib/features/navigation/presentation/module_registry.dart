@@ -9,6 +9,7 @@ import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
 import 'package:right_ads/features/profile/presentation/profile_screen.dart';
 import 'package:right_ads/features/tasks/presentation/tasks_screen.dart';
+import 'package:right_ads/features/work_reports/presentation/work_reports_screen.dart';
 
 typedef ModuleWidgetBuilder =
     Widget Function(
@@ -42,7 +43,7 @@ abstract final class ModuleRegistry {
         'holidays': (context, module) =>
             const LeavesScreen(initialTab: LeavesInitialTab.holidays),
         'work_reports': (context, module) =>
-            BaseModulePlaceholderView(module: module),
+            const WorkReportsScreen(),
         'announcements': (context, module) =>
             const AnnouncementsScreen(isRootNavigation: true),
         'notifications': (context, module) => const NotificationsScreen(),

@@ -40,6 +40,11 @@ void main() {
         ApiEndpoints.attendanceMe,
         ApiEndpoints.employeeMonthlyAttendanceReport('{id}'),
         ApiEndpoints.employeeYearlyAttendanceReport('{id}'),
+        ApiEndpoints.workReports,
+        ApiEndpoints.workReportsMe,
+        ApiEndpoints.workReportByDate('{date}'),
+        ApiEndpoints.workReportDetail('{id}'),
+        ApiEndpoints.workReportSubmit('{id}'),
       ];
 
       for (final endpoint in endpointsToCheck) {
@@ -59,7 +64,7 @@ void main() {
     });
 
     test('PermissionCodes catalog matches backend seed permissions', () {
-      expect(PermissionCodes.all.length, 34);
+      expect(PermissionCodes.all.length, 38);
       expect(PermissionCodes.all.contains(PermissionCodes.wildcard), isFalse);
 
       final registryFile = File('../Backend/app/core/permissions_registry.py');

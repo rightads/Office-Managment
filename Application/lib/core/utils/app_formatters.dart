@@ -45,6 +45,21 @@ class AppFormatters {
     }
   }
 
+  /// The configured display timezone as a `timezone` package location.
+  tz.Location get location => _location;
+
+  /// Today's calendar date (time stripped) in the configured display timezone.
+  ///
+  /// Mirrors the server's `get_local_today()` so client-side date rules
+  /// (e.g. blocking future work-report dates) agree with the API.
+  DateTime todayDate({DateTime? nowUtc}) {
+    final now = tz.TZDateTime.from(
+      (nowUtc ?? DateTime.now()).toUtc(),
+      _location,
+    );
+    return DateTime(now.year, now.month, now.day);
+  }
+
   /// Converts a [dateTime] (assumed UTC if not already marked UTC, or converted
   /// via `.toUtc()`) into the configured display timezone.
   tz.TZDateTime toDisplayDateTime(DateTime dateTime) {
