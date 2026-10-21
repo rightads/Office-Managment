@@ -255,7 +255,7 @@ final class WorkReportTaskOptionsProvider
 }
 
 String _$workReportTaskOptionsHash() =>
-    r'c6675bf62db0650845a4d6d6da36de1af67d0573';
+    r'8c68df7a2c0b6b1c8f15154ff324302fb7015db0';
 
 /// Calendar date (as `yyyy-MM-dd`) currently shown in the editor tab.
 /// `null` means "today".
@@ -367,7 +367,7 @@ final class WorkReportEditorControllerProvider
 }
 
 String _$workReportEditorControllerHash() =>
-    r'741ddaf8b97d3117d8b3e0e7017c7db3832661ca';
+    r'cf49dbbce57e22310f3e6d4f4513e8ce397e7a49';
 
 final class WorkReportEditorControllerFamily extends $Family
     with

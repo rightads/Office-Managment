@@ -8,6 +8,7 @@ from app.api.v1.endpoints import (
     attendance_reports,
     auth,
     clients_projects,
+    dynamic_modules,
     employees,
     health,
     leaves,
@@ -45,6 +46,9 @@ api_v1_router.include_router(clients_projects.router)
 
 # Daily Work Reports & Timesheets (Backend Addendum A2)
 api_v1_router.include_router(work_reports.router)
+
+# Dynamic Module Engine (Backend Addendum A3)
+api_v1_router.include_router(dynamic_modules.router)
 
 # Communication & Notifications
 api_v1_router.include_router(notifications.router)

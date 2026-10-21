@@ -4,6 +4,7 @@ import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/features/attendance/presentation/attendance_screen.dart';
 import 'package:right_ads/features/communication/presentation/announcements_screen.dart';
 import 'package:right_ads/features/communication/presentation/notifications_screen.dart';
+import 'package:right_ads/features/dynamic_modules/presentation/dynamic_module_screen.dart';
 import 'package:right_ads/features/leaves/presentation/leaves_screen.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
@@ -63,6 +64,16 @@ abstract final class ModuleRegistry {
         routeKey: normalized,
         isSupported: true,
         builder: builder,
+      );
+    }
+    if (normalized.startsWith('dynamic_') || normalized.startsWith('custom_') || normalized == 'leads' || normalized == 'tickets' || normalized == 'invoices') {
+      return ModuleRegistryEntry(
+        routeKey: normalized,
+        isSupported: true,
+        builder: (context, module) => DynamicModuleScreen(
+          moduleCode: module.code,
+          initialLabel: module.label,
+        ),
       );
     }
     return ModuleRegistryEntry(

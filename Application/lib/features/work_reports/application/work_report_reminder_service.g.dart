@@ -89,4 +89,4 @@ final class WorkReportReminderSyncProvider
 }
 
 String _$workReportReminderSyncHash() =>
-    r'46305b5948b71ce7cac8b53c5103ab6ba4d5e43b';
+    r'004460fadb56b4600ebf2ee97c505972e1c222c6';

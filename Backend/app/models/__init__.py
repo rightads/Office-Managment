@@ -19,6 +19,16 @@ from app.models.communication import (
     Notification,
     NotificationTemplate,
 )
+from app.models.dynamic_module import (
+    ModuleDefinition,
+    ModuleField,
+    ModuleRecord,
+    ModuleRecordActivity,
+    ModuleRecordAttachment,
+    ModuleRecordComment,
+    ModuleStatus,
+    ModuleStatusTransition,
+)
 from app.models.leave import (
     LeaveBalance,
     LeaveRequest,
@@ -109,4 +119,13 @@ __all__ = [
     "WorkReport",
     "WorkReportItem",
     "WorkReportStatus",
+    # Dynamic Module Engine
+    "ModuleDefinition",
+    "ModuleField",
+    "ModuleStatus",
+    "ModuleStatusTransition",
+    "ModuleRecord",
+    "ModuleRecordComment",
+    "ModuleRecordAttachment",
+    "ModuleRecordActivity",
 ]

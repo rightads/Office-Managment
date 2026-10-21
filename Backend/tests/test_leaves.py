@@ -409,6 +409,8 @@ async def test_rejection_and_cancel_pending_flow(
     await db_session.commit()
 
     d = today + datetime.timedelta(days=25)
+    while d.weekday() >= 5:
+        d += datetime.timedelta(days=1)
 
     # 1. Apply
     app_res = await async_client.post(

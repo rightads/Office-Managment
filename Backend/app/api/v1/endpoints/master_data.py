@@ -10,7 +10,7 @@ from app.core.database import get_db_session
 from app.dependencies.auth import require_any_permissions, require_permission
 from app.models.attendance import AttendancePolicy, AttendanceStatus
 from app.models.leave import LeaveType
-from app.models.organization import Department, Holiday, OfficeLocation
+from app.models.organization import Department, OfficeLocation
 from app.models.user import User
 from app.schemas.common import MessageResponse, Page
 from app.schemas.master_data import (

@@ -2107,5 +2107,122 @@
   "workReportReminderNotificationBody": "Don't forget to submit your daily work report for today!",
   "@workReportReminderNotificationBody": {
     "description": "Body for local daily reminder notification"
+  },
+  "dynamicModuleExportCsv": "Export as CSV",
+  "@dynamicModuleExportCsv": {
+    "description": "Menu option to export records as CSV"
+  },
+  "dynamicModuleExportXlsx": "Export as Excel (XLSX)",
+  "@dynamicModuleExportXlsx": {
+    "description": "Menu option to export records as Excel"
+  },
+  "dynamicModuleNewRecord": "New {recordLabel}",
+  "@dynamicModuleNewRecord": {
+    "description": "Label for creating a new record",
+    "placeholders": {
+      "recordLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "dynamicModuleNoRecordsFound": "No {recordsLabel} found",
+  "@dynamicModuleNoRecordsFound": {
+    "description": "Empty state message when no records match filter",
+    "placeholders": {
+      "recordsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "dynamicModuleSearchHint": "Search {recordsLabel}...",
+  "@dynamicModuleSearchHint": {
+    "description": "Hint text for dynamic module search bar",
+    "placeholders": {
+      "recordsLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "dynamicModuleAllStatusCount": "All ({count})",
+  "@dynamicModuleAllStatusCount": {
+    "description": "Summary chip showing total records count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dynamicModuleCurrentStatus": "Current Status",
+  "@dynamicModuleCurrentStatus": {
+    "description": "Label for current record status"
+  },
+  "dynamicModuleMoveStatusTo": "Move Status To:",
+  "@dynamicModuleMoveStatusTo": {
+    "description": "Label for allowed status transitions"
+  },
+  "dynamicModuleTransitionTitle": "Move to {statusLabel}",
+  "@dynamicModuleTransitionTitle": {
+    "description": "Dialog title for status transition",
+    "placeholders": {
+      "statusLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "dynamicModuleTransitionNoteLabel": "Transition Note (Optional)",
+  "@dynamicModuleTransitionNoteLabel": {
+    "description": "Input label for optional note during transition"
+  },
+  "dynamicModuleNoComments": "No comments yet.",
+  "@dynamicModuleNoComments": {
+    "description": "Empty state text for comments"
+  },
+  "dynamicModuleAddCommentHint": "Add a comment...",
+  "@dynamicModuleAddCommentHint": {
+    "description": "Placeholder text for adding a comment"
+  },
+  "dynamicModuleNoActivities": "No activities recorded.",
+  "@dynamicModuleNoActivities": {
+    "description": "Empty state text for activity timeline"
+  },
+  "dynamicModuleRecordNumberTitle": "{recordLabel} #{recordId}",
+  "@dynamicModuleRecordNumberTitle": {
+    "description": "Detail screen title with short record id",
+    "placeholders": {
+      "recordLabel": {
+        "type": "String"
+      },
+      "recordId": {
+        "type": "String"
+      }
+    }
+  },
+  "dynamicModuleSave": "Save",
+  "@dynamicModuleSave": {
+    "description": "Save action button label"
+  },
+  "dynamicModuleDiscardChangesTitle": "Discard Changes?",
+  "@dynamicModuleDiscardChangesTitle": {
+    "description": "Dialog title for unsaved changes guard"
+  },
+  "dynamicModuleDiscardChangesMessage": "You have unsaved changes. Are you sure you want to discard them?",
+  "@dynamicModuleDiscardChangesMessage": {
+    "description": "Dialog message for unsaved changes guard"
+  },
+  "dynamicModuleDiscard": "Discard",
+  "@dynamicModuleDiscard": {
+    "description": "Discard button label"
+  },
+  "dynamicModuleOverviewTab": "Overview",
+  "@dynamicModuleOverviewTab": {
+    "description": "Tab label for record overview"
+  },
+  "dynamicModuleCommentsTab": "Comments",
+  "@dynamicModuleCommentsTab": {
+    "description": "Tab label for comments list"
+  },
+  "dynamicModuleTimelineTab": "Timeline",
+  "@dynamicModuleTimelineTab": {
+    "description": "Tab label for activity timeline"
   }
 }

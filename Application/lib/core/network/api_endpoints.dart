@@ -82,6 +82,21 @@ abstract final class ApiEndpoints {
   static String workReportDetail(String id) => '/work-reports/$id';
   static String workReportSubmit(String id) => '/work-reports/$id/submit';
 
+  // Dynamic Module Engine (Prompt 11 / Backend Addendum A3)
+  static const String moduleDefinitions = '/modules/definitions';
+  static String moduleDefinition(String code) => '/modules/$code';
+  static String moduleSummary(String code) => '/modules/$code/summary';
+  static String moduleRecords(String code) => '/modules/$code/records';
+  static String moduleRecordDetail(String code, String id) =>
+      '/modules/$code/records/$id';
+  static String moduleRecordStatus(String code, String id) =>
+      '/modules/$code/records/$id/status';
+  static String moduleRecordComments(String code, String id) =>
+      '/modules/$code/records/$id/comments';
+  static String moduleRecordAttachments(String code, String id) =>
+      '/modules/$code/records/$id/attachments';
+  static String moduleExport(String code) => '/modules/$code/export';
+
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.
   static const Set<String> publicPaths = <String>{
