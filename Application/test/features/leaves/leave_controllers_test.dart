@@ -341,5 +341,68 @@ void main() {
         expect(currentLeave.status, 'cancelled');
       },
     );
+
+    test(
+      'LeaveRequestsController paginates with loadMore and handles optimistic cancel',
+      () async {
+        final sampleItem = LeaveRequestModel(
+          id: 'lr-1',
+          userId: 'u-1',
+          userFullName: 'John Doe',
+          employeeCode: 'EMP001',
+          leaveTypeId: 'lt-1',
+          leaveTypeName: 'Casual Leave',
+          fromDate: DateTime(2026, 10, 20),
+          toDate: DateTime(2026, 10, 21),
+          isHalfDay: false,
+          totalDays: 2,
+          reason: 'Personal',
+          status: 'pending',
+          createdAt: DateTime.now(),
+        );
+
+        fakeRepo.requestsToReturn = LeaveRequestListResponse(
+          items: List.generate(20, (i) => sampleItem.copyWith(id: 'lr-')),
+          total: 40,
+          page: 1,
+          size: 20,
+          pages: 2,
+        );
+
+        final controller = container.read(
+          leaveRequestsControllerProvider.notifier,
+        );
+        await controller.build();
+
+        var state = container.read(leaveRequestsControllerProvider).value!;
+        expect(state.items.length, 20);
+        expect(state.hasMore, isTrue);
+
+        // Load more
+        fakeRepo.requestsToReturn = LeaveRequestListResponse(
+          items: [sampleItem.copyWith(id: 'lr-21')],
+          total: 40,
+          page: 2,
+          size: 20,
+          pages: 2,
+        );
+        await controller.loadMore();
+
+        state = container.read(leaveRequestsControllerProvider).value!;
+        expect(state.items.length, 21);
+
+        // Status filter
+        await controller.setStatusFilter('approved');
+        state = container.read(leaveRequestsControllerProvider).value!;
+        expect(state.statusFilter, 'approved');
+
+        // Cancel leave
+        fakeRepo.cancelledLeaveToReturn = sampleItem.copyWith(
+          status: 'cancelled',
+        );
+        final cancelSuccess = await controller.cancelLeave(sampleItem);
+        expect(cancelSuccess, isTrue);
+      },
+    );
   });
 }

@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
-import 'package:right_ads/core/permissions/permission_codes.dart';
-import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
 import 'package:right_ads/features/admin/data/admin_repository.dart';
 import 'package:right_ads/features/admin/domain/admin_models.dart';
-import '../application/admin_attendance_controllers.dart';
-import '../domain/attendance_report_models.dart';
-import 'widgets/attendance_correction_dialog.dart';
+import 'package:right_ads/features/admin_attendance/application/admin_attendance_controllers.dart';
 
 class AdminMonthlyOverviewMatrixScreen extends ConsumerStatefulWidget {
   const AdminMonthlyOverviewMatrixScreen({super.key});
@@ -130,7 +126,6 @@ class _AdminMonthlyOverviewMatrixScreenState
               hint: Text(l10n.adminAttendanceFilterDept),
               items: [
                 DropdownMenuItem<String?>(
-                  value: null,
                   child: Text('${l10n.adminFilterAll} Depts'),
                 ),
                 ..._departments.map(
@@ -184,7 +179,6 @@ class _AdminMonthlyOverviewMatrixScreenState
     final daysInMonth = DateUtils.getDaysInMonth(state.year, state.month);
 
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(

@@ -86,8 +86,6 @@ abstract class EmployeeMonthlyReportResponse
     @JsonKey(name: 'employee_id') required String employeeId,
     @JsonKey(name: 'employee_name') required String employeeName,
     @JsonKey(name: 'employee_code') required String employeeCode,
-    @JsonKey(name: 'department_name') String? departmentName,
-    String? designation,
     required int month,
     required int year,
     @JsonKey(name: 'total_days') required int totalDays,
@@ -103,6 +101,8 @@ abstract class EmployeeMonthlyReportResponse
     @JsonKey(name: 'average_hours_per_day') required double averageHoursPerDay,
     @JsonKey(name: 'attendance_percentage')
     required double attendancePercentage,
+    @JsonKey(name: 'department_name') String? departmentName,
+    String? designation,
     @JsonKey(name: 'daily_records')
     @Default(<AttendanceDayDetail>[])
     List<AttendanceDayDetail> dailyRecords,
@@ -140,7 +140,6 @@ abstract class EmployeeYearlyReportResponse
     @JsonKey(name: 'employee_id') required String employeeId,
     @JsonKey(name: 'employee_name') required String employeeName,
     @JsonKey(name: 'employee_code') required String employeeCode,
-    @JsonKey(name: 'department_name') String? departmentName,
     required int year,
     @JsonKey(name: 'annual_working_days') required int annualWorkingDays,
     @JsonKey(name: 'annual_present_days') required int annualPresentDays,
@@ -149,6 +148,7 @@ abstract class EmployeeYearlyReportResponse
     @JsonKey(name: 'annual_total_hours') required double annualTotalHours,
     @JsonKey(name: 'annual_attendance_percentage')
     required double annualAttendancePercentage,
+    @JsonKey(name: 'department_name') String? departmentName,
     @Default(<MonthSummaryItem>[]) List<MonthSummaryItem> months,
   }) = _EmployeeYearlyReportResponse;
 
@@ -218,15 +218,15 @@ abstract class AttendanceCorrectionResponse
     required String id,
     @JsonKey(name: 'attendance_id') required String attendanceId,
     @JsonKey(name: 'changed_by') required String changedBy,
+    required String reason,
+    required String status,
+    @JsonKey(name: 'created_at') required String createdAt,
     @JsonKey(name: 'old_value')
     @Default(<String, dynamic>{})
     Map<String, dynamic> oldValue,
     @JsonKey(name: 'new_value')
     @Default(<String, dynamic>{})
     Map<String, dynamic> newValue,
-    required String reason,
-    required String status,
-    @JsonKey(name: 'created_at') required String createdAt,
   }) = _AttendanceCorrectionResponse;
 
   factory AttendanceCorrectionResponse.fromJson(Map<String, dynamic> json) =>

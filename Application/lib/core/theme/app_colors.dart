@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_brand_colors.dart';
+import 'package:right_ads/core/theme/app_brand_colors.dart';
 
 /// Semantic color shortcuts for UI indicators.
 abstract final class AppColors {

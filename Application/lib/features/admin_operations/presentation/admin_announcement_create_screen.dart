@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/features/admin/data/admin_repository.dart';
 import 'package:right_ads/features/admin/domain/admin_models.dart';
-import '../data/admin_operations_repository.dart';
-import '../domain/admin_operations_models.dart';
+import 'package:right_ads/features/admin_operations/data/admin_operations_repository.dart';
+import 'package:right_ads/features/admin_operations/domain/admin_operations_models.dart';
 
 class AdminAnnouncementCreateScreen extends ConsumerStatefulWidget {
   const AdminAnnouncementCreateScreen({super.key});
@@ -24,7 +24,6 @@ class _AdminAnnouncementCreateScreenState
 
   String? _selectedDepartmentId;
   List<MasterDataItem> _departments = [];
-  bool _isLoadingDepts = false;
   bool _isPublishing = false;
   String? _errorMessage;
 
@@ -43,19 +42,15 @@ class _AdminAnnouncementCreateScreenState
   }
 
   Future<void> _loadDepartments() async {
-    setState(() => _isLoadingDepts = true);
     try {
       final repo = ref.read(adminRepositoryProvider);
       final depts = await repo.getMasterDataList('/departments');
       if (mounted) {
         setState(() {
           _departments = depts;
-          _isLoadingDepts = false;
         });
       }
-    } catch (_) {
-      if (mounted) setState(() => _isLoadingDepts = false);
-    }
+    } catch (_) {}
   }
 
   Future<void> _publish() async {
@@ -139,14 +134,13 @@ class _AdminAnnouncementCreateScreenState
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<String?>(
-                value: _selectedDepartmentId,
+                initialValue: _selectedDepartmentId,
                 decoration: InputDecoration(
                   labelText: l10n.adminAnnouncementTarget,
                   border: const OutlineInputBorder(),
                 ),
                 items: [
                   DropdownMenuItem<String?>(
-                    value: null,
                     child: Text(l10n.adminAllDepartments),
                   ),
                   ..._departments.map(

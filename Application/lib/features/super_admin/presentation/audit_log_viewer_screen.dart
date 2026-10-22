@@ -116,7 +116,7 @@ class _AuditLogViewerScreenState extends ConsumerState<AuditLogViewerScreen> {
 
                 return ListView.separated(
                   itemCount: logs.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  separatorBuilder: (_, _) => const Divider(height: 1),
                   itemBuilder: (context, index) {
                     final log = logs[index];
                     final logTitle =

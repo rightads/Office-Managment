@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:right_ads/core/network/api_endpoints.dart';
+import 'package:right_ads/core/network/dio_provider.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../core/network/api_endpoints.dart';
-import '../../../core/network/dio_provider.dart';
-import '../domain/admin_models.dart';
 
 part 'admin_repository.g.dart';
 
@@ -31,7 +30,7 @@ class AdminRepository {
       if (departmentId != null && departmentId.isNotEmpty)
         'department_id': departmentId,
       if (roleId != null && roleId.isNotEmpty) 'role_id': roleId,
-      if (isActive != null) 'is_active': isActive,
+      'is_active': ?isActive,
     };
 
     final response = await _dio.get<dynamic>(
@@ -92,7 +91,7 @@ class AdminRepository {
     await _dio.post<dynamic>(
       ApiEndpoints.employeeResetPassword(id),
       data: <String, dynamic>{
-        if (newPassword != null) 'new_password': newPassword,
+        'new_password': ?newPassword,
       },
     );
   }
@@ -108,7 +107,7 @@ class AdminRepository {
     await _dio.patch<dynamic>(
       ApiEndpoints.employeeManager(id),
       queryParameters: <String, dynamic>{
-        if (managerId != null) 'manager_id': managerId,
+        'manager_id': ?managerId,
       },
     );
   }
@@ -117,7 +116,7 @@ class AdminRepository {
     await _dio.patch<dynamic>(
       ApiEndpoints.employeeAttendancePolicy(id),
       queryParameters: <String, dynamic>{
-        if (policyId != null) 'policy_id': policyId,
+        'policy_id': ?policyId,
       },
     );
   }

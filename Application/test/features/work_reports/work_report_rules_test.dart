@@ -172,7 +172,6 @@ void main() {
           defaultRules.canEdit(
             date: today,
             today: today,
-            existingStatus: null,
           ),
           isTrue,
         );

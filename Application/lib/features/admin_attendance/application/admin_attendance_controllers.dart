@@ -1,8 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:right_ads/features/admin_attendance/data/admin_attendance_repository.dart';
+import 'package:right_ads/features/admin_attendance/domain/attendance_report_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../data/admin_attendance_repository.dart';
-import '../domain/attendance_report_models.dart';
 
 part 'admin_attendance_controllers.freezed.dart';
 part 'admin_attendance_controllers.g.dart';
@@ -48,10 +47,10 @@ class AdminAttendanceTodayController extends _$AdminAttendanceTodayController {
 @freezed
 abstract class AdminMonthlyOverviewState with _$AdminMonthlyOverviewState {
   const factory AdminMonthlyOverviewState({
-    MonthlyOverviewResponse? data,
-    @Default(true) bool isLoading,
     required int month,
     required int year,
+    MonthlyOverviewResponse? data,
+    @Default(true) bool isLoading,
     String? departmentId,
     String? errorMessage,
   }) = _AdminMonthlyOverviewState;
@@ -96,10 +95,10 @@ class AdminMonthlyOverviewController extends _$AdminMonthlyOverviewController {
 @freezed
 abstract class AdminEmployeeMonthlyState with _$AdminEmployeeMonthlyState {
   const factory AdminEmployeeMonthlyState({
-    EmployeeMonthlyReportResponse? data,
-    @Default(true) bool isLoading,
     required int month,
     required int year,
+    EmployeeMonthlyReportResponse? data,
+    @Default(true) bool isLoading,
     String? errorMessage,
   }) = _AdminEmployeeMonthlyState;
 }
@@ -138,9 +137,9 @@ class AdminEmployeeMonthlyController extends _$AdminEmployeeMonthlyController {
 @freezed
 abstract class AdminEmployeeYearlyState with _$AdminEmployeeYearlyState {
   const factory AdminEmployeeYearlyState({
+    required int year,
     EmployeeYearlyReportResponse? data,
     @Default(true) bool isLoading,
-    required int year,
     String? errorMessage,
   }) = _AdminEmployeeYearlyState;
 }

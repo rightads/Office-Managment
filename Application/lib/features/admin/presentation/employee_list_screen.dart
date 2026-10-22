@@ -3,12 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
-import '../../../core/permissions/permission_codes.dart';
+import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
-import '../application/employee_list_controller.dart';
-import '../domain/admin_models.dart';
+import 'package:right_ads/features/admin/application/employee_list_controller.dart';
 
 class EmployeeListScreen extends ConsumerWidget {
   const EmployeeListScreen({super.key});
@@ -109,7 +108,6 @@ class EmployeeListScreen extends ConsumerWidget {
                     hint: Text(l10n.adminRole),
                     items: [
                       DropdownMenuItem<String?>(
-                        value: null,
                         child: Text('${l10n.adminFilterAll} ${l10n.adminRole}'),
                       ),
                       ...state.roles.map(

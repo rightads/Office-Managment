@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:right_ads/core/network/api_endpoints.dart';
+import 'package:right_ads/core/network/dio_provider.dart';
+import 'package:right_ads/features/super_admin/domain/super_admin_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../core/network/api_endpoints.dart';
-import '../../../core/network/dio_provider.dart';
-import '../domain/super_admin_models.dart';
 
 part 'super_admin_repository.g.dart';
 

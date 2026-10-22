@@ -1,6 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:right_ads/core/utils/app_formatters.dart';
 import 'package:right_ads/core/utils/app_logger.dart';
 import 'package:right_ads/features/work_reports/application/work_report_reminder_service.dart';
 import 'package:timezone/data/latest.dart' as tz_data;

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
-import '../application/bulk_import_controller.dart';
-import '../domain/admin_models.dart';
+import 'package:right_ads/features/admin/application/bulk_import_controller.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
 
 class EmployeeBulkImportScreen extends ConsumerWidget {
   const EmployeeBulkImportScreen({super.key});

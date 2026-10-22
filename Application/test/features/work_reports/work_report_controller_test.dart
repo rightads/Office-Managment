@@ -3,11 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:right_ads/core/config/runtime_app_config.dart';
 import 'package:right_ads/core/errors/app_failure.dart';
-import 'package:right_ads/core/utils/app_formatters.dart';
+import 'package:right_ads/features/tasks/domain/task_models.dart';
 import 'package:right_ads/features/work_reports/application/work_report_controller.dart';
 import 'package:right_ads/features/work_reports/data/work_report_repository.dart';
 import 'package:right_ads/features/work_reports/domain/work_report_models.dart';
-import 'package:right_ads/features/work_reports/domain/work_report_rules.dart';
 
 class _FakeWorkReportRepository extends WorkReportRepository {
   _FakeWorkReportRepository() : super(dio: Dio());
@@ -85,8 +84,6 @@ void main() {
 
     const runtimeConfig = RuntimeAppConfig(
       workReportMaxMinutesPerDay: 480, // 8 hours
-      workReportEditableWindowDays: 7,
-      workReportAllowEditUntilReviewed: false,
     );
 
     setUp(() {
@@ -180,7 +177,7 @@ void main() {
 
           // Add second row
           notifier.addItem();
-          var items = container
+          final items = container
               .read(workReportEditorControllerProvider(todayKey))
               .value!
               .items;
@@ -426,9 +423,6 @@ void main() {
             ),
           ],
           total: 1,
-          page: 1,
-          pageSize: 20,
-          totalPages: 1,
         );
 
         final historyState = await container.read(
@@ -442,13 +436,7 @@ void main() {
       });
 
       test('setStatusFilter reloads page 1 with new filter', () async {
-        fakeRepo.mockPageResponse = WorkReportPageResponse(
-          items: [],
-          total: 0,
-          page: 1,
-          pageSize: 20,
-          totalPages: 1,
-        );
+        fakeRepo.mockPageResponse = const WorkReportPageResponse();
 
         await container.read(workReportHistoryControllerProvider.future);
         final notifier = container.read(
@@ -461,6 +449,87 @@ void main() {
             .read(workReportHistoryControllerProvider)
             .value!;
         expect(state.statusFilter, 'reviewed');
+      });
+    });
+
+    group('WorkReport Editor Row Mutations & Field Updates', () {
+      test(
+        'manipulates draft items: add, remove, edit fields, and set task',
+        () async {
+          const dateKey = '2026-10-21';
+          await container.read(
+            workReportEditorControllerProvider(dateKey).future,
+          );
+          final notifier = container.read(
+            workReportEditorControllerProvider(dateKey).notifier,
+          );
+
+          var editorState = container
+              .read(workReportEditorControllerProvider(dateKey))
+              .value!;
+          expect(editorState.items.length, 1);
+          final initialLocalId = editorState.items.first.localId;
+
+          // Set minutes and description
+          notifier.setDescription(initialLocalId, 'Developing features');
+          notifier.setMinutes(initialLocalId, 180);
+          editorState = container
+              .read(workReportEditorControllerProvider(dateKey))
+              .value!;
+          expect(editorState.items.first.description, 'Developing features');
+          expect(editorState.items.first.minutes, 180);
+
+          // Set client and project
+          const client = ClientBriefModel(id: 'client-1', name: 'Acme Corp');
+          const project = ProjectBriefModel(
+            id: 'proj-1',
+            name: 'Mobile App',
+            clientId: 'client-1',
+          );
+          notifier.setClient(initialLocalId, client);
+          notifier.setProject(initialLocalId, project);
+          editorState = container
+              .read(workReportEditorControllerProvider(dateKey))
+              .value!;
+          expect(editorState.items.first.clientId, 'client-1');
+          expect(editorState.items.first.projectName, 'Mobile App');
+
+          // Add item
+          notifier.addItem();
+          editorState = container
+              .read(workReportEditorControllerProvider(dateKey))
+              .value!;
+          expect(editorState.items.length, 2);
+
+          // Remove item
+          notifier.removeItem(initialLocalId);
+          editorState = container
+              .read(workReportEditorControllerProvider(dateKey))
+              .value!;
+          expect(editorState.items.length, 1);
+
+          // Remove last remaining item resets with empty default row
+          notifier.removeItem(editorState.items.first.localId);
+          editorState = container
+              .read(workReportEditorControllerProvider(dateKey))
+              .value!;
+          expect(editorState.items.length, 1);
+        },
+      );
+    });
+
+    group('WorkReport Utility Providers', () {
+      test('selectedWorkReportDateProvider selects and clears date', () {
+        final notifier = container.read(
+          selectedWorkReportDateProvider.notifier,
+        );
+        expect(container.read(selectedWorkReportDateProvider), isNull);
+
+        notifier.select('2026-10-22');
+        expect(container.read(selectedWorkReportDateProvider), '2026-10-22');
+
+        notifier.select(null);
+        expect(container.read(selectedWorkReportDateProvider), isNull);
       });
     });
   });

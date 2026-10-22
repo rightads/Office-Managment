@@ -87,7 +87,7 @@ abstract class DynamicRecordListState with _$DynamicRecordListState {
 class DynamicRecordListController extends _$DynamicRecordListController {
   @override
   DynamicRecordListState build(String moduleCode) {
-    Future.microtask(() => loadInitial());
+    Future.microtask(loadInitial);
     return const DynamicRecordListState();
   }
 
@@ -96,7 +96,6 @@ class DynamicRecordListController extends _$DynamicRecordListController {
     final repo = ref.read(dynamicModuleRepositoryProvider);
     final (page, failure) = await repo.listRecords(
       moduleCode,
-      page: 1,
       search: state.search,
       status: state.statusFilter,
       sortBy: state.sortBy,
@@ -181,7 +180,7 @@ abstract class DynamicRecordDetailState with _$DynamicRecordDetailState {
 class DynamicRecordDetailController extends _$DynamicRecordDetailController {
   @override
   DynamicRecordDetailState build(String moduleCode, String recordId) {
-    Future.microtask(() => load());
+    Future.microtask(load);
     return const DynamicRecordDetailState();
   }
 

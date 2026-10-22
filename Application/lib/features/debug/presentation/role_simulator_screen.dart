@@ -1,13 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/router/route_paths.dart';
-import 'package:right_ads/core/theme/app_colors.dart';
 import 'package:right_ads/core/widgets/app_button.dart';
 import 'package:right_ads/core/widgets/app_snackbar.dart';
 import 'package:right_ads/features/navigation/application/navigation_controller.dart';
@@ -42,7 +40,7 @@ class _RoleSimulatorScreenState extends ConsumerState<RoleSimulatorScreen> {
   int? _selectedPresetIndex;
 
   static final List<RoleSimulatorPreset> presets = [
-    RoleSimulatorPreset(
+    const RoleSimulatorPreset(
       name: 'Tele Sales',
       description:
           'Leads & Call Log, Follow-ups, Targets with Phone/WhatsApp actions',
@@ -98,7 +96,7 @@ class _RoleSimulatorScreenState extends ConsumerState<RoleSimulatorScreen> {
         },
       ],
     ),
-    RoleSimulatorPreset(
+    const RoleSimulatorPreset(
       name: 'Accounts',
       description:
           'Invoices, Payments, Expenses/Reimbursements, and Currency Totals',
@@ -144,7 +142,7 @@ class _RoleSimulatorScreenState extends ConsumerState<RoleSimulatorScreen> {
         },
       ],
     ),
-    RoleSimulatorPreset(
+    const RoleSimulatorPreset(
       name: 'CSD (Customer Service)',
       description: 'Customer Tickets, Complaints, Feedback',
       permissions: [
@@ -180,7 +178,7 @@ class _RoleSimulatorScreenState extends ConsumerState<RoleSimulatorScreen> {
         },
       ],
     ),
-    RoleSimulatorPreset(
+    const RoleSimulatorPreset(
       name: 'Admin',
       description: 'System Administrative Oversight and Operations',
       permissions: [

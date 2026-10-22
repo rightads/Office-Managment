@@ -76,16 +76,16 @@ abstract class SystemSettingUpdateRequest with _$SystemSettingUpdateRequest {
 abstract class AuditLogItemModel with _$AuditLogItemModel {
   const factory AuditLogItemModel({
     required String id,
-    @JsonKey(name: 'actor_id') String? actorId,
-    @JsonKey(name: 'actor_name') String? actorName,
-    @JsonKey(name: 'actor_email') String? actorEmail,
     required String action,
     @JsonKey(name: 'entity_type') required String entityType,
     @JsonKey(name: 'entity_id') required String entityId,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'actor_id') String? actorId,
+    @JsonKey(name: 'actor_name') String? actorName,
+    @JsonKey(name: 'actor_email') String? actorEmail,
     @JsonKey(name: 'old_data') Map<String, dynamic>? oldData,
     @JsonKey(name: 'new_data') Map<String, dynamic>? newData,
     @JsonKey(name: 'ip_address') String? ipAddress,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
   }) = _AuditLogItemModel;
 
   factory AuditLogItemModel.fromJson(Map<String, dynamic> json) =>

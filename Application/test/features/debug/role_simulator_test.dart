@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/features/debug/presentation/role_simulator_screen.dart';
-import 'package:right_ads/features/navigation/application/navigation_controller.dart';
 
 void main() {
   Widget buildTestableWidget(Widget child) {

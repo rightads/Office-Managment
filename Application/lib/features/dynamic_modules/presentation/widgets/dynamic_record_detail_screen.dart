@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
@@ -205,7 +206,7 @@ class _DynamicRecordDetailScreenState
         DynamicColorParser.tryParseHex(status?.color) ?? colorScheme.primary;
 
     // Group fields by section
-    final Map<String, List<DynamicModuleField>> sections = {};
+    final sections = <String, List<DynamicModuleField>>{};
     for (final f in widget.definition.fields.where((f) => f.isActive)) {
       final sec = (f.section != null && f.section!.trim().isNotEmpty)
           ? f.section!.trim()
@@ -259,7 +260,7 @@ class _DynamicRecordDetailScreenState
                   ),
                 );
                 if (changed == true) {
-                  ref
+                  await ref
                       .read(
                         dynamicRecordDetailControllerProvider(
                           widget.definition.code,
@@ -500,64 +501,65 @@ class _DynamicRecordDetailScreenState
           ),
 
           // 3. Activity Timeline Tab
-          detail.activities.isEmpty
-              ? Center(
-                  child: Text(
-                    l10n.dynamicModuleNoActivities,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.outline,
-                    ),
-                  ),
-                )
-              : ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: detail.activities.length,
-                  separatorBuilder: (_, _) => const Divider(height: 16),
-                  itemBuilder: (ctx, idx) {
-                    final act = detail.activities[idx];
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(
-                          Icons.history,
-                          size: 16,
-                          color: colorScheme.primary,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                '${act.userName ?? "User"} ${act.action}',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              if (act.details != null &&
-                                  act.details!.isNotEmpty) ...<Widget>[
-                                const SizedBox(height: 4),
-                                Text(
-                                  act.details.toString(),
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: colorScheme.onSurfaceVariant,
-                                  ),
-                                ),
-                              ],
-                              const SizedBox(height: 4),
-                              Text(
-                                _formatTimestamp(act.createdAt),
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: colorScheme.outline,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+          if (detail.activities.isEmpty)
+            Center(
+              child: Text(
+                l10n.dynamicModuleNoActivities,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.outline,
                 ),
+              ),
+            )
+          else
+            ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: detail.activities.length,
+              separatorBuilder: (_, _) => const Divider(height: 16),
+              itemBuilder: (ctx, idx) {
+                final act = detail.activities[idx];
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.history,
+                      size: 16,
+                      color: colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '${act.userName ?? "User"} ${act.action}',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          if (act.details != null &&
+                              act.details!.isNotEmpty) ...<Widget>[
+                            const SizedBox(height: 4),
+                            Text(
+                              act.details.toString(),
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: 4),
+                          Text(
+                            _formatTimestamp(act.createdAt),
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: colorScheme.outline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
         ],
       ),
     );

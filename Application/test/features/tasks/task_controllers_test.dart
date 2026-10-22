@@ -465,5 +465,70 @@ void main() {
         );
       },
     );
+
+    test(
+      'TaskListController loads initial, paginates next page, and updates filters',
+      () async {
+        final sampleItem = TaskItemModel(
+          id: 'task-1',
+          title: 'Campaign Visuals',
+          priority: normalPriority,
+          status: openStatus,
+          assigner: managerUser,
+          createdAt: DateTime.parse('2026-10-18T10:00:00Z'),
+          updatedAt: DateTime.parse('2026-10-18T10:00:00Z'),
+        );
+        final fakeRepo = _FakeTaskRepository()
+          ..mockPageResponse = TaskPageResponse(
+            items: [sampleItem],
+            total: 2,
+            page: 1,
+            pageSize: 1,
+            pages: 2,
+          );
+
+        final container = ProviderContainer(
+          overrides: [
+            taskRepositoryProvider.overrideWithValue(fakeRepo),
+          ],
+        );
+        final sub = container.listen(taskListControllerProvider, (_, _) {});
+        addTearDown(() {
+          sub.close();
+          container.dispose();
+        });
+
+        final controller = container.read(taskListControllerProvider.notifier);
+        await controller.loadInitial();
+
+        var state = container.read(taskListControllerProvider);
+        expect(state.isLoading, isFalse);
+        expect(state.tasks.length, 1);
+        expect(state.hasMore, isTrue);
+
+        // Load next page
+        fakeRepo.mockPageResponse = TaskPageResponse(
+          items: [sampleItem.copyWith(id: 'task-101')],
+          total: 2,
+          page: 2,
+          pageSize: 1,
+          pages: 2,
+        );
+        await controller.loadNextPage();
+
+        state = container.read(taskListControllerProvider);
+        expect(state.tasks.length, 2);
+        expect(state.hasMore, isFalse);
+
+        // Search & Filters
+        controller.setSearch('Campaign');
+        controller.selectStatusTab('status-todo');
+        controller.resetFilter();
+
+        state = container.read(taskListControllerProvider);
+        expect(state.filter.search, isNull);
+        expect(state.filter.statusId, isNull);
+      },
+    );
   });
 }

@@ -1,10 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:right_ads/features/admin_operations/data/admin_operations_repository.dart';
+import 'package:right_ads/features/admin_operations/domain/admin_operations_models.dart';
+import 'package:right_ads/features/leaves/domain/leave_models.dart';
+import 'package:right_ads/features/work_reports/domain/work_report_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../leaves/domain/leave_models.dart';
-import '../../work_reports/domain/work_report_models.dart';
-import '../data/admin_operations_repository.dart';
-import '../domain/admin_operations_models.dart';
 
 part 'admin_operations_controllers.freezed.dart';
 part 'admin_operations_controllers.g.dart';
@@ -122,11 +121,11 @@ class AdminLeaveApprovalsController extends _$AdminLeaveApprovalsController {
 @freezed
 abstract class AdminWorkReportsReviewState with _$AdminWorkReportsReviewState {
   const factory AdminWorkReportsReviewState({
+    required String selectedDate,
     @Default(<WorkReportModel>[]) List<WorkReportModel> reports,
     MissingWorkReportListResponse? missingReports,
     @Default(true) bool isLoading,
     @Default(false) bool isActionLoading,
-    required String selectedDate,
     String? departmentId,
     String? errorMessage,
   }) = _AdminWorkReportsReviewState;

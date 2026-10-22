@@ -102,7 +102,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      final sub = container.listen(connectivityChangesProvider, (_, __) {});
+      final sub = container.listen(connectivityChangesProvider, (_, _) {});
       addTearDown(sub.close);
 
       streamController.add([ConnectivityResult.none]);
@@ -155,7 +155,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      final sub = container.listen(connectivityChangesProvider, (_, __) {});
+      final sub = container.listen(connectivityChangesProvider, (_, _) {});
       addTearDown(sub.close);
 
       streamController.add([ConnectivityResult.none]);

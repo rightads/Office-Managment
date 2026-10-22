@@ -14,8 +14,8 @@ class AttendanceExportDialog extends StatefulWidget {
 class _AttendanceExportDialogState extends State<AttendanceExportDialog> {
   String _selectedReportType = 'monthly_summary';
   String _selectedFormat = 'xlsx';
-  int _selectedMonth = DateTime.now().month;
-  int _selectedYear = DateTime.now().year;
+  final int _selectedMonth = DateTime.now().month;
+  final int _selectedYear = DateTime.now().year;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _AttendanceExportDialogState extends State<AttendanceExportDialog> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             DropdownButtonFormField<String>(
-              value: _selectedReportType,
+              initialValue: _selectedReportType,
               decoration: InputDecoration(
                 labelText: l10n.adminAttendanceExportType,
                 border: const OutlineInputBorder(),
@@ -54,7 +54,7 @@ class _AttendanceExportDialogState extends State<AttendanceExportDialog> {
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<String>(
-              value: _selectedFormat,
+              initialValue: _selectedFormat,
               decoration: InputDecoration(
                 labelText: l10n.adminAttendanceExportFormat,
                 border: const OutlineInputBorder(),

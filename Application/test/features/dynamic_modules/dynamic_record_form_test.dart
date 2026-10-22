@@ -28,7 +28,6 @@ void main() {
           key: 'deal_value',
           label: 'Deal Value',
           type: DynamicFieldType.currency,
-          isRequired: false,
           validation: DynamicFieldValidation(min: 1000),
         ),
         DynamicModuleField(

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
-import '../application/admin_attendance_controllers.dart';
-import '../domain/attendance_report_models.dart';
+import 'package:right_ads/features/admin_attendance/application/admin_attendance_controllers.dart';
+import 'package:right_ads/features/admin_attendance/domain/attendance_report_models.dart';
 
 class AdminEmployeeYearlyScreen extends ConsumerWidget {
   const AdminEmployeeYearlyScreen({required this.employeeId, super.key});
@@ -211,12 +211,8 @@ class AdminEmployeeYearlyScreen extends ConsumerWidget {
                 },
               ),
             ),
-            topTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            rightTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
+            topTitles: const AxisTitles(),
+            rightTitles: const AxisTitles(),
           ),
           borderData: FlBorderData(show: true),
           lineBarsData: [
@@ -225,7 +221,6 @@ class AdminEmployeeYearlyScreen extends ConsumerWidget {
               isCurved: true,
               color: Colors.blue,
               barWidth: 3,
-              dotData: const FlDotData(show: true),
             ),
           ],
         ),

@@ -107,9 +107,9 @@ class DynamicModuleRepository {
     try {
       final body = <String, dynamic>{
         'data': data,
-        if (statusId != null) 'status_id': statusId,
-        if (assignedTo != null) 'assigned_to': assignedTo,
-        if (clientId != null) 'client_id': clientId,
+        'status_id': ?statusId,
+        'assigned_to': ?assignedTo,
+        'client_id': ?clientId,
         if (dueAt != null) 'due_at': dueAt.toUtc().toIso8601String(),
       };
       final response = await dio.post<Map<String, dynamic>>(
@@ -135,9 +135,9 @@ class DynamicModuleRepository {
     try {
       final body = <String, dynamic>{
         'data': data,
-        if (statusId != null) 'status_id': statusId,
-        if (assignedTo != null) 'assigned_to': assignedTo,
-        if (clientId != null) 'client_id': clientId,
+        'status_id': ?statusId,
+        'assigned_to': ?assignedTo,
+        'client_id': ?clientId,
         if (dueAt != null) 'due_at': dueAt.toUtc().toIso8601String(),
       };
       final response = await dio.put<Map<String, dynamic>>(
@@ -214,7 +214,7 @@ class DynamicModuleRepository {
           'file_url': fileUrl,
           'file_name': fileName,
           'file_size': fileSize,
-          if (mimeType != null) 'mime_type': mimeType,
+          'mime_type': ?mimeType,
         },
       );
       return (DynamicRecordAttachment.fromJson(response.data!), null);

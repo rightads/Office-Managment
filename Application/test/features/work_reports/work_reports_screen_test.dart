@@ -9,7 +9,6 @@ import 'package:right_ads/core/config/app_environment.dart';
 import 'package:right_ads/core/config/runtime_app_config.dart';
 import 'package:right_ads/core/l10n/generated/app_localizations.dart';
 import 'package:right_ads/core/theme/app_theme.dart';
-import 'package:right_ads/core/utils/app_formatters.dart';
 import 'package:right_ads/features/work_reports/application/work_report_controller.dart';
 import 'package:right_ads/features/work_reports/application/work_report_reminder_service.dart';
 import 'package:right_ads/features/work_reports/domain/work_report_models.dart';
@@ -61,7 +60,6 @@ Widget _buildWorkReportsScreenHarness({
   required WorkReportHistoryState historyState,
   RuntimeAppConfig config = const RuntimeAppConfig(
     workReportMaxMinutesPerDay: 480,
-    workReportEditableWindowDays: 7,
   ),
   DateTime? testToday,
 }) {
@@ -83,7 +81,7 @@ Widget _buildWorkReportsScreenHarness({
       ),
       workReportTodayProvider.overrideWithValue(today),
       selectedWorkReportDateProvider.overrideWith(
-        () => SelectedWorkReportDate(),
+        SelectedWorkReportDate.new,
       ),
       workReportEditorControllerProvider(
         WorkReportRules.toIsoDate(today),
@@ -213,7 +211,7 @@ void main() {
 
     testWidgets('renders empty history state when no reports', (tester) async {
       final editorState = WorkReportEditorState(date: today);
-      const historyState = WorkReportHistoryState(items: [], total: 0);
+      const historyState = WorkReportHistoryState();
 
       await tester.pumpWidget(
         _buildWorkReportsScreenHarness(

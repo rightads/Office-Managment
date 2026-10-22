@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
-import '../data/admin_repository.dart';
-import '../domain/admin_models.dart';
+import 'package:right_ads/features/admin/data/admin_repository.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
 
 class EmployeeFormScreen extends ConsumerStatefulWidget {
   const EmployeeFormScreen({this.initialEmployee, super.key});
@@ -58,7 +58,7 @@ class _EmployeeFormScreenState extends ConsumerState<EmployeeFormScreen> {
 
   @override
   void dispose() {
-    _fullNameCtrl.dispose;
+    _fullNameCtrl.dispose();
     _emailCtrl.dispose();
     _phoneCtrl.dispose();
     _designationCtrl.dispose();
@@ -73,7 +73,7 @@ class _EmployeeFormScreenState extends ConsumerState<EmployeeFormScreen> {
       final roles = await repo.getRoles();
       final departments = await repo.getMasterDataList('/departments');
       final policies = await repo.getMasterDataList('/attendance-policies');
-      final managers = await repo.getEmployees(page: 1, pageSize: 100);
+      final managers = await repo.getEmployees(pageSize: 100);
 
       setState(() {
         _roles = roles;
@@ -286,7 +286,7 @@ class _EmployeeFormScreenState extends ConsumerState<EmployeeFormScreen> {
                     const SizedBox(height: 12),
                     if (!isEdit) ...[
                       DropdownButtonFormField<String>(
-                        value: _selectedRoleId,
+                        initialValue: _selectedRoleId,
                         decoration: InputDecoration(
                           labelText: l10n.adminRole,
                           border: const OutlineInputBorder(),
@@ -305,14 +305,13 @@ class _EmployeeFormScreenState extends ConsumerState<EmployeeFormScreen> {
                       const SizedBox(height: 12),
                     ],
                     DropdownButtonFormField<String?>(
-                      value: _selectedDepartmentId,
+                      initialValue: _selectedDepartmentId,
                       decoration: InputDecoration(
                         labelText: l10n.adminDepartment,
                         border: const OutlineInputBorder(),
                       ),
                       items: [
                         DropdownMenuItem<String?>(
-                          value: null,
                           child: Text(l10n.adminNoneOption),
                         ),
                         ..._departments.map(
@@ -327,14 +326,13 @@ class _EmployeeFormScreenState extends ConsumerState<EmployeeFormScreen> {
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String?>(
-                      value: _selectedPolicyId,
+                      initialValue: _selectedPolicyId,
                       decoration: InputDecoration(
                         labelText: l10n.adminAttendancePolicy,
                         border: const OutlineInputBorder(),
                       ),
                       items: [
                         DropdownMenuItem<String?>(
-                          value: null,
                           child: Text(l10n.adminNoneOption),
                         ),
                         ..._policies.map(
@@ -348,14 +346,13 @@ class _EmployeeFormScreenState extends ConsumerState<EmployeeFormScreen> {
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String?>(
-                      value: _selectedManagerId,
+                      initialValue: _selectedManagerId,
                       decoration: InputDecoration(
                         labelText: l10n.adminManager,
                         border: const OutlineInputBorder(),
                       ),
                       items: [
                         DropdownMenuItem<String?>(
-                          value: null,
                           child: Text(l10n.adminNoneOption),
                         ),
                         ..._managers.map(

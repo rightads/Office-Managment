@@ -220,7 +220,7 @@ GoRouter appRouter(Ref ref) {
         path: RoutePaths.adminEmployeeEditPattern,
         builder: (context, state) {
           final emp = state.extra is EmployeeItem
-              ? state.extra as EmployeeItem
+              ? state.extra! as EmployeeItem
               : null;
           return EmployeeFormScreen(initialEmployee: emp);
         },
@@ -233,7 +233,7 @@ GoRouter appRouter(Ref ref) {
         path: RoutePaths.adminMasterDataCrud,
         builder: (context, state) {
           final extra = state.extra is Map<String, dynamic>
-              ? state.extra as Map<String, dynamic>
+              ? state.extra! as Map<String, dynamic>
               : <String, dynamic>{};
           return MasterDataCrudScreen(
             title: extra['title'] as String? ?? 'Master Data',

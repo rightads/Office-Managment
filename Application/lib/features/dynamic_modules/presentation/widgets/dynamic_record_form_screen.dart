@@ -1,6 +1,6 @@
-import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/widgets/app_button.dart';
 import 'package:right_ads/core/widgets/app_snackbar.dart';
@@ -144,7 +144,7 @@ class _DynamicRecordFormScreenState
         : 'New ${widget.definition.recordLabelSingular}';
 
     // Group fields by section
-    final Map<String, List<DynamicModuleField>> sections = {};
+    final sections = <String, List<DynamicModuleField>>{};
     for (final f in widget.definition.fields.where((f) => f.isActive)) {
       final sec = (f.section != null && f.section!.trim().isNotEmpty)
           ? f.section!.trim()
@@ -408,14 +408,14 @@ class _DynamicRecordFormScreenState
                       ctrl?.text = coords;
                     });
                     _markChanged();
-                    if (context.mounted) {
+                    if (mounted) {
                       AppSnackbar.showSuccess(
                         context,
                         context.l10n.fieldActionLocationCaptured(coords),
                       );
                     }
                   } catch (_) {
-                    if (context.mounted) {
+                    if (mounted) {
                       AppSnackbar.showError(
                         context,
                         context.l10n.fieldActionLaunchError,

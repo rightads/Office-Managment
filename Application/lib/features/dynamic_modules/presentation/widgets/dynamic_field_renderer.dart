@@ -38,7 +38,7 @@ class DynamicFieldRenderer extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Text(
-              "",
+              '',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.outline,
               ),
@@ -90,7 +90,7 @@ class DynamicFieldRenderer extends StatelessWidget {
 
       case DynamicFieldType.currency:
         final numVal = num.tryParse(value.toString()) ?? 0;
-        final formatted = "₹${numVal.toStringAsFixed(2)}";
+        final formatted = '₹${numVal.toStringAsFixed(2)}';
         return Text(
           formatted,
           style: theme.textTheme.bodyMedium?.copyWith(
@@ -173,7 +173,7 @@ class DynamicFieldRenderer extends StatelessWidget {
               dateStr,
               style: theme.textTheme.bodyMedium,
             ),
-            if (badge != null) badge,
+            ?badge,
           ],
         );
 
@@ -198,7 +198,7 @@ class DynamicFieldRenderer extends StatelessWidget {
               visualDensity: VisualDensity.compact,
               color: Colors.green,
               onPressed: () {
-                final cleanPhone = phoneStr.replaceAll(RegExp(r'[^0-9]'), '');
+                final cleanPhone = phoneStr.replaceAll(RegExp('[^0-9]'), '');
                 final uri = Uri.parse('https://wa.me/$cleanPhone');
                 launchUrl(uri, mode: LaunchMode.externalApplication);
               },
@@ -234,8 +234,9 @@ class DynamicFieldRenderer extends StatelessWidget {
         return InkWell(
           onTap: () {
             final uri = Uri.tryParse(urlStr);
-            if (uri != null)
+            if (uri != null) {
               launchUrl(uri, mode: LaunchMode.externalApplication);
+            }
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -330,9 +331,12 @@ class DynamicFieldRenderer extends StatelessWidget {
         );
 
       case DynamicFieldType.geoPoint:
-        String geoStr = value.toString();
+        var geoStr = value.toString();
         if (value is Map) {
-          geoStr = '${value['lat']}, ${value['lng']}';
+          final m = value as Map<dynamic, dynamic>;
+          final Object? lat = m['lat'];
+          final Object? lng = m['lng'];
+          geoStr = '$lat, $lng';
         }
         return InkWell(
           onTap: () {
@@ -365,8 +369,9 @@ class DynamicFieldRenderer extends StatelessWidget {
         return InkWell(
           onTap: () {
             final uri = Uri.tryParse(fileUrl);
-            if (uri != null)
+            if (uri != null) {
               launchUrl(uri, mode: LaunchMode.externalApplication);
+            }
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,

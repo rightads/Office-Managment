@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:right_ads/core/network/api_endpoints.dart';
 import 'package:right_ads/features/admin/data/admin_repository.dart';
 import 'package:right_ads/features/admin/domain/admin_models.dart';
 

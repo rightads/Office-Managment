@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:right_ads/features/admin_operations/data/admin_operations_repository.dart';
-import 'package:right_ads/features/admin_operations/domain/admin_operations_models.dart';
 
 class _FakeDioAdapter implements HttpClientAdapter {
   _FakeDioAdapter(this.handler);
@@ -34,7 +33,8 @@ void main() {
       dio.httpClientAdapter = _FakeDioAdapter((options) async {
         expect(options.path, '/tasks/reports/summary');
         return ResponseBody.fromString(
-          '''{
+          '''
+{
             "total_tasks": 10,
             "completed_tasks": 8,
             "pending_tasks": 2,
@@ -100,7 +100,8 @@ void main() {
         expect(options.path, '/work-reports/missing');
         expect(options.queryParameters['date'], '2026-10-22');
         return ResponseBody.fromString(
-          '''{
+          '''
+{
             "report_date": "2026-10-22",
             "missing_count": 0,
             "users": []

@@ -3,13 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
-import '../../../core/permissions/permission_codes.dart';
+import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
-import '../application/employee_detail_controller.dart';
-import '../data/admin_repository.dart';
-import '../domain/admin_models.dart';
+import 'package:right_ads/features/admin/application/employee_detail_controller.dart';
+import 'package:right_ads/features/admin/data/admin_repository.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
 
 class EmployeeDetailScreen extends ConsumerWidget {
   const EmployeeDetailScreen({required this.employeeId, super.key});
@@ -404,7 +404,7 @@ class EmployeeDetailScreen extends ConsumerWidget {
     final policies = await repo.getMasterDataList('/attendance-policies');
     if (!context.mounted) return;
 
-    String? selectedPolicyId = emp.attendancePolicyId;
+    var selectedPolicyId = emp.attendancePolicyId;
     final res = await showDialog<bool>(
       context: context,
       builder: (ctx) => StatefulBuilder(
@@ -415,7 +415,6 @@ class EmployeeDetailScreen extends ConsumerWidget {
             value: selectedPolicyId,
             items: [
               DropdownMenuItem<String?>(
-                value: null,
                 child: Text(l10n.adminFilterAll),
               ),
               ...policies.map(

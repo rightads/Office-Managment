@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
-import '../application/admin_operations_controllers.dart';
-import '../domain/admin_operations_models.dart';
+import 'package:right_ads/features/admin_operations/application/admin_operations_controllers.dart';
+import 'package:right_ads/features/admin_operations/domain/admin_operations_models.dart';
 
 class AdminTaskReportsScreen extends ConsumerWidget {
   const AdminTaskReportsScreen({super.key});

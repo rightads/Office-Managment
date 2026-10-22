@@ -1,12 +1,12 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:right_ads/core/network/api_endpoints.dart';
+import 'package:right_ads/core/network/dio_provider.dart';
+import 'package:right_ads/features/admin_attendance/domain/attendance_report_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
-
-import '../../../core/network/api_endpoints.dart';
-import '../../../core/network/dio_provider.dart';
-import '../domain/attendance_report_models.dart';
 
 part 'admin_attendance_repository.g.dart';
 
@@ -36,8 +36,8 @@ class AdminAttendanceRepository {
     final response = await _dio.get<Map<String, dynamic>>(
       ApiEndpoints.employeeMonthlyAttendanceReport(employeeId),
       queryParameters: <String, dynamic>{
-        if (month != null) 'month': month,
-        if (year != null) 'year': year,
+        'month': ?month,
+        'year': ?year,
       },
     );
     return EmployeeMonthlyReportResponse.fromJson(response.data!);
@@ -50,7 +50,7 @@ class AdminAttendanceRepository {
     final response = await _dio.get<Map<String, dynamic>>(
       ApiEndpoints.employeeYearlyAttendanceReport(employeeId),
       queryParameters: <String, dynamic>{
-        if (year != null) 'year': year,
+        'year': ?year,
       },
     );
     return EmployeeYearlyReportResponse.fromJson(response.data!);
@@ -97,8 +97,8 @@ class AdminAttendanceRepository {
       queryParameters: <String, dynamic>{
         'report_type': reportType,
         'format': format,
-        if (month != null) 'month': month,
-        if (year != null) 'year': year,
+        'month': ?month,
+        'year': ?year,
         if (departmentId != null && departmentId.isNotEmpty)
           'department_id': departmentId,
         if (employeeId != null && employeeId.isNotEmpty)
@@ -114,9 +114,11 @@ class AdminAttendanceRepository {
     final file = File('${tempDir.path}/$fileName');
     await file.writeAsBytes(bytes);
 
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      text: 'Attendance Export: $fileName',
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(file.path)],
+        text: 'Attendance Export: $fileName',
+      ),
     );
 
     return file.path;

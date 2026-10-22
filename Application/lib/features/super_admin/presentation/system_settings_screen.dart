@@ -71,7 +71,7 @@ class _SystemSettingsScreenState extends ConsumerState<SystemSettingsScreen> {
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: settings.length,
-            separatorBuilder: (_, __) => const Divider(height: 24),
+            separatorBuilder: (_, _) => const Divider(height: 24),
             itemBuilder: (context, index) {
               final item = settings[index];
               return _buildSettingRow(context, item);

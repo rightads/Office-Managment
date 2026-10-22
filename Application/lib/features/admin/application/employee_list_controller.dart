@@ -1,8 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:right_ads/features/admin/data/admin_repository.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../data/admin_repository.dart';
-import '../domain/admin_models.dart';
 
 part 'employee_list_controller.freezed.dart';
 part 'employee_list_controller.g.dart';
@@ -43,7 +42,6 @@ class EmployeeListController extends _$EmployeeListController {
         departmentId: state.departmentId,
         roleId: state.roleId,
         isActive: state.isActive,
-        page: 1,
       );
 
       state = state.copyWith(

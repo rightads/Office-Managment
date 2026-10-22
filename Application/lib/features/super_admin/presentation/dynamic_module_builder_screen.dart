@@ -96,7 +96,7 @@ class _DynamicModuleBuilderScreenState
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: _modules.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final mod = _modules[index];
         final label = (mod['label'] ?? mod['name'] ?? mod['code'] ?? '')

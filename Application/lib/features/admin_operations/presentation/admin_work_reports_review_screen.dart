@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
+import 'package:right_ads/features/admin_operations/application/admin_operations_controllers.dart';
+import 'package:right_ads/features/admin_operations/domain/admin_operations_models.dart';
 import 'package:right_ads/features/work_reports/domain/work_report_models.dart';
-import '../application/admin_operations_controllers.dart';
-import '../domain/admin_operations_models.dart';
 
 class AdminWorkReportsReviewScreen extends ConsumerWidget {
   const AdminWorkReportsReviewScreen({super.key});

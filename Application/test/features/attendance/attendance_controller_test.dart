@@ -1,9 +1,9 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:right_ads/core/network/connectivity_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:right_ads/core/errors/app_failure.dart';
+import 'package:right_ads/core/network/connectivity_provider.dart';
 import 'package:right_ads/core/services/location_service.dart';
 import 'package:right_ads/core/storage/device_identity_service.dart';
 import 'package:right_ads/features/attendance/application/attendance_controller.dart';
@@ -69,6 +69,37 @@ class _FakeAttendanceRepository extends AttendanceRepository {
     }
     return (checkInRecord, null);
   }
+
+  CheckOutRequestPayload? lastCheckOutPayload;
+  AttendanceRecordModel? checkOutRecord;
+  AppFailure? checkOutFailure;
+
+  @override
+  Future<(AttendanceRecordModel?, AppFailure?)> checkOut(
+    CheckOutRequestPayload payload,
+  ) async {
+    lastCheckOutPayload = payload;
+    if (checkOutFailure != null) {
+      return (null, checkOutFailure);
+    }
+    return (checkOutRecord, null);
+  }
+
+  AttendanceCalendarModel? mockCalendar;
+  EmployeeMonthlyReportModel? mockMonthlyReport;
+
+  @override
+  Future<(AttendanceCalendarModel?, AppFailure?)> fetchMyCalendar({
+    required int month,
+    required int year,
+  }) async => (mockCalendar, null);
+
+  @override
+  Future<(EmployeeMonthlyReportModel?, AppFailure?)> fetchMonthlyReport({
+    required String employeeId,
+    required int month,
+    required int year,
+  }) async => (mockMonthlyReport, null);
 }
 
 void main() {
@@ -320,5 +351,309 @@ void main() {
         expect(outcome, isA<AttendanceActionDeviceMismatch>());
       },
     );
+
+    test(
+      'executes check-out successfully without sending client timestamps',
+      () async {
+        final fakeRepo =
+            _FakeAttendanceRepository(
+                policy: flexiblePolicy,
+              )
+              ..checkOutRecord = sampleCheckedInRecord.copyWith(
+                checkOutAt: DateTime.utc(2026, 10, 18, 13),
+                workHours: 9,
+              );
+        final fakeLocation = _FakeLocationService(
+          const LocationSuccess(
+            latitude: 19.0760,
+            longitude: 72.8777,
+            accuracyMeters: 5,
+            isMockLocation: false,
+          ),
+        );
+
+        final container = ProviderContainer(
+          overrides: [
+            attendanceRepositoryProvider.overrideWithValue(fakeRepo),
+            locationServiceProvider.overrideWithValue(fakeLocation),
+            deviceIdentityServiceProvider.overrideWithValue(
+              _FakeDeviceIdentityService('bound-device-001'),
+            ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.wifi]),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        await container
+            .read(todayAttendanceControllerProvider.notifier)
+            .loadTodayAndPolicy();
+        final outcome = await container
+            .read(todayAttendanceControllerProvider.notifier)
+            .checkOut(remarks: 'Day done');
+
+        expect(outcome, isA<AttendanceActionSuccess>());
+        final payload = fakeRepo.lastCheckOutPayload!;
+        final json = payload.toJson();
+        expect(json['device_id'], 'bound-device-001');
+        expect(json['remarks'], 'Day done');
+        expect(json.containsKey('timestamp'), isFalse);
+        expect(json.containsKey('check_out_at'), isFalse);
+      },
+    );
+
+    test('rejects check-out outside geofence when required', () async {
+      final fakeRepo = _FakeAttendanceRepository(policy: strictPolicy);
+      final fakeLocation = _FakeLocationService(
+        const LocationSuccess(
+          latitude: 12.9716, // Bangalore instead of Mumbai HQ
+          longitude: 77.5946,
+          accuracyMeters: 5,
+          isMockLocation: false,
+        ),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          attendanceRepositoryProvider.overrideWithValue(fakeRepo),
+          locationServiceProvider.overrideWithValue(fakeLocation),
+          deviceIdentityServiceProvider.overrideWithValue(
+            _FakeDeviceIdentityService('bound-device-001'),
+          ),
+          connectivityChangesProvider.overrideWith(
+            (ref) => Stream.value([ConnectivityResult.wifi]),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final connSub = container.listen(connectivityChangesProvider, (_, _) {});
+      addTearDown(connSub.close);
+      for (var i = 0; i < 5; i++) {
+        await pumpEventQueue();
+      }
+      await container
+          .read(todayAttendanceControllerProvider.notifier)
+          .loadTodayAndPolicy();
+      final outcome = await container
+          .read(todayAttendanceControllerProvider.notifier)
+          .checkOut();
+      expect(outcome, isA<AttendanceActionOutsideGeofence>());
+    });
+
+    test(
+      'MonthlyAttendanceData calculates percentage and mergedDays accurately',
+      () {
+        const calendar = AttendanceCalendarModel(
+          year: 2026,
+          month: 10,
+          totalWorkingDays: 20,
+          totalPresentDays: 18,
+          totalHalfDays: 2,
+          totalHolidays: 2,
+          days: [
+            AttendanceCalendarDayModel(
+              date: '2026-10-01',
+              status: 'PRESENT',
+              statusLabel: 'Present',
+              statusColor: '#10B981',
+              workHours: 8,
+            ),
+          ],
+        );
+
+        const monthlyData = MonthlyAttendanceData(
+          year: 2026,
+          month: 10,
+          calendar: calendar,
+        );
+
+        expect(monthlyData.workingDays, 20);
+        expect(monthlyData.attendancePercentage, 95.0);
+        expect(monthlyData.mergedDays.length, 1);
+        expect(monthlyData.mergedDays.first.status, 'PRESENT');
+      },
+    );
+    test(
+      'rejects check-in when offline (AttendanceActionOfflineProhibited)',
+      () async {
+        final fakeRepo = _FakeAttendanceRepository(policy: strictPolicy);
+        final fakeLocation = _FakeLocationService(
+          const LocationSuccess(
+            latitude: 19.0760,
+            longitude: 72.8777,
+            accuracyMeters: 5,
+            isMockLocation: false,
+          ),
+        );
+
+        final container = ProviderContainer(
+          overrides: [
+            attendanceRepositoryProvider.overrideWithValue(fakeRepo),
+            locationServiceProvider.overrideWithValue(fakeLocation),
+            deviceIdentityServiceProvider.overrideWithValue(
+              _FakeDeviceIdentityService('bound-device-001'),
+            ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.none]),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final connSub = container.listen(
+          connectivityChangesProvider,
+          (_, _) {},
+        );
+        addTearDown(connSub.close);
+        for (var i = 0; i < 5; i++) {
+          await pumpEventQueue();
+        }
+        await container
+            .read(todayAttendanceControllerProvider.notifier)
+            .loadTodayAndPolicy();
+        final outcome = await container
+            .read(todayAttendanceControllerProvider.notifier)
+            .checkIn();
+        expect(outcome, isA<AttendanceActionOfflineProhibited>());
+      },
+    );
+
+    test(
+      'rejects check-out when offline (AttendanceActionOfflineProhibited)',
+      () async {
+        final fakeRepo = _FakeAttendanceRepository(policy: strictPolicy);
+        final fakeLocation = _FakeLocationService(
+          const LocationSuccess(
+            latitude: 19.0760,
+            longitude: 72.8777,
+            accuracyMeters: 5,
+            isMockLocation: false,
+          ),
+        );
+
+        final container = ProviderContainer(
+          overrides: [
+            attendanceRepositoryProvider.overrideWithValue(fakeRepo),
+            locationServiceProvider.overrideWithValue(fakeLocation),
+            deviceIdentityServiceProvider.overrideWithValue(
+              _FakeDeviceIdentityService('bound-device-001'),
+            ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.none]),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final connSub = container.listen(
+          connectivityChangesProvider,
+          (_, _) {},
+        );
+        addTearDown(connSub.close);
+        for (var i = 0; i < 5; i++) {
+          await pumpEventQueue();
+        }
+        await container
+            .read(todayAttendanceControllerProvider.notifier)
+            .loadTodayAndPolicy();
+        final outcome = await container
+            .read(todayAttendanceControllerProvider.notifier)
+            .checkOut();
+        expect(outcome, isA<AttendanceActionOfflineProhibited>());
+      },
+    );
+
+    test(
+      'refreshLocation updates locationResult and evaluates geofence',
+      () async {
+        final fakeRepo = _FakeAttendanceRepository(policy: strictPolicy);
+        final fakeLocation = _FakeLocationService(
+          const LocationSuccess(
+            latitude: 19.0760,
+            longitude: 72.8777,
+            accuracyMeters: 5,
+            isMockLocation: false,
+          ),
+        );
+
+        final container = ProviderContainer(
+          overrides: [
+            attendanceRepositoryProvider.overrideWithValue(fakeRepo),
+            locationServiceProvider.overrideWithValue(fakeLocation),
+            deviceIdentityServiceProvider.overrideWithValue(
+              _FakeDeviceIdentityService('bound-device-001'),
+            ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.wifi]),
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
+
+        final notifier = container.read(
+          todayAttendanceControllerProvider.notifier,
+        );
+        await notifier.loadTodayAndPolicy();
+
+        final result = await notifier.refreshLocation();
+        expect(result, isA<LocationSuccess>());
+
+        final state = container.read(todayAttendanceControllerProvider);
+        expect(state.geofenceEvaluation?.isWithinGeofence, isTrue);
+
+        // Now with disabled location
+        fakeLocation.nextResult = const LocationServiceDisabled();
+        final disabledResult = await notifier.refreshLocation();
+        expect(disabledResult, isA<LocationServiceDisabled>());
+      },
+    );
+
+    test('checkIn maps device mismatch and conflict errors', () async {
+      final fakeRepo = _FakeAttendanceRepository(
+        policy: strictPolicy,
+        checkInFailure: const AppFailure.forbidden(
+          message: 'Device ID mismatch',
+        ),
+      );
+      final fakeLocation = _FakeLocationService(
+        const LocationSuccess(
+          latitude: 19.0760,
+          longitude: 72.8777,
+          accuracyMeters: 5,
+          isMockLocation: false,
+        ),
+      );
+
+      final container = ProviderContainer(
+        overrides: [
+          attendanceRepositoryProvider.overrideWithValue(fakeRepo),
+          locationServiceProvider.overrideWithValue(fakeLocation),
+          deviceIdentityServiceProvider.overrideWithValue(
+            _FakeDeviceIdentityService('wrong-device'),
+          ),
+          connectivityChangesProvider.overrideWith(
+            (ref) => Stream.value([ConnectivityResult.wifi]),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final notifier = container.read(
+        todayAttendanceControllerProvider.notifier,
+      );
+      await notifier.loadTodayAndPolicy();
+
+      final outcome = await notifier.checkIn();
+      expect(outcome, isA<AttendanceActionDeviceMismatch>());
+
+      // Test already checked in
+      fakeRepo.checkInFailure = const AppFailure.conflict(
+        message: 'Already checked in today',
+      );
+      final conflictOutcome = await notifier.checkIn();
+      expect(conflictOutcome, isA<AttendanceActionAlreadyCheckedIn>());
+    });
   });
 }

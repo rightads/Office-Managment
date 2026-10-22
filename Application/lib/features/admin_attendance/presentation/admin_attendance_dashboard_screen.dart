@@ -3,16 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
-import 'package:right_ads/core/permissions/permission_codes.dart';
-import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
 import 'package:right_ads/features/admin/data/admin_repository.dart';
 import 'package:right_ads/features/admin/domain/admin_models.dart';
-import '../application/admin_attendance_controllers.dart';
-import '../data/admin_attendance_repository.dart';
-import '../domain/attendance_report_models.dart';
-import 'widgets/attendance_export_dialog.dart';
+import 'package:right_ads/features/admin_attendance/application/admin_attendance_controllers.dart';
+import 'package:right_ads/features/admin_attendance/data/admin_attendance_repository.dart';
+import 'package:right_ads/features/admin_attendance/domain/attendance_report_models.dart';
+import 'package:right_ads/features/admin_attendance/presentation/widgets/attendance_export_dialog.dart';
 
 class AdminAttendanceDashboardScreen extends ConsumerStatefulWidget {
   const AdminAttendanceDashboardScreen({super.key});
@@ -144,7 +142,7 @@ class _AdminAttendanceDashboardScreenState
         children: [
           if (_departments.isNotEmpty) ...[
             DropdownButtonFormField<String?>(
-              value: state.departmentId,
+              initialValue: state.departmentId,
               decoration: InputDecoration(
                 labelText: l10n.adminAttendanceFilterDept,
                 border: const OutlineInputBorder(),
@@ -152,7 +150,6 @@ class _AdminAttendanceDashboardScreenState
               ),
               items: [
                 DropdownMenuItem<String?>(
-                  value: null,
                   child: Text('${l10n.adminFilterAll} Departments'),
                 ),
                 ..._departments.map(

@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:right_ads/features/admin/data/admin_repository.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../data/admin_repository.dart';
-import '../domain/admin_models.dart';
 
 part 'employee_detail_controller.freezed.dart';
 part 'employee_detail_controller.g.dart';

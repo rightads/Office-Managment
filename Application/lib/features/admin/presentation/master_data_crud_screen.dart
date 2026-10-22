@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
-import '../application/master_data_controller.dart';
-import '../domain/admin_models.dart';
-import 'widgets/geo_location_picker_dialog.dart';
-import 'widgets/hex_color_picker_dialog.dart';
+import 'package:right_ads/features/admin/application/master_data_controller.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
+import 'package:right_ads/features/admin/presentation/widgets/geo_location_picker_dialog.dart';
+import 'package:right_ads/features/admin/presentation/widgets/hex_color_picker_dialog.dart';
 
 class MasterDataCrudScreen extends ConsumerStatefulWidget {
   const MasterDataCrudScreen({
@@ -282,10 +282,10 @@ class _MasterDataCrudScreenState extends ConsumerState<MasterDataCrudScreen> {
     );
     final codeCtrl = TextEditingController(text: item?.code ?? '');
     final descCtrl = TextEditingController(text: item?.description ?? '');
-    String? selectedColor = item?.color;
-    double? lat = item?.latitude;
-    double? lng = item?.longitude;
-    double? rad = item?.radiusMeters;
+    var selectedColor = item?.color;
+    var lat = item?.latitude;
+    var lng = item?.longitude;
+    var rad = item?.radiusMeters;
 
     final isOfficeLoc = widget.basePath == '/office-locations';
     final hasColor =
@@ -402,14 +402,14 @@ class _MasterDataCrudScreenState extends ConsumerState<MasterDataCrudScreen> {
         'name': nameCtrl.text.trim(),
         if (codeCtrl.text.isNotEmpty) 'code': codeCtrl.text.trim(),
         if (descCtrl.text.isNotEmpty) 'description': descCtrl.text.trim(),
-        if (selectedColor != null) 'color': selectedColor,
-        if (lat != null) 'latitude': lat,
-        if (lng != null) 'longitude': lng,
-        if (rad != null) 'radius_meters': rad,
+        'color': ?selectedColor,
+        'latitude': ?lat,
+        'longitude': ?lng,
+        'radius_meters': ?rad,
       };
 
       if (isEdit) {
-        final itemPath = '${widget.basePath}/${item!.id}';
+        final itemPath = '${widget.basePath}/${item.id}';
         await controller.updateItem(itemPath, data);
       } else {
         await controller.createItem(widget.basePath, data);

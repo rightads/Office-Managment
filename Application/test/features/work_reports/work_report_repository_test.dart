@@ -109,7 +109,7 @@ void main() {
           'status': 'submitted',
           'summary': 'Tested backend endpoints',
           'total_minutes': 240,
-          'items': [],
+          'items': <Map<String, dynamic>>[],
         };
         return ResponseBody.fromString(
           jsonEncode(responseMap),
@@ -140,7 +140,7 @@ void main() {
               'status': 'draft',
               'summary': 'Day 1',
               'total_minutes': 60,
-              'items': [],
+              'items': <Map<String, dynamic>>[],
             },
             {
               'id': 'wr-2',
@@ -148,7 +148,7 @@ void main() {
               'status': 'reviewed',
               'summary': 'Day 2',
               'total_minutes': 120,
-              'items': [],
+              'items': <Map<String, dynamic>>[],
             },
           ],
           'total': 2,
@@ -167,8 +167,6 @@ void main() {
 
       final (page, failure) = await repository.getMyReports(
         status: 'draft',
-        page: 1,
-        pageSize: 20,
       );
 
       expect(failure, isNull);
@@ -240,7 +238,7 @@ void main() {
           'status': 'draft',
           'summary': 'Updated summary',
           'total_minutes': 120,
-          'items': [],
+          'items': <Map<String, dynamic>>[],
         };
         return ResponseBody.fromString(
           jsonEncode(responseMap),
@@ -279,7 +277,7 @@ void main() {
             'status': 'submitted',
             'summary': 'Ready for review',
             'total_minutes': 120,
-            'items': [],
+            'items': <Map<String, dynamic>>[],
           };
           return ResponseBody.fromString(
             jsonEncode(responseMap),

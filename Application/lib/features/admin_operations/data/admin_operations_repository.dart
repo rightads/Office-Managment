@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:right_ads/core/network/api_endpoints.dart';
+import 'package:right_ads/core/network/dio_provider.dart';
+import 'package:right_ads/features/admin_operations/domain/admin_operations_models.dart';
+import 'package:right_ads/features/leaves/domain/leave_models.dart';
+import 'package:right_ads/features/work_reports/domain/work_report_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../core/network/api_endpoints.dart';
-import '../../../core/network/dio_provider.dart';
-import '../../leaves/domain/leave_models.dart';
-import '../../work_reports/domain/work_report_models.dart';
-import '../domain/admin_operations_models.dart';
 
 part 'admin_operations_repository.g.dart';
 

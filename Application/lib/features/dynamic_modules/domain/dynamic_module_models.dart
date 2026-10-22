@@ -147,9 +147,9 @@ abstract class DynamicRecordComment with _$DynamicRecordComment {
     required String id,
     @JsonKey(name: 'record_id') required String recordId,
     @JsonKey(name: 'user_id') required String userId,
-    @JsonKey(name: 'user_name') String? userName,
     required String comment,
     @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'user_name') String? userName,
   }) = _DynamicRecordComment;
 
   factory DynamicRecordComment.fromJson(Map<String, dynamic> json) =>
@@ -163,12 +163,12 @@ abstract class DynamicRecordAttachment with _$DynamicRecordAttachment {
     required String id,
     @JsonKey(name: 'record_id') required String recordId,
     @JsonKey(name: 'user_id') required String userId,
-    @JsonKey(name: 'user_name') String? userName,
     @JsonKey(name: 'file_url') required String fileUrl,
     @JsonKey(name: 'file_name') required String fileName,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'user_name') String? userName,
     @JsonKey(name: 'file_size') @Default(0) int fileSize,
     @JsonKey(name: 'mime_type') String? mimeType,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
   }) = _DynamicRecordAttachment;
 
   factory DynamicRecordAttachment.fromJson(Map<String, dynamic> json) =>
@@ -181,11 +181,11 @@ abstract class DynamicRecordActivity with _$DynamicRecordActivity {
   const factory DynamicRecordActivity({
     required String id,
     @JsonKey(name: 'record_id') required String recordId,
+    required String action,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'user_id') String? userId,
     @JsonKey(name: 'user_name') String? userName,
-    required String action,
     Map<String, dynamic>? details,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
   }) = _DynamicRecordActivity;
 
   factory DynamicRecordActivity.fromJson(Map<String, dynamic> json) =>
@@ -198,18 +198,18 @@ abstract class DynamicRecordModel with _$DynamicRecordModel {
   const factory DynamicRecordModel({
     required String id,
     @JsonKey(name: 'module_id') required String moduleId,
+    @JsonKey(name: 'created_by') required String createdBy,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
     @Default(<String, dynamic>{}) Map<String, dynamic> data,
     @JsonKey(name: 'status_id') String? statusId,
     DynamicModuleStatus? status,
-    @JsonKey(name: 'created_by') required String createdBy,
     @JsonKey(name: 'creator_name') String? creatorName,
     @JsonKey(name: 'assigned_to') String? assignedTo,
     @JsonKey(name: 'assignee_name') String? assigneeName,
     @JsonKey(name: 'client_id') String? clientId,
     @JsonKey(name: 'client_name') String? clientName,
     @JsonKey(name: 'due_at') DateTime? dueAt,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
-    @JsonKey(name: 'updated_at') required DateTime updatedAt,
     @JsonKey(name: 'allowed_transitions')
     @Default(<DynamicModuleTransition>[])
     List<DynamicModuleTransition> allowedTransitions,
@@ -225,18 +225,18 @@ abstract class DynamicRecordDetailModel with _$DynamicRecordDetailModel {
   const factory DynamicRecordDetailModel({
     required String id,
     @JsonKey(name: 'module_id') required String moduleId,
+    @JsonKey(name: 'created_by') required String createdBy,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'updated_at') required DateTime updatedAt,
     @Default(<String, dynamic>{}) Map<String, dynamic> data,
     @JsonKey(name: 'status_id') String? statusId,
     DynamicModuleStatus? status,
-    @JsonKey(name: 'created_by') required String createdBy,
     @JsonKey(name: 'creator_name') String? creatorName,
     @JsonKey(name: 'assigned_to') String? assignedTo,
     @JsonKey(name: 'assignee_name') String? assigneeName,
     @JsonKey(name: 'client_id') String? clientId,
     @JsonKey(name: 'client_name') String? clientName,
     @JsonKey(name: 'due_at') DateTime? dueAt,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
-    @JsonKey(name: 'updated_at') required DateTime updatedAt,
     @JsonKey(name: 'allowed_transitions')
     @Default(<DynamicModuleTransition>[])
     List<DynamicModuleTransition> allowedTransitions,

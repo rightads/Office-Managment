@@ -1,8 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:right_ads/features/super_admin/data/super_admin_repository.dart';
+import 'package:right_ads/features/super_admin/domain/super_admin_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../data/super_admin_repository.dart';
-import '../domain/super_admin_models.dart';
 
 part 'super_admin_controllers.freezed.dart';
 part 'super_admin_controllers.g.dart';
@@ -47,10 +46,10 @@ class SuperAdminRolesController extends _$SuperAdminRolesController {
   }
 
   Future<bool> saveRole({
-    String? roleId,
     required String name,
-    String? description,
     required List<String> permissionIds,
+    String? roleId,
+    String? description,
   }) async {
     state = state.copyWith(isSaving: true, errorMessage: null);
     try {
@@ -189,7 +188,7 @@ class SuperAdminAuditController extends _$SuperAdminAuditController {
       filterEntityType: entityType,
       filterAction: action,
     );
-    loadLogs(page: 1);
+    loadLogs();
   }
 }
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,9 +6,9 @@ import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/theme/app_colors.dart';
-import '../application/admin_attendance_controllers.dart';
-import '../domain/attendance_report_models.dart';
-import 'widgets/attendance_correction_dialog.dart';
+import 'package:right_ads/features/admin_attendance/application/admin_attendance_controllers.dart';
+import 'package:right_ads/features/admin_attendance/domain/attendance_report_models.dart';
+import 'package:right_ads/features/admin_attendance/presentation/widgets/attendance_correction_dialog.dart';
 
 class AdminEmployeeMonthlyScreen extends ConsumerStatefulWidget {
   const AdminEmployeeMonthlyScreen({required this.employeeId, super.key});
@@ -263,13 +264,15 @@ class _AdminEmployeeMonthlyScreenState
           .read(attendanceCorrectionControllerProvider.notifier)
           .submitCorrection(recordId: record.date, request: req);
       if (success && mounted) {
-        ref
-            .read(
-              adminEmployeeMonthlyControllerProvider(
-                widget.employeeId,
-              ).notifier,
-            )
-            .loadReport(widget.employeeId);
+        unawaited(
+          ref
+              .read(
+                adminEmployeeMonthlyControllerProvider(
+                  widget.employeeId,
+                ).notifier,
+              )
+              .loadReport(widget.employeeId),
+        );
       }
     }
   }

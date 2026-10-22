@@ -6,12 +6,12 @@ part 'admin_operations_models.g.dart';
 @freezed
 abstract class TaskReportItem with _$TaskReportItem {
   const factory TaskReportItem({
-    String? id,
     required String name,
     @JsonKey(name: 'total_tasks') required int totalTasks,
     @JsonKey(name: 'completed_tasks') required int completedTasks,
     @JsonKey(name: 'pending_tasks') required int pendingTasks,
     @JsonKey(name: 'overdue_tasks') required int overdueTasks,
+    String? id,
   }) = _TaskReportItem;
 
   factory TaskReportItem.fromJson(Map<String, dynamic> json) =>

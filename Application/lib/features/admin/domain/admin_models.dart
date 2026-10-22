@@ -10,21 +10,21 @@ abstract class EmployeeItem with _$EmployeeItem {
     @JsonKey(name: 'employee_code') required String employeeCode,
     required String email,
     @JsonKey(name: 'full_name') required String fullName,
+    @JsonKey(name: 'is_active') required bool isActive,
+    @JsonKey(name: 'must_change_password') required bool mustChangePassword,
+    @JsonKey(name: 'role_id') required String roleId,
+    @JsonKey(name: 'created_at') required String createdAt,
     @JsonKey(name: 'phone_number') String? phoneNumber,
     String? designation,
     @JsonKey(name: 'avatar_url') String? avatarUrl,
-    @JsonKey(name: 'is_active') required bool isActive,
-    @JsonKey(name: 'must_change_password') required bool mustChangePassword,
     @JsonKey(name: 'joining_date') String? joiningDate,
     @JsonKey(name: 'department_id') String? departmentId,
     @JsonKey(name: 'department_name') String? departmentName,
-    @JsonKey(name: 'role_id') required String roleId,
     @JsonKey(name: 'role_name') String? roleName,
     @JsonKey(name: 'attendance_policy_id') String? attendancePolicyId,
     @JsonKey(name: 'attendance_policy_name') String? attendancePolicyName,
     @JsonKey(name: 'manager_id') String? managerId,
     @JsonKey(name: 'manager_name') String? managerName,
-    @JsonKey(name: 'created_at') required String createdAt,
   }) = _EmployeeItem;
 
   factory EmployeeItem.fromJson(Map<String, dynamic> json) =>
@@ -71,10 +71,10 @@ abstract class RoleItem with _$RoleItem {
   const factory RoleItem({
     required String id,
     required String name,
-    String? description,
     @JsonKey(name: 'is_system') required bool isSystem,
     @JsonKey(name: 'is_active') required bool isActive,
     @JsonKey(name: 'created_at') required String createdAt,
+    String? description,
   }) = _RoleItem;
 
   factory RoleItem.fromJson(Map<String, dynamic> json) =>

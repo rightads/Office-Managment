@@ -55,7 +55,7 @@ class NotificationTemplatesScreen extends ConsumerWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: templates.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            separatorBuilder: (_, _) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final template = templates[index];
               return Card(
@@ -160,8 +160,8 @@ class NotificationTemplatesScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final titleController = TextEditingController(text: template.titleTemplate);
     final bodyController = TextEditingController(text: template.bodyTemplate);
-    bool push = template.channelPush;
-    bool email = template.channelEmail;
+    var push = template.channelPush;
+    var email = template.channelEmail;
 
     final editTitle = '${l10n.editTemplate}: ${template.code}';
 

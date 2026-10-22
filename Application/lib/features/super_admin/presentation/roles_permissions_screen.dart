@@ -197,9 +197,9 @@ class RolesPermissionsScreen extends ConsumerWidget {
 
 class _RoleEditorDialog extends StatefulWidget {
   const _RoleEditorDialog({
-    this.initialRole,
     required this.allPermissions,
     required this.onSave,
+    this.initialRole,
   });
 
   final RoleDetailModel? initialRole;

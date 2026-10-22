@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
@@ -182,7 +183,7 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                   ),
                 );
                 if (created == true) {
-                  ref
+                  await ref
                       .read(
                         dynamicRecordListControllerProvider(def.code).notifier,
                       )
@@ -348,7 +349,7 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                               ),
                             ),
                           );
-                          ref
+                          await ref
                               .read(
                                 dynamicRecordListControllerProvider(
                                   def.code,

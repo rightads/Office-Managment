@@ -196,5 +196,19 @@ void main() {
       final hasNew = container.read(hasNewAnnouncementsProvider);
       expect(hasNew, isTrue);
     });
+    test('NotificationsListController loadMore and setUnreadFilter', () async {
+      final notifier = container.read(
+        notificationsListControllerProvider.notifier,
+      );
+      await notifier.loadInitial();
+
+      await notifier.setUnreadFilter(unreadOnly: true);
+      var state = container.read(notificationsListControllerProvider);
+      expect(state.unreadOnly, isTrue);
+
+      await notifier.loadMore();
+      state = container.read(notificationsListControllerProvider);
+      expect(state.isLoadingMore, isFalse);
+    });
   });
 }

@@ -20,8 +20,8 @@ void main() {
             'overdue_tasks': 0,
           },
         ],
-        'by_department': [],
-        'by_client': [],
+        'by_department': <Map<String, dynamic>>[],
+        'by_client': <Map<String, dynamic>>[],
       };
 
       final response = TaskSummaryReportsResponse.fromJson(json);
@@ -39,7 +39,7 @@ void main() {
     });
 
     test('TaskAssignRequest JSON serialization', () {
-      final request = const TaskAssignRequest(
+      const request = TaskAssignRequest(
         assigneeIds: ['usr-456'],
         replace: true,
       );
@@ -49,17 +49,17 @@ void main() {
     });
 
     test('LeaveReviewRequest and LeaveRejectRequest JSON serialization', () {
-      final approve = const LeaveReviewRequest(
+      const approve = LeaveReviewRequest(
         reviewNote: 'Approved for vacation',
       );
       expect(approve.toJson()['review_note'], 'Approved for vacation');
 
-      final reject = const LeaveRejectRequest(reviewNote: 'Insufficient quota');
+      const reject = LeaveRejectRequest(reviewNote: 'Insufficient quota');
       expect(reject.toJson()['review_note'], 'Insufficient quota');
     });
 
     test('AnnouncementCreateRequest JSON serialization', () {
-      final request = const AnnouncementCreateRequest(
+      const request = AnnouncementCreateRequest(
         title: 'Office Townhall',
         body: 'All hands gathering at 4 PM.',
         targetDepartmentId: 'dep-123',
@@ -73,9 +73,8 @@ void main() {
     });
 
     test('WorkReportReviewRequest and MissingWorkReportListResponse JSON', () {
-      final review = const WorkReportReviewRequest(
+      const review = WorkReportReviewRequest(
         reviewNote: 'Well documented progress.',
-        status: 'reviewed',
       );
       expect(review.toJson()['review_note'], 'Well documented progress.');
       expect(review.toJson()['status'], 'reviewed');
