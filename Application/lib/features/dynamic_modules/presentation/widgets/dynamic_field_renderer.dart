@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/dynamic_color_parser.dart';
 import 'package:right_ads/features/dynamic_modules/domain/dynamic_module_models.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +22,8 @@ class DynamicFieldRenderer extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    if (value == null || (value is String && (value as String).trim().isEmpty)) {
+    if (value == null ||
+        (value is String && (value as String).trim().isEmpty)) {
       if (compact) return const SizedBox.shrink();
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
@@ -99,6 +101,63 @@ class DynamicFieldRenderer extends StatelessWidget {
 
       case DynamicFieldType.date:
       case DynamicFieldType.datetime:
+        final dateStr = value.toString();
+        Widget? badge;
+        final isFollowUp =
+            field.key.toLowerCase().contains('follow_up') ||
+            (field.validation?.regexMessage?.toLowerCase().contains('follow') ??
+                false);
+
+        if (isFollowUp) {
+          final parsedDate = DateTime.tryParse(dateStr);
+          if (parsedDate != null) {
+            final now = DateTime.now();
+            final today = DateTime(now.year, now.month, now.day);
+            final target = DateTime(
+              parsedDate.year,
+              parsedDate.month,
+              parsedDate.day,
+            );
+            final l10n = context.l10n;
+
+            if (target.isBefore(today)) {
+              badge = Container(
+                margin: const EdgeInsets.only(left: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: colorScheme.error.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  l10n.fieldActionFollowUpOverdue,
+                  style: TextStyle(
+                    color: colorScheme.error,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            } else if (target.isAtSameMomentAs(today)) {
+              badge = Container(
+                margin: const EdgeInsets.only(left: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.orange.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  l10n.fieldActionFollowUpDueToday,
+                  style: const TextStyle(
+                    color: Colors.orange,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            }
+          }
+        }
+
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -111,9 +170,10 @@ class DynamicFieldRenderer extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              value.toString(),
+              dateStr,
               style: theme.textTheme.bodyMedium,
             ),
+            if (badge != null) badge,
           ],
         );
 
@@ -174,12 +234,17 @@ class DynamicFieldRenderer extends StatelessWidget {
         return InkWell(
           onTap: () {
             final uri = Uri.tryParse(urlStr);
-            if (uri != null) launchUrl(uri, mode: LaunchMode.externalApplication);
+            if (uri != null)
+              launchUrl(uri, mode: LaunchMode.externalApplication);
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Icon(Icons.open_in_new_outlined, size: 16, color: colorScheme.primary),
+              Icon(
+                Icons.open_in_new_outlined,
+                size: 16,
+                color: colorScheme.primary,
+              ),
               const SizedBox(width: 6),
               Flexible(
                 child: Text(
@@ -198,9 +263,13 @@ class DynamicFieldRenderer extends StatelessWidget {
       case DynamicFieldType.singleSelect:
         final opt = field.options.firstWhere(
           (o) => o.value == value.toString(),
-          orElse: () => DynamicSelectOption(value: value.toString(), label: value.toString()),
+          orElse: () => DynamicSelectOption(
+            value: value.toString(),
+            label: value.toString(),
+          ),
         );
-        final color = DynamicColorParser.tryParseHex(opt.color) ?? colorScheme.primary;
+        final color =
+            DynamicColorParser.tryParseHex(opt.color) ?? colorScheme.primary;
         return Chip(
           label: Text(opt.label),
           visualDensity: VisualDensity.compact,
@@ -219,7 +288,8 @@ class DynamicFieldRenderer extends StatelessWidget {
             (o) => o.value == valStr,
             orElse: () => DynamicSelectOption(value: valStr, label: valStr),
           );
-          final color = DynamicColorParser.tryParseHex(opt.color) ?? colorScheme.primary;
+          final color =
+              DynamicColorParser.tryParseHex(opt.color) ?? colorScheme.primary;
           chips.add(
             Chip(
               label: Text(opt.label),
@@ -237,7 +307,8 @@ class DynamicFieldRenderer extends StatelessWidget {
         );
 
       case DynamicFieldType.boolean:
-        final isTrue = value == true || value.toString().toLowerCase() == 'true';
+        final isTrue =
+            value == true || value.toString().toLowerCase() == 'true';
         final textLabel = isTrue ? 'Yes' : 'No';
         return Row(
           mainAxisSize: MainAxisSize.min,
@@ -271,7 +342,11 @@ class DynamicFieldRenderer extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Icon(Icons.location_on_outlined, size: 16, color: colorScheme.primary),
+              Icon(
+                Icons.location_on_outlined,
+                size: 16,
+                color: colorScheme.primary,
+              ),
               const SizedBox(width: 6),
               Text(
                 geoStr,
@@ -290,7 +365,8 @@ class DynamicFieldRenderer extends StatelessWidget {
         return InkWell(
           onTap: () {
             final uri = Uri.tryParse(fileUrl);
-            if (uri != null) launchUrl(uri, mode: LaunchMode.externalApplication);
+            if (uri != null)
+              launchUrl(uri, mode: LaunchMode.externalApplication);
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,

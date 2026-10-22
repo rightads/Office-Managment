@@ -43,8 +43,7 @@ abstract final class ModuleRegistry {
         'leaves': (context, module) => const LeavesScreen(),
         'holidays': (context, module) =>
             const LeavesScreen(initialTab: LeavesInitialTab.holidays),
-        'work_reports': (context, module) =>
-            const WorkReportsScreen(),
+        'work_reports': (context, module) => const WorkReportsScreen(),
         'announcements': (context, module) =>
             const AnnouncementsScreen(isRootNavigation: true),
         'notifications': (context, module) => const NotificationsScreen(),
@@ -56,7 +55,7 @@ abstract final class ModuleRegistry {
     return _registeredBuilders.containsKey(normalized);
   }
 
-  static ModuleRegistryEntry resolve(String routeKey) {
+  static ModuleRegistryEntry resolve(String routeKey, {bool isBase = true}) {
     final normalized = routeKey.trim().toLowerCase();
     final builder = _registeredBuilders[normalized];
     if (builder != null) {
@@ -66,7 +65,12 @@ abstract final class ModuleRegistry {
         builder: builder,
       );
     }
-    if (normalized.startsWith('dynamic_') || normalized.startsWith('custom_') || normalized == 'leads' || normalized == 'tickets' || normalized == 'invoices') {
+    if (normalized.startsWith('dynamic_') ||
+        normalized.startsWith('custom_') ||
+        normalized == 'leads' ||
+        normalized == 'tickets' ||
+        normalized == 'invoices' ||
+        (!isBase && !normalized.contains('_route_v'))) {
       return ModuleRegistryEntry(
         routeKey: normalized,
         isSupported: true,

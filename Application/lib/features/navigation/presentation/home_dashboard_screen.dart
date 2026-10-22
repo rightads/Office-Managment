@@ -481,7 +481,10 @@ class ModuleTileCard extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final entry = ModuleRegistry.resolve(module.routeKey);
+    final entry = ModuleRegistry.resolve(
+      module.routeKey,
+      isBase: module.isBase,
+    );
     final isSupported = entry.isSupported;
 
     return Card(

@@ -21,6 +21,7 @@ import 'package:right_ads/features/admin_operations/presentation/admin_operation
 import 'package:right_ads/features/admin_operations/presentation/admin_task_reports_screen.dart';
 import 'package:right_ads/features/admin_operations/presentation/admin_work_reports_review_screen.dart';
 import 'package:right_ads/features/auth/application/session_controller.dart';
+import 'package:right_ads/features/debug/presentation/role_simulator_screen.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
 import 'package:right_ads/features/auth/presentation/force_change_password_screen.dart';
 import 'package:right_ads/features/auth/presentation/forgot_password_screen.dart';
@@ -281,11 +282,16 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state) => const AdminWorkReportsReviewScreen(),
       ),
 
-      if (kDebugMode)
+      if (kDebugMode) ...[
         GoRoute(
           path: RoutePaths.devGallery,
           builder: (context, state) => const DevGalleryScreen(),
         ),
+        GoRoute(
+          path: RoutePaths.roleSimulator,
+          builder: (context, state) => const RoleSimulatorScreen(),
+        ),
+      ],
     ],
   );
 }

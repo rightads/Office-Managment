@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
@@ -36,7 +37,9 @@ class _DynamicRecordFormScreenState
   @override
   void initState() {
     super.initState();
-    _formData = Map<String, dynamic>.from(widget.initialRecord?.data ?? <String, dynamic>{});
+    _formData = Map<String, dynamic>.from(
+      widget.initialRecord?.data ?? <String, dynamic>{},
+    );
 
     // Populate default values if creating new record
     if (widget.initialRecord == null) {
@@ -101,7 +104,10 @@ class _DynamicRecordFormScreenState
       if (failure != null) {
         _handleFailure(failure.message ?? 'Failed to create record');
       } else {
-        AppSnackbar.showSuccess(context, '${widget.definition.recordLabelSingular} created successfully');
+        AppSnackbar.showSuccess(
+          context,
+          '${widget.definition.recordLabelSingular} created successfully',
+        );
         Navigator.of(context).pop(true);
       }
     } else {
@@ -115,7 +121,10 @@ class _DynamicRecordFormScreenState
       if (failure != null) {
         _handleFailure(failure.message ?? 'Failed to update record');
       } else {
-        AppSnackbar.showSuccess(context, '${widget.definition.recordLabelSingular} updated successfully');
+        AppSnackbar.showSuccess(
+          context,
+          '${widget.definition.recordLabelSingular} updated successfully',
+        );
         Navigator.of(context).pop(true);
       }
     }
@@ -193,7 +202,9 @@ class _DynamicRecordFormScreenState
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
-                          children: secEntry.value.map(_buildFieldEditor).toList(),
+                          children: secEntry.value
+                              .map(_buildFieldEditor)
+                              .toList(),
                         ),
                       ),
                     ),
@@ -202,7 +213,9 @@ class _DynamicRecordFormScreenState
                 }),
                 const SizedBox(height: 16),
                 AppButton(
-                  label: isEdit ? 'Update Record' : 'Create Record',
+                  label: isEdit
+                      ? l10n.dynamicFormUpdateRecord
+                      : l10n.dynamicFormCreateRecord,
                   isLoading: _isSaving,
                   expanded: true,
                   onPressed: _submit,
@@ -294,7 +307,7 @@ class _DynamicRecordFormScreenState
             }).toList(),
             validator: (val) {
               if (field.isRequired && (val == null || val.isEmpty)) {
-                return 'Please select an option';
+                return context.l10n.dynamicFormSelectOption;
               }
               return null;
             },
@@ -308,7 +321,8 @@ class _DynamicRecordFormScreenState
         );
 
       case DynamicFieldType.boolean:
-        final boolVal = currentVal == true || currentVal.toString().toLowerCase() == 'true';
+        final boolVal =
+            currentVal == true || currentVal.toString().toLowerCase() == 'true';
         return SwitchListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(field.label),
@@ -340,7 +354,8 @@ class _DynamicRecordFormScreenState
                 lastDate: DateTime(2100),
               );
               if (picked != null) {
-                final iso = '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}';
+                final iso =
+                    '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}';
                 setState(() {
                   _formData[field.key] = iso;
                   ctrl?.text = iso;
@@ -350,10 +365,66 @@ class _DynamicRecordFormScreenState
             },
             validator: (val) {
               if (field.isRequired && (val == null || val.trim().isEmpty)) {
-                return 'Please pick a date';
+                return context.l10n.dynamicFormPickDate;
               }
               return null;
             },
+          ),
+        );
+
+      case DynamicFieldType.geoPoint:
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppTextField(
+                label: '${field.label}${field.isRequired ? ' *' : ''}',
+                controller: ctrl,
+                errorText: serverErr,
+                readOnly: true,
+                validator: (val) {
+                  if (field.isRequired && (val == null || val.trim().isEmpty)) {
+                    return '${field.label} is required';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 6),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.my_location, size: 16),
+                label: Text(context.l10n.fieldActionCaptureGps),
+                onPressed: () async {
+                  try {
+                    final position =
+                        await geolocator.Geolocator.getCurrentPosition();
+                    final coords =
+                        '${position.latitude.toStringAsFixed(6)}, ${position.longitude.toStringAsFixed(6)}';
+                    setState(() {
+                      _formData[field.key] = {
+                        'lat': position.latitude,
+                        'lng': position.longitude,
+                      };
+                      ctrl?.text = coords;
+                    });
+                    _markChanged();
+                    if (context.mounted) {
+                      AppSnackbar.showSuccess(
+                        context,
+                        context.l10n.fieldActionLocationCaptured(coords),
+                      );
+                    }
+                  } catch (_) {
+                    if (context.mounted) {
+                      AppSnackbar.showError(
+                        context,
+                        context.l10n.fieldActionLaunchError,
+                      );
+                    }
+                  }
+                },
+              ),
+            ],
           ),
         );
 

@@ -211,7 +211,10 @@ class _AdaptiveShellScreenState extends ConsumerState<AdaptiveShellScreen>
           onBackHome: () => setState(() => _selectedIndex = 0),
         );
       } else {
-        final entry = ModuleRegistry.resolve(selectedModule.routeKey);
+        final entry = ModuleRegistry.resolve(
+          selectedModule.routeKey,
+          isBase: selectedModule.isBase,
+        );
         bodyContent = entry.builder(context, selectedModule);
       }
     }

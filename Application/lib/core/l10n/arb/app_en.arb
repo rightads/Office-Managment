@@ -2891,5 +2891,103 @@
         "type": "int"
       }
     }
+  },
+  "roleSimulatorTitle": "Role & Navigation Simulator",
+  "@roleSimulatorTitle": {
+    "description": "Title of the debug role simulator screen"
+  },
+  "roleSimulatorDescription": "Paste a /me/navigation JSON response or choose a preset to simulate how the app and adaptive shell adapt for that role.",
+  "@roleSimulatorDescription": {
+    "description": "Description explaining the role simulator screen"
+  },
+  "roleSimulatorPresetsLabel": "Role Presets",
+  "@roleSimulatorPresetsLabel": {
+    "description": "Label for role presets dropdown"
+  },
+  "roleSimulatorPasteJsonLabel": "Custom Navigation JSON",
+  "@roleSimulatorPasteJsonLabel": {
+    "description": "Label for custom JSON input field"
+  },
+  "roleSimulatorApplyButton": "Apply Navigation",
+  "@roleSimulatorApplyButton": {
+    "description": "Button to apply simulated navigation"
+  },
+  "roleSimulatorResetButton": "Reset to Authenticated State",
+  "@roleSimulatorResetButton": {
+    "description": "Button to reset simulated navigation to original server data"
+  },
+  "roleSimulatorSuccess": "Simulated navigation applied successfully",
+  "@roleSimulatorSuccess": {
+    "description": "Snackbar message when simulation is applied"
+  },
+  "roleSimulatorInvalidJson": "Invalid JSON payload. Please verify syntax.",
+  "@roleSimulatorInvalidJson": {
+    "description": "Error message when JSON cannot be parsed"
+  },
+  "fieldActionCall": "Call",
+  "@fieldActionCall": {
+    "description": "Call button tooltip/label"
+  },
+  "fieldActionWhatsApp": "WhatsApp",
+  "@fieldActionWhatsApp": {
+    "description": "WhatsApp button tooltip/label"
+  },
+  "fieldActionLaunchError": "Could not open action handler",
+  "@fieldActionLaunchError": {
+    "description": "Error when url launcher fails"
+  },
+  "fieldActionCaptureGps": "Capture GPS Location",
+  "@fieldActionCaptureGps": {
+    "description": "Label on button to capture GPS location"
+  },
+  "fieldActionLocationCaptured": "Coordinates captured: {coords}",
+  "@fieldActionLocationCaptured": {
+    "description": "Notification showing captured GPS coordinates",
+    "placeholders": {
+      "coords": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldActionFollowUpDueToday": "Due Today",
+  "@fieldActionFollowUpDueToday": {
+    "description": "Badge indicating follow-up is due today"
+  },
+  "fieldActionFollowUpOverdue": "Overdue",
+  "@fieldActionFollowUpOverdue": {
+    "description": "Badge indicating follow-up is overdue"
+  },
+  "fieldActionCurrencyTotal": "Total: {amount}",
+  "@fieldActionCurrencyTotal": {
+    "description": "Currency total label for summary cards",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dynamicFormSelectOption": "Please select an option",
+  "@dynamicFormSelectOption": {
+    "description": "Validation message when select option is missing"
+  },
+  "dynamicFormPickDate": "Please pick a date",
+  "@dynamicFormPickDate": {
+    "description": "Validation message when date is missing"
+  },
+  "dynamicFormUpdateRecord": "Update Record",
+  "@dynamicFormUpdateRecord": {
+    "description": "Button label to update record"
+  },
+  "dynamicFormCreateRecord": "Create Record",
+  "@dynamicFormCreateRecord": {
+    "description": "Button label to create record"
+  },
+  "dynamicFormPickFile": "Choose File",
+  "@dynamicFormPickFile": {
+    "description": "Button label to pick a file"
+  },
+  "dynamicFormPickImage": "Take / Select Photo",
+  "@dynamicFormPickImage": {
+    "description": "Button label to pick or take image"
   }
 }
