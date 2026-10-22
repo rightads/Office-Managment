@@ -17,8 +17,7 @@
 - [x] **Prompt 14**: Admin: tasks, leave, announcements (Completed)
 - [x] **Prompt 15**: Role modules verification & dynamic engine tests (Completed)
 - [x] **Prompt 16**: Super admin console: roles, permissions, dynamic module builder, system settings, audit logs (Completed)
-- [ ] **Prompt 17**: Offline-first engine & background sync
-- [ ] **Prompt 17**: Offline-first engine & background sync
+- [x] **Prompt 17**: Offline behavior, performance optimization & security hardening (Completed)
 - [ ] **Prompt 18**: Complete test suite & CI verification
 - [ ] **Prompt 19**: Release preparation, flavors, obfuscation, signing
 
@@ -49,6 +48,12 @@
     - `auto_close_unclosed_checkouts`: Auto-closes forgotten checkouts from prior days at shift end and recalculates duration and status.
     - `nightly_attendance_processor`: Idempotently marks Absent, Approved Leave (`ON_LEAVE`), Holidays, or Week-offs for active employees with no check-in record.
 22. **Manual Attendance Overrides**: Requires a mandatory explanation, writes changes to `attendance_corrections` table, and commits immutable entry to `audit_logs`.
+23. **Offline Behavior, Performance & Security Hardening (Prompt 17)**:
+    - **Non-Negotiable Rule 4 Strictly Enforced**: Attendance check-in and check-out are NEVER queued offline. Attempting check-in/out without network immediately returns `AttendanceActionOfflineProhibited` without accessing GPS or device identity.
+    - **Safe Sync Queue**: Non-attendance offline actions (comments, task status updates, form drafts) are safely persisted in `SyncQueueManager`. On reconnection, actions replay sequentially; 409 conflicts safely drop local mutations to preserve server truth.
+    - **Draft Persistence**: `OfflineDraftRepository` manages draft saving/loading for daily work reports, task comments, and dynamic module submissions.
+    - **Performance Optimizations**: Granular Riverpod providers and selectors, const constructor discipline, memory-efficient list builders, and strict avoiding of whole-tree rebuilds.
+    - **Security Architecture**: Clipboard sanitization for credentials, mock-location telemetry sent to server for verification, redaction of sensitive auth tokens in debug logs, and creation of `docs/SECURITY.md`.
 
 ---
 

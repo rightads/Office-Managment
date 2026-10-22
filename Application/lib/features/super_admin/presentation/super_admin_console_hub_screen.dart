@@ -5,7 +5,6 @@ import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/router/route_paths.dart';
-import 'package:right_ads/core/theme/app_colors.dart';
 
 class SuperAdminConsoleHubScreen extends ConsumerWidget {
   const SuperAdminConsoleHubScreen({super.key});

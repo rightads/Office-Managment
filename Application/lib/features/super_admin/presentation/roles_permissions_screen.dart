@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
-import 'package:right_ads/core/theme/app_colors.dart';
-import 'package:right_ads/core/widgets/app_button.dart';
-import 'package:right_ads/core/widgets/app_snackbar.dart';
 import 'package:right_ads/core/widgets/app_text_field.dart';
 import 'package:right_ads/core/widgets/confirm_dialog.dart';
 import 'package:right_ads/features/super_admin/application/super_admin_controllers.dart';
@@ -68,11 +65,8 @@ class RolesPermissionsScreen extends ConsumerWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color:
-                                (role.isSystem
-                                        ? primaryColor
-                                        : Colors.grey)
-                                    .withValues(alpha: 0.12),
+                            color: (role.isSystem ? primaryColor : Colors.grey)
+                                .withValues(alpha: 0.12),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
@@ -82,9 +76,7 @@ class RolesPermissionsScreen extends ConsumerWidget {
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
-                              color: role.isSystem
-                                  ? primaryColor
-                                  : Colors.grey,
+                              color: role.isSystem ? primaryColor : Colors.grey,
                             ),
                           ),
                         ),

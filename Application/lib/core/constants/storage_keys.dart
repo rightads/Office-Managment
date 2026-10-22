@@ -12,4 +12,13 @@ abstract final class StorageKeys {
       'right_ads.prefs.cached_app_config_json';
   static const String cachedNavigationJson =
       'right_ads.prefs.cached_navigation_json';
+  static const String cachedTasksJson = 'right_ads.prefs.cached_tasks_json';
+  static const String cachedAttendanceMonthJson =
+      'right_ads.prefs.cached_attendance_month_json';
+  static const String cachedAnnouncementsJson =
+      'right_ads.prefs.cached_announcements_json';
+
+  // Offline Sync Queue & Drafts
+  static const String offlineSyncQueue = 'right_ads.prefs.offline_sync_queue';
+  static const String offlineDrafts = 'right_ads.prefs.offline_drafts';
 }

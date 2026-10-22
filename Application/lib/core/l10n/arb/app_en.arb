@@ -3278,5 +3278,42 @@
   "noDataAvailable": "No data available",
   "@noDataAvailable": {
     "description": "Generic empty data label"
+  },
+  "offlineDataNotice": "You are offline. Showing cached data.",
+  "@offlineDataNotice": {
+    "description": "Banner notice indicating displayed data is from offline cache"
+  },
+  "attendanceOfflineProhibited": "Attendance check-in and check-out require an active internet connection to verify server time and location.",
+  "@attendanceOfflineProhibited": {
+    "description": "Error message when trying to check in/out while offline"
+  },
+  "syncQueuePending": "{count} pending updates waiting to sync",
+  "@syncQueuePending": {
+    "description": "Notice for queued offline sync items",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncQueueSyncing": "Syncing offline changes...",
+  "@syncQueueSyncing": {
+    "description": "Notice while offline queue is syncing"
+  },
+  "syncQueueSuccess": "Offline changes synchronized successfully.",
+  "@syncQueueSuccess": {
+    "description": "Snackbar on sync queue success"
+  },
+  "syncQueueConflict": "Conflict detected during synchronization. Server version retained.",
+  "@syncQueueConflict": {
+    "description": "Notice when a sync conflict occurs with server version"
+  },
+  "draftSavedLocally": "Draft saved locally.",
+  "@draftSavedLocally": {
+    "description": "Snackbar when item is saved as a local draft"
+  },
+  "securityMockLocationDetected": "Mock or simulated location detected. Coordinates reported to server for verification.",
+  "@securityMockLocationDetected": {
+    "description": "Security warning when mock location is detected"
   }
 }

@@ -99,7 +99,8 @@ class _DynamicModuleBuilderScreenState
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final mod = _modules[index];
-        final label = (mod['label'] ?? mod['name'] ?? mod['code'] ?? '').toString();
+        final label = (mod['label'] ?? mod['name'] ?? mod['code'] ?? '')
+            .toString();
         final code = (mod['code'] ?? mod['module_key'] ?? '').toString();
         final fields = (mod['fields'] as List<dynamic>?) ?? <dynamic>[];
         final statuses = (mod['statuses'] as List<dynamic>?) ?? <dynamic>[];
@@ -133,7 +134,9 @@ class _DynamicModuleBuilderScreenState
                   spacing: 8,
                   runSpacing: 8,
                   children: fields.map((f) {
-                    final fMap = f is Map<String, dynamic> ? f : <String, dynamic>{};
+                    final fMap = f is Map<String, dynamic>
+                        ? f
+                        : <String, dynamic>{};
                     final fLabel = fMap['label'] ?? fMap['name'] ?? '';
                     final fType = fMap['type'] ?? '';
                     return Chip(
@@ -154,11 +157,14 @@ class _DynamicModuleBuilderScreenState
                   spacing: 8,
                   runSpacing: 8,
                   children: statuses.map((s) {
-                    final sMap = s is Map<String, dynamic> ? s : <String, dynamic>{};
+                    final sMap = s is Map<String, dynamic>
+                        ? s
+                        : <String, dynamic>{};
                     final sLabel = sMap['label'] ?? sMap['name'] ?? '';
                     return Chip(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primaryContainer.withValues(alpha: 0.3),
                       label: Text(sLabel.toString()),
                     );
                   }).toList(),
@@ -201,7 +207,9 @@ class _DynamicModuleBuilderScreenState
                       child: TextField(
                         enabled: false,
                         decoration: InputDecoration(
-                          labelText: field is Map ? (field['label'] ?? '').toString() : '',
+                          labelText: field is Map
+                              ? (field['label'] ?? '').toString()
+                              : '',
                           border: const OutlineInputBorder(),
                         ),
                       ),

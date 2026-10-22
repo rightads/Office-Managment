@@ -1,4 +1,6 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:right_ads/core/network/connectivity_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:right_ads/core/errors/app_failure.dart';
@@ -70,6 +72,7 @@ class _FakeAttendanceRepository extends AttendanceRepository {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   const hqOffice = OfficeLocationModel(
     id: 'office-hq-1',
     name: 'Right Ads HQ',
@@ -149,6 +152,9 @@ void main() {
             deviceIdentityServiceProvider.overrideWithValue(
               _FakeDeviceIdentityService('bound-device-001'),
             ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.wifi]),
+            ),
           ],
         );
         addTearDown(container.dispose);
@@ -183,6 +189,9 @@ void main() {
             locationServiceProvider.overrideWithValue(fakeLocation),
             deviceIdentityServiceProvider.overrideWithValue(
               _FakeDeviceIdentityService('bound-device-001'),
+            ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.wifi]),
             ),
           ],
         );
@@ -240,6 +249,9 @@ void main() {
             deviceIdentityServiceProvider.overrideWithValue(
               _FakeDeviceIdentityService('bound-device-001'),
             ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.wifi]),
+            ),
           ],
         );
         addTearDown(container.dispose);
@@ -289,6 +301,9 @@ void main() {
             locationServiceProvider.overrideWithValue(fakeLocation),
             deviceIdentityServiceProvider.overrideWithValue(
               _FakeDeviceIdentityService('wrong-device-999'),
+            ),
+            connectivityChangesProvider.overrideWith(
+              (ref) => Stream.value([ConnectivityResult.wifi]),
             ),
           ],
         );

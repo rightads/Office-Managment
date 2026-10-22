@@ -1019,6 +1019,10 @@ class _CheckInOutBottomSheetState extends ConsumerState<CheckInOutBottomSheet> {
       case AttendanceActionAlreadyCheckedOut():
         AppSnackbar.showInfo(context, l10n.attendanceErrorAlreadyCheckedOut);
         Navigator.of(context).pop();
+      case AttendanceActionOfflineProhibited():
+        setState(() {
+          _inlineError = l10n.attendanceOfflineProhibited;
+        });
       case final AttendanceActionFailure fail:
         setState(() {
           _inlineError = fail.failure.message ?? l10n.errorStateDefaultMessage;

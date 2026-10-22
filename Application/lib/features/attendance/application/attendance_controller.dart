@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:right_ads/core/errors/app_failure.dart';
+import 'package:right_ads/core/network/connectivity_provider.dart';
 import 'package:right_ads/core/services/location_service.dart';
 import 'package:right_ads/core/storage/device_identity_service.dart';
 import 'package:right_ads/features/attendance/data/attendance_repository.dart';
@@ -55,6 +57,10 @@ final class AttendanceActionAlreadyCheckedOut extends AttendanceActionOutcome {
   const AttendanceActionAlreadyCheckedOut(this.serverMessage);
 
   final String serverMessage;
+}
+
+final class AttendanceActionOfflineProhibited extends AttendanceActionOutcome {
+  const AttendanceActionOfflineProhibited();
 }
 
 final class AttendanceActionFailure extends AttendanceActionOutcome {
@@ -234,6 +240,17 @@ class TodayAttendanceController extends _$TodayAttendanceController {
     double maxAccuracyMeters = LocationService.defaultMaxAccuracyMeters,
   }) async {
     final policy = state.policy;
+    final connectivityAsync = ref.read(connectivityChangesProvider);
+    final isOffline = connectivityAsync.maybeWhen(
+      data: (results) =>
+          results.isNotEmpty &&
+          results.every((r) => r == ConnectivityResult.none),
+      orElse: () => false,
+    );
+    if (isOffline) {
+      return const AttendanceActionOfflineProhibited();
+    }
+
     if (policy != null &&
         policy.requireSelfie &&
         (selfieUrl == null || selfieUrl.trim().isEmpty)) {
@@ -342,6 +359,16 @@ class TodayAttendanceController extends _$TodayAttendanceController {
     double maxAccuracyMeters = LocationService.defaultMaxAccuracyMeters,
   }) async {
     final policy = state.policy;
+    final connectivityAsync = ref.read(connectivityChangesProvider);
+    final isOffline = connectivityAsync.maybeWhen(
+      data: (results) =>
+          results.isNotEmpty &&
+          results.every((r) => r == ConnectivityResult.none),
+      orElse: () => false,
+    );
+    if (isOffline) {
+      return const AttendanceActionOfflineProhibited();
+    }
     state = state.copyWith(isSubmitting: true);
 
     final locationService = ref.read(locationServiceProvider);

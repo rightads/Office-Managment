@@ -48,7 +48,7 @@ final class TodayAttendanceControllerProvider
 }
 
 String _$todayAttendanceControllerHash() =>
-    r'4b2d4bbbab7fb49d8a864b2c8f8fad3b095823be';
+    r'49e789429199ff9bf6094f29b1a5e3b3a4941daf';
 
 /// Controller managing Today's attendance status, effective policy, live
 /// geofence distance check, and check-in/check-out mutations.
