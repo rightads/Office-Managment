@@ -30,9 +30,11 @@ abstract final class ApiEndpoints {
   static const String attendanceCheckOut = '/attendance/check-out';
   static const String attendanceMe = '/attendance/me';
   static const String attendanceTodayReport = '/reports/attendance/today';
-  static const String attendanceMonthlyOverview = '/reports/attendance/monthly-overview';
+  static const String attendanceMonthlyOverview =
+      '/reports/attendance/monthly-overview';
   static const String attendanceExport = '/reports/attendance/export';
-  static String attendanceCorrection(String recordId) => '/attendance/$recordId/correct';
+  static String attendanceCorrection(String recordId) =>
+      '/attendance/$recordId/correct';
 
   static String employeeMonthlyAttendanceReport(String employeeId) =>
       '/reports/attendance/employee/$employeeId/monthly';
@@ -97,12 +99,15 @@ abstract final class ApiEndpoints {
   static String employeeDetail(String id) => '/employees/$id';
   static String employeeDeactivate(String id) => '/employees/$id/deactivate';
   static String employeeActivate(String id) => '/employees/$id/activate';
-  static String employeeResetPassword(String id) => '/employees/$id/reset-password';
+  static String employeeResetPassword(String id) =>
+      '/employees/$id/reset-password';
   static String employeeRole(String id) => '/employees/$id/role';
   static String employeeManager(String id) => '/employees/$id/manager';
-  static String employeeAttendancePolicy(String id) => '/employees/$id/attendance-policy';
+  static String employeeAttendancePolicy(String id) =>
+      '/employees/$id/attendance-policy';
   static const String employeesBulkImport = '/employees/bulk-import';
-  static String userResetDevice(String userId) => '/attendance/users/$userId/reset-device';
+  static String userResetDevice(String userId) =>
+      '/attendance/users/$userId/reset-device';
   static const String roles = '/roles';
   static String roleDetail(String id) => '/roles/$id';
   static const String officeLocations = '/office-locations';
@@ -116,7 +121,8 @@ abstract final class ApiEndpoints {
   static String holidayDetail(String id) => '/holidays/$id';
   static String taskStatusDetail(String id) => '/task-statuses/$id';
   static String taskPriorityDetail(String id) => '/task-priorities/$id';
-  static String taskStatusTransitionDelete(String fromId, String toId) => '/task-status-transitions/$fromId/$toId';
+  static String taskStatusTransitionDelete(String fromId, String toId) =>
+      '/task-status-transitions/$fromId/$toId';
 
   // Dynamic Module Engine (Prompt 11 / Backend Addendum A3)
   static const String moduleDefinitions = '/modules/definitions';
@@ -132,6 +138,19 @@ abstract final class ApiEndpoints {
   static String moduleRecordAttachments(String code, String id) =>
       '/modules/$code/records/$id/attachments';
   static String moduleExport(String code) => '/modules/$code/export';
+
+  // Super Admin: System & Configurations (Prompt 16)
+  static const String permissions = '/permissions';
+  static String appModuleDetail(String id) => '/app-modules/$id';
+  static const String systemSettings = '/system-settings';
+  static String systemSetting(String key) => '/system-settings/$key';
+  static const String auditLogs = '/audit-logs';
+  static const String notificationTemplates = '/notifications/templates';
+  static String notificationTemplate(String code) =>
+      '/notifications/templates/$code';
+  static String moduleFields(String code) => '/modules/$code/fields';
+  static String moduleFieldDetail(String code, String fieldId) =>
+      '/modules/$code/fields/$fieldId';
 
   /// Endpoints that do not require an `Authorization: Bearer` header or
   /// automatic 401 token refresh.

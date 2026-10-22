@@ -56,10 +56,9 @@ class _WorkReportItemRowState extends State<WorkReportItemRow> {
       _descController.text = widget.item.description;
     }
     if (oldWidget.item.minutes != widget.item.minutes) {
-      final newText =
-          widget.item.minutes != null && widget.item.minutes! > 0
-              ? widget.item.minutes.toString()
-              : '';
+      final newText = widget.item.minutes != null && widget.item.minutes! > 0
+          ? widget.item.minutes.toString()
+          : '';
       if (_minutesController.text != newText) {
         _minutesController.text = newText;
       }

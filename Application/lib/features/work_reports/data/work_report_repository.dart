@@ -27,7 +27,10 @@ class WorkReportRepository {
       );
       final data = response.data;
       if (data is Map) {
-        return (WorkReportModel.fromJson(Map<String, dynamic>.from(data)), null);
+        return (
+          WorkReportModel.fromJson(Map<String, dynamic>.from(data)),
+          null,
+        );
       }
       return (null, null);
     } on DioException catch (dioError) {

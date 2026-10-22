@@ -48,11 +48,11 @@ class EmployeeBulkImportScreen extends ConsumerWidget {
                         final result = await FilePicker.pickFiles(
                           type: FileType.custom,
                           allowedExtensions: ['csv'],
-                          
                         );
                         if (result.isNotEmpty) {
                           final file = result.first;
-                          final bytes = await file.xFile.readAsBytes(); {
+                          final bytes = await file.xFile.readAsBytes();
+                          {
                             controller.setSelectedFile(
                               fileName: file.name,
                               bytes: bytes,

@@ -21,7 +21,6 @@ import 'package:right_ads/features/admin_operations/presentation/admin_operation
 import 'package:right_ads/features/admin_operations/presentation/admin_task_reports_screen.dart';
 import 'package:right_ads/features/admin_operations/presentation/admin_work_reports_review_screen.dart';
 import 'package:right_ads/features/auth/application/session_controller.dart';
-import 'package:right_ads/features/debug/presentation/role_simulator_screen.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
 import 'package:right_ads/features/auth/presentation/force_change_password_screen.dart';
 import 'package:right_ads/features/auth/presentation/forgot_password_screen.dart';
@@ -30,11 +29,18 @@ import 'package:right_ads/features/auth/presentation/reset_password_screen.dart'
 import 'package:right_ads/features/communication/presentation/announcement_detail_screen.dart';
 import 'package:right_ads/features/communication/presentation/announcements_screen.dart';
 import 'package:right_ads/features/communication/presentation/notifications_screen.dart';
+import 'package:right_ads/features/debug/presentation/role_simulator_screen.dart';
 import 'package:right_ads/features/leaves/presentation/leave_detail_screen.dart';
 import 'package:right_ads/features/leaves/presentation/leaves_screen.dart';
 import 'package:right_ads/features/navigation/presentation/adaptive_shell_screen.dart';
 import 'package:right_ads/features/navigation/presentation/forbidden_screen.dart';
 import 'package:right_ads/features/navigation/presentation/force_update_screen.dart';
+import 'package:right_ads/features/super_admin/presentation/audit_log_viewer_screen.dart';
+import 'package:right_ads/features/super_admin/presentation/dynamic_module_builder_screen.dart';
+import 'package:right_ads/features/super_admin/presentation/notification_templates_screen.dart';
+import 'package:right_ads/features/super_admin/presentation/roles_permissions_screen.dart';
+import 'package:right_ads/features/super_admin/presentation/super_admin_console_hub_screen.dart';
+import 'package:right_ads/features/super_admin/presentation/system_settings_screen.dart';
 import 'package:right_ads/features/tasks/presentation/task_detail_screen.dart';
 import 'package:right_ads/features/tasks/presentation/tasks_screen.dart';
 import 'package:right_ads/features/work_reports/presentation/work_report_detail_screen.dart';
@@ -280,6 +286,32 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: RoutePaths.adminWorkReportsReview,
         builder: (context, state) => const AdminWorkReportsReviewScreen(),
+      ),
+
+      // Super Admin Console (Prompt 16)
+      GoRoute(
+        path: RoutePaths.superAdminHub,
+        builder: (context, state) => const SuperAdminConsoleHubScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.superAdminRoles,
+        builder: (context, state) => const RolesPermissionsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.superAdminSettings,
+        builder: (context, state) => const SystemSettingsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.superAdminAudit,
+        builder: (context, state) => const AuditLogViewerScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.superAdminTemplates,
+        builder: (context, state) => const NotificationTemplatesScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.superAdminModuleBuilder,
+        builder: (context, state) => const DynamicModuleBuilderScreen(),
       ),
 
       if (kDebugMode) ...[

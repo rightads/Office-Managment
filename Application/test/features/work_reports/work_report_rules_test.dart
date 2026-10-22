@@ -13,18 +13,21 @@ void main() {
 
     final today = DateTime(2026, 10, 20);
 
-    test('toIsoDate and tryParseIsoDate behave symmetrically and reject invalid', () {
-      final date = DateTime(2026, 10, 20);
-      final iso = WorkReportRules.toIsoDate(date);
-      expect(iso, '2026-10-20');
+    test(
+      'toIsoDate and tryParseIsoDate behave symmetrically and reject invalid',
+      () {
+        final date = DateTime(2026, 10, 20);
+        final iso = WorkReportRules.toIsoDate(date);
+        expect(iso, '2026-10-20');
 
-      final parsed = WorkReportRules.tryParseIsoDate('2026-10-20');
-      expect(parsed, DateTime(2026, 10, 20));
+        final parsed = WorkReportRules.tryParseIsoDate('2026-10-20');
+        expect(parsed, DateTime(2026, 10, 20));
 
-      expect(WorkReportRules.tryParseIsoDate('not-a-date'), isNull);
-      expect(WorkReportRules.tryParseIsoDate('2026-02-31'), isNull);
-      expect(WorkReportRules.tryParseIsoDate('2026-13-01'), isNull);
-    });
+        expect(WorkReportRules.tryParseIsoDate('not-a-date'), isNull);
+        expect(WorkReportRules.tryParseIsoDate('2026-02-31'), isNull);
+        expect(WorkReportRules.tryParseIsoDate('2026-13-01'), isNull);
+      },
+    );
 
     test('daysBetween correctly handles calendar days', () {
       final d1 = DateTime(2026, 10, 15);
@@ -40,17 +43,32 @@ void main() {
       expect(defaultRules.isFutureDate(DateTime(2026, 10, 19), today), isFalse);
     });
 
-    test('isWithinEditableWindow enforces dynamic window and blocks future dates', () {
-      // Within window (up to 7 days back)
-      expect(defaultRules.isWithinEditableWindow(DateTime(2026, 10, 20), today), isTrue);
-      expect(defaultRules.isWithinEditableWindow(DateTime(2026, 10, 13), today), isTrue);
+    test(
+      'isWithinEditableWindow enforces dynamic window and blocks future dates',
+      () {
+        // Within window (up to 7 days back)
+        expect(
+          defaultRules.isWithinEditableWindow(DateTime(2026, 10, 20), today),
+          isTrue,
+        );
+        expect(
+          defaultRules.isWithinEditableWindow(DateTime(2026, 10, 13), today),
+          isTrue,
+        );
 
-      // Outside window (8 days back)
-      expect(defaultRules.isWithinEditableWindow(DateTime(2026, 10, 12), today), isFalse);
+        // Outside window (8 days back)
+        expect(
+          defaultRules.isWithinEditableWindow(DateTime(2026, 10, 12), today),
+          isFalse,
+        );
 
-      // Future dates are never within editable window
-      expect(defaultRules.isWithinEditableWindow(DateTime(2026, 10, 21), today), isFalse);
-    });
+        // Future dates are never within editable window
+        expect(
+          defaultRules.isWithinEditableWindow(DateTime(2026, 10, 21), today),
+          isFalse,
+        );
+      },
+    );
 
     test('earliestEditableDate calculates cutoff boundary', () {
       final earliest = defaultRules.earliestEditableDate(today);
@@ -114,29 +132,32 @@ void main() {
         );
       });
 
-      test('permits editing submitted reports when allowEditUntilReviewed is true', () {
-        const permissiveRules = WorkReportRules(
-          maxMinutesPerDay: 960,
-          editableWindowDays: 7,
-          allowEditUntilReviewed: true,
-        );
-        expect(
-          permissiveRules.lockReason(
-            date: today,
-            today: today,
-            existingStatus: WorkReportStatus.submitted,
-          ),
-          isNull,
-        );
-        expect(
-          permissiveRules.canEdit(
-            date: today,
-            today: today,
-            existingStatus: WorkReportStatus.submitted,
-          ),
-          isTrue,
-        );
-      });
+      test(
+        'permits editing submitted reports when allowEditUntilReviewed is true',
+        () {
+          const permissiveRules = WorkReportRules(
+            maxMinutesPerDay: 960,
+            editableWindowDays: 7,
+            allowEditUntilReviewed: true,
+          );
+          expect(
+            permissiveRules.lockReason(
+              date: today,
+              today: today,
+              existingStatus: WorkReportStatus.submitted,
+            ),
+            isNull,
+          );
+          expect(
+            permissiveRules.canEdit(
+              date: today,
+              today: today,
+              existingStatus: WorkReportStatus.submitted,
+            ),
+            isTrue,
+          );
+        },
+      );
 
       test('permits editing new or draft reports within window', () {
         expect(
@@ -159,15 +180,18 @@ void main() {
     });
 
     group('Time budget helpers', () {
-      test('exceedsMax and remainingMinutes evaluate against maxMinutesPerDay', () {
-        expect(defaultRules.exceedsMax(960), isFalse);
-        expect(defaultRules.exceedsMax(961), isTrue);
-        expect(defaultRules.exceedsMax(500), isFalse);
+      test(
+        'exceedsMax and remainingMinutes evaluate against maxMinutesPerDay',
+        () {
+          expect(defaultRules.exceedsMax(960), isFalse);
+          expect(defaultRules.exceedsMax(961), isTrue);
+          expect(defaultRules.exceedsMax(500), isFalse);
 
-        expect(defaultRules.remainingMinutes(500), 460);
-        expect(defaultRules.remainingMinutes(960), 0);
-        expect(defaultRules.remainingMinutes(1000), -40);
-      });
+          expect(defaultRules.remainingMinutes(500), 460);
+          expect(defaultRules.remainingMinutes(960), 0);
+          expect(defaultRules.remainingMinutes(1000), -40);
+        },
+      );
 
       test('usageFraction clamps accurately between 0.0 and 1.0', () {
         expect(defaultRules.usageFraction(0), 0.0);
@@ -208,16 +232,19 @@ void main() {
       });
     });
 
-    test('fromConfig reads runtime app config properties with zero hardcoding', () {
-      const config = RuntimeAppConfig(
-        workReportMaxMinutesPerDay: 480,
-        workReportEditableWindowDays: 14,
-        workReportAllowEditUntilReviewed: true,
-      );
-      final rules = WorkReportRules.fromConfig(config);
-      expect(rules.maxMinutesPerDay, 480);
-      expect(rules.editableWindowDays, 14);
-      expect(rules.allowEditUntilReviewed, isTrue);
-    });
+    test(
+      'fromConfig reads runtime app config properties with zero hardcoding',
+      () {
+        const config = RuntimeAppConfig(
+          workReportMaxMinutesPerDay: 480,
+          workReportEditableWindowDays: 14,
+          workReportAllowEditUntilReviewed: true,
+        );
+        final rules = WorkReportRules.fromConfig(config);
+        expect(rules.maxMinutesPerDay, 480);
+        expect(rules.editableWindowDays, 14);
+        expect(rules.allowEditUntilReviewed, isTrue);
+      },
+    );
   });
 }

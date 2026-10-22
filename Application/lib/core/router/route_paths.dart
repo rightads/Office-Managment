@@ -56,4 +56,12 @@ abstract final class RoutePaths {
 
   // Debug (Prompt 15)
   static const String roleSimulator = '/dev/role-simulator';
+
+  // Super Admin Console (Prompt 16)
+  static const String superAdminHub = '/super-admin';
+  static const String superAdminRoles = '/super-admin/roles';
+  static const String superAdminSettings = '/super-admin/settings';
+  static const String superAdminAudit = '/super-admin/audit-logs';
+  static const String superAdminTemplates = '/super-admin/templates';
+  static const String superAdminModuleBuilder = '/super-admin/module-builder';
 }

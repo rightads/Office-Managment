@@ -229,7 +229,9 @@ class _AdminEmployeeMonthlyScreenState
           height: 14,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        title: Text(l10n.adminAttendanceDateWithDay(record.date, record.dayOfWeek)),
+        title: Text(
+          l10n.adminAttendanceDateWithDay(record.date, record.dayOfWeek),
+        ),
         subtitle: Text(
           '${record.statusName ?? '-'} • In: ${record.firstCheckIn ?? '-'} Out: ${record.lastCheckOut ?? '-'} (${record.totalHoursWorked.toStringAsFixed(1)}h)',
         ),

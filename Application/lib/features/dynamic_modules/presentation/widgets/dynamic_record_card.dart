@@ -22,13 +22,13 @@ class DynamicRecordCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     // Filter fields marked is_list_visible
-    final visibleFields = definition.fields
-        .where((f) => f.isActive && f.isListVisible)
-        .toList()
-      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+    final visibleFields =
+        definition.fields.where((f) => f.isActive && f.isListVisible).toList()
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
     final status = record.status;
-    final statusColor = DynamicColorParser.tryParseHex(status?.color) ?? colorScheme.primary;
+    final statusColor =
+        DynamicColorParser.tryParseHex(status?.color) ?? colorScheme.primary;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
@@ -64,7 +64,9 @@ class DynamicRecordCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: statusColor.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: statusColor.withValues(alpha: 0.4)),
+                        border: Border.all(
+                          color: statusColor.withValues(alpha: 0.4),
+                        ),
                       ),
                       child: Text(
                         status.label,
@@ -103,7 +105,8 @@ class DynamicRecordCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  if (record.assigneeName != null && record.assigneeName!.isNotEmpty)
+                  if (record.assigneeName != null &&
+                      record.assigneeName!.isNotEmpty)
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[

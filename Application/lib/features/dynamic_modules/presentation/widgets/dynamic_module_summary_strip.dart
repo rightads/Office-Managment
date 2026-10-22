@@ -44,7 +44,8 @@ class DynamicModuleSummaryStrip extends StatelessWidget {
           ...definition.statuses.map((s) {
             final count = summary.countsByStatus[s.code] ?? 0;
             final isSelected = selectedStatus == s.code;
-            final sColor = DynamicColorParser.tryParseHex(s.color) ?? colorScheme.primary;
+            final sColor =
+                DynamicColorParser.tryParseHex(s.color) ?? colorScheme.primary;
 
             return Padding(
               padding: const EdgeInsets.only(right: 8),

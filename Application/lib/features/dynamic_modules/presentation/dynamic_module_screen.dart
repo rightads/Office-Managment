@@ -26,7 +26,8 @@ class DynamicModuleScreen extends ConsumerStatefulWidget {
   final String? initialLabel;
 
   @override
-  ConsumerState<DynamicModuleScreen> createState() => _DynamicModuleScreenState();
+  ConsumerState<DynamicModuleScreen> createState() =>
+      _DynamicModuleScreenState();
 }
 
 class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
@@ -79,7 +80,8 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
     } else {
       setState(() {
         _isLoadingDefinition = false;
-        _definitionError = 'Failed to load module schema for ${widget.moduleCode}.';
+        _definitionError =
+            'Failed to load module schema for ${widget.moduleCode}.';
       });
     }
   }
@@ -161,7 +163,9 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
             icon: const Icon(Icons.refresh),
             tooltip: 'Refresh',
             onPressed: () {
-              ref.read(dynamicRecordListControllerProvider(def.code).notifier).refresh();
+              ref
+                  .read(dynamicRecordListControllerProvider(def.code).notifier)
+                  .refresh();
               ref.invalidate(moduleSummaryProvider(def.code));
             },
           ),
@@ -178,7 +182,11 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                   ),
                 );
                 if (created == true) {
-                  ref.read(dynamicRecordListControllerProvider(def.code).notifier).refresh();
+                  ref
+                      .read(
+                        dynamicRecordListControllerProvider(def.code).notifier,
+                      )
+                      .refresh();
                   ref.invalidate(moduleSummaryProvider(def.code));
                 }
               },
@@ -186,7 +194,9 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
           : null,
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(dynamicRecordListControllerProvider(def.code).notifier).refresh();
+          await ref
+              .read(dynamicRecordListControllerProvider(def.code).notifier)
+              .refresh();
           ref.invalidate(moduleSummaryProvider(def.code));
         },
         child: Column(
@@ -205,7 +215,11 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                           onPressed: () {
                             _searchController.clear();
                             ref
-                                .read(dynamicRecordListControllerProvider(def.code).notifier)
+                                .read(
+                                  dynamicRecordListControllerProvider(
+                                    def.code,
+                                  ).notifier,
+                                )
                                 .setSearch('');
                           },
                         )
@@ -218,7 +232,9 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                 ),
                 onSubmitted: (query) {
                   ref
-                      .read(dynamicRecordListControllerProvider(def.code).notifier)
+                      .read(
+                        dynamicRecordListControllerProvider(def.code).notifier,
+                      )
                       .setSearch(query);
                 },
               ),
@@ -234,7 +250,11 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                   selectedStatus: listState.statusFilter,
                   onStatusSelected: (status) {
                     ref
-                        .read(dynamicRecordListControllerProvider(def.code).notifier)
+                        .read(
+                          dynamicRecordListControllerProvider(
+                            def.code,
+                          ).notifier,
+                        )
                         .setStatusFilter(status);
                   },
                 );
@@ -258,9 +278,15 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
 
                   if (listState.failure != null) {
                     return ErrorState(
-                      message: listState.failure?.message ?? 'Failed to load records',
+                      message:
+                          listState.failure?.message ??
+                          'Failed to load records',
                       onRetry: () => ref
-                          .read(dynamicRecordListControllerProvider(def.code).notifier)
+                          .read(
+                            dynamicRecordListControllerProvider(
+                              def.code,
+                            ).notifier,
+                          )
                           .refresh(),
                     );
                   }
@@ -277,7 +303,9 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            l10n.dynamicModuleNoRecordsFound(def.recordLabelPlural),
+                            l10n.dynamicModuleNoRecordsFound(
+                              def.recordLabelPlural,
+                            ),
                             style: theme.textTheme.titleMedium?.copyWith(
                               color: colorScheme.onSurfaceVariant,
                             ),
@@ -294,7 +322,8 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                       horizontal: 16,
                       vertical: 4,
                     ),
-                    itemCount: listState.records.length +
+                    itemCount:
+                        listState.records.length +
                         (listState.isFetchingNextPage ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == listState.records.length) {
@@ -320,7 +349,11 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
                             ),
                           );
                           ref
-                              .read(dynamicRecordListControllerProvider(def.code).notifier)
+                              .read(
+                                dynamicRecordListControllerProvider(
+                                  def.code,
+                                ).notifier,
+                              )
                               .refresh();
                           ref.invalidate(moduleSummaryProvider(def.code));
                         },

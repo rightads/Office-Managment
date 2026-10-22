@@ -47,10 +47,13 @@ class _DynamicRecordDetailScreenState
     super.dispose();
   }
 
-  Future<void> _handleStatusTransition(DynamicModuleTransition transition) async {
+  Future<void> _handleStatusTransition(
+    DynamicModuleTransition transition,
+  ) async {
     final noteCtrl = TextEditingController();
     final l10n = context.l10n;
-    final statusName = transition.toStatusLabel ?? transition.toStatusCode ?? '';
+    final statusName =
+        transition.toStatusLabel ?? transition.toStatusCode ?? '';
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -77,10 +80,12 @@ class _DynamicRecordDetailScreenState
 
     if (confirmed == true && mounted) {
       final success = await ref
-          .read(dynamicRecordDetailControllerProvider(
-            widget.definition.code,
-            widget.recordId,
-          ).notifier)
+          .read(
+            dynamicRecordDetailControllerProvider(
+              widget.definition.code,
+              widget.recordId,
+            ).notifier,
+          )
           .changeStatus(
             transition.toStatusId,
             note: noteCtrl.text.trim().isNotEmpty ? noteCtrl.text.trim() : null,
@@ -100,10 +105,12 @@ class _DynamicRecordDetailScreenState
     if (text.isEmpty) return;
 
     final success = await ref
-        .read(dynamicRecordDetailControllerProvider(
-          widget.definition.code,
-          widget.recordId,
-        ).notifier)
+        .read(
+          dynamicRecordDetailControllerProvider(
+            widget.definition.code,
+            widget.recordId,
+          ).notifier,
+        )
         .addComment(text);
 
     if (mounted) {
@@ -127,10 +134,12 @@ class _DynamicRecordDetailScreenState
     if (!confirmed || !mounted) return;
 
     final success = await ref
-        .read(dynamicRecordDetailControllerProvider(
-          widget.definition.code,
-          widget.recordId,
-        ).notifier)
+        .read(
+          dynamicRecordDetailControllerProvider(
+            widget.definition.code,
+            widget.recordId,
+          ).notifier,
+        )
         .deleteRecord();
 
     if (mounted) {
@@ -156,11 +165,12 @@ class _DynamicRecordDetailScreenState
     );
 
     final canManage = ref.can('modules.manage');
-    final canEdit = canManage ||
+    final canEdit =
+        canManage ||
         ref.can('module.${widget.definition.code}.edit_all') ||
         ref.can('module.${widget.definition.code}.edit_own');
-    final canDelete = canManage ||
-        ref.can('module.${widget.definition.code}.delete');
+    final canDelete =
+        canManage || ref.can('module.${widget.definition.code}.delete');
 
     if (state.isLoading) {
       return Scaffold(
@@ -178,10 +188,12 @@ class _DynamicRecordDetailScreenState
         body: ErrorState(
           message: state.failure?.message ?? 'Record not found',
           onRetry: () => ref
-              .read(dynamicRecordDetailControllerProvider(
-                widget.definition.code,
-                widget.recordId,
-              ).notifier)
+              .read(
+                dynamicRecordDetailControllerProvider(
+                  widget.definition.code,
+                  widget.recordId,
+                ).notifier,
+              )
               .load(),
         ),
       );
@@ -189,7 +201,8 @@ class _DynamicRecordDetailScreenState
 
     final detail = state.detail!;
     final status = detail.status;
-    final statusColor = DynamicColorParser.tryParseHex(status?.color) ?? colorScheme.primary;
+    final statusColor =
+        DynamicColorParser.tryParseHex(status?.color) ?? colorScheme.primary;
 
     // Group fields by section
     final Map<String, List<DynamicModuleField>> sections = {};
@@ -203,7 +216,9 @@ class _DynamicRecordDetailScreenState
       list.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
     }
 
-    final recordNumber = detail.id.length >= 8 ? detail.id.substring(0, 8) : detail.id;
+    final recordNumber = detail.id.length >= 8
+        ? detail.id.substring(0, 8)
+        : detail.id;
 
     return Scaffold(
       appBar: AppBar(
@@ -245,12 +260,16 @@ class _DynamicRecordDetailScreenState
                 );
                 if (changed == true) {
                   ref
-                      .read(dynamicRecordDetailControllerProvider(
-                        widget.definition.code,
-                        widget.recordId,
-                      ).notifier)
+                      .read(
+                        dynamicRecordDetailControllerProvider(
+                          widget.definition.code,
+                          widget.recordId,
+                        ).notifier,
+                      )
                       .load();
-                  ref.invalidate(dynamicRecordListControllerProvider(widget.definition.code));
+                  ref.invalidate(
+                    dynamicRecordListControllerProvider(widget.definition.code),
+                  );
                   ref.invalidate(moduleSummaryProvider(widget.definition.code));
                 }
               },
@@ -297,9 +316,16 @@ class _DynamicRecordDetailScreenState
                           if (status != null)
                             Chip(
                               label: Text(status.label),
-                              backgroundColor: statusColor.withValues(alpha: 0.12),
-                              side: BorderSide(color: statusColor.withValues(alpha: 0.4)),
-                              labelStyle: TextStyle(color: statusColor, fontWeight: FontWeight.bold),
+                              backgroundColor: statusColor.withValues(
+                                alpha: 0.12,
+                              ),
+                              side: BorderSide(
+                                color: statusColor.withValues(alpha: 0.4),
+                              ),
+                              labelStyle: TextStyle(
+                                color: statusColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                         ],
                       ),
@@ -317,12 +343,29 @@ class _DynamicRecordDetailScreenState
                           spacing: 8,
                           runSpacing: 4,
                           children: detail.allowedTransitions.map((t) {
-                            final tColor = DynamicColorParser.tryParseHex(t.toStatusColor) ?? colorScheme.primary;
+                            final tColor =
+                                DynamicColorParser.tryParseHex(
+                                  t.toStatusColor,
+                                ) ??
+                                colorScheme.primary;
                             return ActionChip(
-                              avatar: Icon(Icons.arrow_forward, size: 14, color: tColor),
-                              label: Text(t.toStatusLabel ?? t.toStatusCode ?? 'Transition'),
-                              labelStyle: TextStyle(color: tColor, fontWeight: FontWeight.bold),
-                              side: BorderSide(color: tColor.withValues(alpha: 0.4)),
+                              avatar: Icon(
+                                Icons.arrow_forward,
+                                size: 14,
+                                color: tColor,
+                              ),
+                              label: Text(
+                                t.toStatusLabel ??
+                                    t.toStatusCode ??
+                                    'Transition',
+                              ),
+                              labelStyle: TextStyle(
+                                color: tColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              side: BorderSide(
+                                color: tColor.withValues(alpha: 0.4),
+                              ),
                               backgroundColor: tColor.withValues(alpha: 0.08),
                               onPressed: state.isActionInProgress
                                   ? null
@@ -389,13 +432,15 @@ class _DynamicRecordDetailScreenState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     c.userName ?? 'User',
-                                    style: theme.textTheme.labelMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: theme.textTheme.labelMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                   Text(
                                     _formatTimestamp(c.createdAt),
@@ -406,7 +451,10 @@ class _DynamicRecordDetailScreenState
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Text(c.comment, style: theme.textTheme.bodyMedium),
+                              Text(
+                                c.comment,
+                                style: theme.textTheme.bodyMedium,
+                              ),
                             ],
                           );
                         },
@@ -417,7 +465,9 @@ class _DynamicRecordDetailScreenState
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: colorScheme.surface,
-                    border: Border(top: BorderSide(color: colorScheme.outlineVariant)),
+                    border: Border(
+                      top: BorderSide(color: colorScheme.outlineVariant),
+                    ),
                   ),
                   child: Row(
                     children: <Widget>[
@@ -427,7 +477,9 @@ class _DynamicRecordDetailScreenState
                           decoration: InputDecoration(
                             hintText: l10n.dynamicModuleAddCommentHint,
                             border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                            ),
                           ),
                           minLines: 1,
                           maxLines: 3,
@@ -436,7 +488,9 @@ class _DynamicRecordDetailScreenState
                       IconButton(
                         icon: const Icon(Icons.send),
                         color: colorScheme.primary,
-                        onPressed: state.isActionInProgress ? null : _handleAddComment,
+                        onPressed: state.isActionInProgress
+                            ? null
+                            : _handleAddComment,
                       ),
                     ],
                   ),
@@ -480,7 +534,8 @@ class _DynamicRecordDetailScreenState
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              if (act.details != null && act.details!.isNotEmpty) ...<Widget>[
+                              if (act.details != null &&
+                                  act.details!.isNotEmpty) ...<Widget>[
                                 const SizedBox(height: 4),
                                 Text(
                                   act.details.toString(),

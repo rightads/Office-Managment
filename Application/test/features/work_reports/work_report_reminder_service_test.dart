@@ -59,36 +59,42 @@ void main() {
       location = tz.getLocation('Asia/Kolkata');
     });
 
-    test('syncReminder schedules notification when today report is NOT submitted', () async {
-      await service.syncReminder(
-        reminderTime: '18:30',
-        location: location,
-        isTodaySubmitted: false,
-      );
+    test(
+      'syncReminder schedules notification when today report is NOT submitted',
+      () async {
+        await service.syncReminder(
+          reminderTime: '18:30',
+          location: location,
+          isTodaySubmitted: false,
+        );
 
-      expect(fakeNotifications.scheduledCalls, 1);
-      expect(
-        fakeNotifications.lastScheduledId,
-        WorkReportReminderService.reminderNotificationId,
-      );
-      expect(fakeNotifications.lastScheduledDate?.hour, 18);
-      expect(fakeNotifications.lastScheduledDate?.minute, 30);
-    });
+        expect(fakeNotifications.scheduledCalls, 1);
+        expect(
+          fakeNotifications.lastScheduledId,
+          WorkReportReminderService.reminderNotificationId,
+        );
+        expect(fakeNotifications.lastScheduledDate?.hour, 18);
+        expect(fakeNotifications.lastScheduledDate?.minute, 30);
+      },
+    );
 
-    test('syncReminder cancels notification when today report IS submitted', () async {
-      await service.syncReminder(
-        reminderTime: '18:30',
-        location: location,
-        isTodaySubmitted: true,
-      );
+    test(
+      'syncReminder cancels notification when today report IS submitted',
+      () async {
+        await service.syncReminder(
+          reminderTime: '18:30',
+          location: location,
+          isTodaySubmitted: true,
+        );
 
-      expect(fakeNotifications.cancelledCalls, 1);
-      expect(
-        fakeNotifications.lastCancelledId,
-        WorkReportReminderService.reminderNotificationId,
-      );
-      expect(fakeNotifications.scheduledCalls, 0);
-    });
+        expect(fakeNotifications.cancelledCalls, 1);
+        expect(
+          fakeNotifications.lastCancelledId,
+          WorkReportReminderService.reminderNotificationId,
+        );
+        expect(fakeNotifications.scheduledCalls, 0);
+      },
+    );
 
     test('cancelDailyReminder calls notifications plugin cancel', () async {
       await service.cancelDailyReminder();

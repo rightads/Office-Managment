@@ -2989,5 +2989,294 @@
   "dynamicFormPickImage": "Take / Select Photo",
   "@dynamicFormPickImage": {
     "description": "Button label to pick or take image"
+  },
+  "superAdminTitle": "Super Admin Console",
+  "@superAdminTitle": {
+    "description": "Title for Super Admin console hub"
+  },
+  "superAdminRolesTitle": "Roles & Permissions",
+  "@superAdminRolesTitle": {
+    "description": "Roles and permissions section title"
+  },
+  "superAdminRolesSubtitle": "Configure organization roles and assign system permissions",
+  "@superAdminRolesSubtitle": {
+    "description": "Roles section subtitle"
+  },
+  "superAdminModulesTitle": "Dynamic Module Builder",
+  "@superAdminModulesTitle": {
+    "description": "Module builder section title"
+  },
+  "superAdminModulesSubtitle": "Create and manage custom schemas, fields, and workflows",
+  "@superAdminModulesSubtitle": {
+    "description": "Module builder section subtitle"
+  },
+  "superAdminNavigationTitle": "App Navigation Registry",
+  "@superAdminNavigationTitle": {
+    "description": "Navigation registry title"
+  },
+  "superAdminNavigationSubtitle": "Order and toggle visibility of mobile and desktop modules",
+  "@superAdminNavigationSubtitle": {
+    "description": "Navigation registry subtitle"
+  },
+  "superAdminSettingsTitle": "System Settings",
+  "@superAdminSettingsTitle": {
+    "description": "System settings title"
+  },
+  "superAdminSettingsSubtitle": "Global parameters, operational thresholds, and formatting",
+  "@superAdminSettingsSubtitle": {
+    "description": "System settings subtitle"
+  },
+  "superAdminAuditTitle": "Audit Trail Viewer",
+  "@superAdminAuditTitle": {
+    "description": "Audit log viewer title"
+  },
+  "superAdminAuditSubtitle": "Immutable timeline of administrative and security events",
+  "@superAdminAuditSubtitle": {
+    "description": "Audit viewer subtitle"
+  },
+  "superAdminTemplatesTitle": "Notification Templates",
+  "@superAdminTemplatesTitle": {
+    "description": "Notification templates title"
+  },
+  "superAdminTemplatesSubtitle": "Customize in-app and email notification messages",
+  "@superAdminTemplatesSubtitle": {
+    "description": "Notification templates subtitle"
+  },
+  "superAdminUsersCount": "{count} employees",
+  "@superAdminUsersCount": {
+    "description": "Number of employees assigned to role",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "superAdminSystemRole": "System Role",
+  "@superAdminSystemRole": {
+    "description": "Badge for protected system roles"
+  },
+  "superAdminCustomRole": "Custom Role",
+  "@superAdminCustomRole": {
+    "description": "Badge for custom roles"
+  },
+  "superAdminCreateRole": "Create Role",
+  "@superAdminCreateRole": {
+    "description": "Button label to create a new role"
+  },
+  "superAdminEditRole": "Edit Role",
+  "@superAdminEditRole": {
+    "description": "Button label to edit a role"
+  },
+  "superAdminDeleteRole": "Delete Role",
+  "@superAdminDeleteRole": {
+    "description": "Button label to delete a role"
+  },
+  "superAdminRoleName": "Role Name",
+  "@superAdminRoleName": {
+    "description": "Input label for role name"
+  },
+  "superAdminRoleDescription": "Role Description",
+  "@superAdminRoleDescription": {
+    "description": "Input label for role description"
+  },
+  "superAdminSaveRole": "Save Role",
+  "@superAdminSaveRole": {
+    "description": "Button label to save role"
+  },
+  "superAdminPermissionsMatrix": "Permissions Matrix",
+  "@superAdminPermissionsMatrix": {
+    "description": "Header for permissions matrix"
+  },
+  "superAdminAuditActor": "Actor",
+  "@superAdminAuditActor": {
+    "description": "Label for audit actor"
+  },
+  "superAdminAuditAction": "Action",
+  "@superAdminAuditAction": {
+    "description": "Label for audit action"
+  },
+  "superAdminAuditEntity": "Entity",
+  "@superAdminAuditEntity": {
+    "description": "Label for audit entity"
+  },
+  "superAdminAuditTime": "Timestamp",
+  "@superAdminAuditTime": {
+    "description": "Label for audit timestamp"
+  },
+  "superAdminAuditDiff": "View Changes",
+  "@superAdminAuditDiff": {
+    "description": "Button to view state diff"
+  },
+  "superAdminAuditOldState": "Previous State",
+  "@superAdminAuditOldState": {
+    "description": "Header for old state JSON"
+  },
+  "superAdminAuditNewState": "New State",
+  "@superAdminAuditNewState": {
+    "description": "Header for new state JSON"
+  },
+  "superAdminSettingKey": "Setting Key",
+  "@superAdminSettingKey": {
+    "description": "Label for setting key"
+  },
+  "superAdminSettingValue": "Setting Value",
+  "@superAdminSettingValue": {
+    "description": "Label for setting value"
+  },
+  "superAdminSaveSetting": "Update Setting",
+  "@superAdminSaveSetting": {
+    "description": "Button to save system setting"
+  },
+  "superAdminTemplateCode": "Template Code",
+  "@superAdminTemplateCode": {
+    "description": "Label for template code"
+  },
+  "superAdminTemplateTitle": "Title Template",
+  "@superAdminTemplateTitle": {
+    "description": "Label for template title"
+  },
+  "superAdminTemplateBody": "Body Template",
+  "@superAdminTemplateBody": {
+    "description": "Label for template body"
+  },
+  "superAdminSaveTemplate": "Save Template",
+  "@superAdminSaveTemplate": {
+    "description": "Button to save notification template"
+  },
+  "superAdminModuleCode": "Module Code",
+  "@superAdminModuleCode": {
+    "description": "Label for dynamic module code"
+  },
+  "superAdminModuleLabel": "Module Name",
+  "@superAdminModuleLabel": {
+    "description": "Label for dynamic module label"
+  },
+  "superAdminModuleSingular": "Singular Label",
+  "@superAdminModuleSingular": {
+    "description": "Label for singular record name"
+  },
+  "superAdminModulePlural": "Plural Label",
+  "@superAdminModulePlural": {
+    "description": "Label for plural record name"
+  },
+  "superAdminSaveModule": "Save Module",
+  "@superAdminSaveModule": {
+    "description": "Button label to save module definition"
+  },
+  "actionCompleted": "Action completed successfully.",
+  "@actionCompleted": {
+    "description": "Generic message for completed action"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Generic error label"
+  },
+  "actionLabel": "Action",
+  "@actionLabel": {
+    "description": "Label for action filter"
+  },
+  "entityTypeLabel": "Entity Type",
+  "@entityTypeLabel": {
+    "description": "Label for entity type filter"
+  },
+  "auditDiffTitle": "Changes Diff",
+  "@auditDiffTitle": {
+    "description": "Title for audit diff dialog"
+  },
+  "auditOldState": "Old State",
+  "@auditOldState": {
+    "description": "Label for old state"
+  },
+  "auditNewState": "New State",
+  "@auditNewState": {
+    "description": "Label for new state"
+  },
+  "templateTitleLabel": "Title Template",
+  "@templateTitleLabel": {
+    "description": "Label for title template"
+  },
+  "templateBodyLabel": "Body Template",
+  "@templateBodyLabel": {
+    "description": "Label for body template"
+  },
+  "channelInApp": "In-App",
+  "@channelInApp": {
+    "description": "Label for in-app channel"
+  },
+  "channelPush": "Push",
+  "@channelPush": {
+    "description": "Label for push channel"
+  },
+  "channelEmail": "Email",
+  "@channelEmail": {
+    "description": "Label for email channel"
+  },
+  "editTemplate": "Edit Template",
+  "@editTemplate": {
+    "description": "Title for edit template dialog"
+  },
+  "createModuleTitle": "Create Dynamic Module",
+  "@createModuleTitle": {
+    "description": "Title for create dynamic module dialog"
+  },
+  "moduleKeyLabel": "Module Key",
+  "@moduleKeyLabel": {
+    "description": "Label for module key"
+  },
+  "moduleNameLabel": "Module Name",
+  "@moduleNameLabel": {
+    "description": "Label for module name"
+  },
+  "fieldsLabel": "Fields",
+  "@fieldsLabel": {
+    "description": "Label for fields section"
+  },
+  "statusesLabel": "Statuses",
+  "@statusesLabel": {
+    "description": "Label for statuses section"
+  },
+  "previewForm": "Preview Form",
+  "@previewForm": {
+    "description": "Label for preview form button"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Generic save button"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Generic cancel button"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Generic close button"
+  },
+  "searchPlaceholder": "Search...",
+  "@searchPlaceholder": {
+    "description": "Generic search placeholder"
+  },
+  "none": "None",
+  "@none": {
+    "description": "Generic none label"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Generic active state"
+  },
+  "inactive": "Inactive",
+  "@inactive": {
+    "description": "Generic inactive state"
+  },
+  "errorLoadingData": "Failed to load data. Please try again.",
+  "@errorLoadingData": {
+    "description": "Generic message when data loading fails"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Generic retry label"
+  },
+  "noDataAvailable": "No data available",
+  "@noDataAvailable": {
+    "description": "Generic empty data label"
   }
 }

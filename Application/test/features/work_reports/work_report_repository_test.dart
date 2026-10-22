@@ -72,27 +72,33 @@ void main() {
       expect(report?.summary, 'Developed work report feature');
       expect(report?.totalMinutes, 180);
       expect(report?.items.length, 1);
-      expect(capturedOptions?.path, contains('/work-reports/by-date/2026-10-20'));
-    });
-
-    test('getByDate returns null without failure when 404 (no report yet)', () async {
-      dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
-        return ResponseBody.fromString(
-          jsonEncode({'detail': 'Not found'}),
-          404,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
-        );
-      });
-
-      final (report, failure) = await repository.getByDate(
-        DateTime(2026, 10, 20),
+      expect(
+        capturedOptions?.path,
+        contains('/work-reports/by-date/2026-10-20'),
       );
-
-      expect(failure, isNull);
-      expect(report, isNull);
     });
+
+    test(
+      'getByDate returns null without failure when 404 (no report yet)',
+      () async {
+        dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
+          return ResponseBody.fromString(
+            jsonEncode({'detail': 'Not found'}),
+            404,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        });
+
+        final (report, failure) = await repository.getByDate(
+          DateTime(2026, 10, 20),
+        );
+
+        expect(failure, isNull);
+        expect(report, isNull);
+      },
+    );
 
     test('getById returns single report detail', () async {
       dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
@@ -173,54 +179,57 @@ void main() {
       expect(capturedOptions?.queryParameters['page_size'], 20);
     });
 
-    test('createOrSaveDraft posts payload and returns created report', () async {
-      dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
-        capturedOptions = options;
-        final responseMap = {
-          'id': 'wr-new',
-          'report_date': '2026-10-20T00:00:00Z',
-          'status': 'draft',
-          'summary': 'Created new report',
-          'total_minutes': 90,
-          'items': [
-            {
-              'id': 'wri-new-1',
-              'description': 'First activity',
-              'minutes_spent': 90,
+    test(
+      'createOrSaveDraft posts payload and returns created report',
+      () async {
+        dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
+          capturedOptions = options;
+          final responseMap = {
+            'id': 'wr-new',
+            'report_date': '2026-10-20T00:00:00Z',
+            'status': 'draft',
+            'summary': 'Created new report',
+            'total_minutes': 90,
+            'items': [
+              {
+                'id': 'wri-new-1',
+                'description': 'First activity',
+                'minutes_spent': 90,
+              },
+            ],
+          };
+          return ResponseBody.fromString(
+            jsonEncode(responseMap),
+            201,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
             },
+          );
+        });
+
+        const payload = WorkReportCreatePayload(
+          reportDate: '2026-10-20',
+          summary: 'Created new report',
+          items: [
+            WorkReportItemPayload(
+              description: 'First activity',
+              minutesSpent: 90,
+            ),
           ],
-        };
-        return ResponseBody.fromString(
-          jsonEncode(responseMap),
-          201,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
         );
-      });
 
-      const payload = WorkReportCreatePayload(
-        reportDate: '2026-10-20',
-        summary: 'Created new report',
-        items: [
-          WorkReportItemPayload(
-            description: 'First activity',
-            minutesSpent: 90,
-          ),
-        ],
-      );
+        final (report, failure) = await repository.createOrSaveDraft(payload);
 
-      final (report, failure) = await repository.createOrSaveDraft(payload);
-
-      expect(failure, isNull);
-      expect(report, isNotNull);
-      expect(report?.id, 'wr-new');
-      expect(capturedOptions?.method, 'POST');
-      expect(capturedOptions?.data, isA<Map<String, dynamic>>());
-      final sentData = capturedOptions?.data as Map<String, dynamic>;
-      expect(sentData['report_date'], '2026-10-20');
-      expect(sentData['summary'], 'Created new report');
-    });
+        expect(failure, isNull);
+        expect(report, isNotNull);
+        expect(report?.id, 'wr-new');
+        expect(capturedOptions?.method, 'POST');
+        expect(capturedOptions?.data, isA<Map<String, dynamic>>());
+        final sentData = capturedOptions?.data as Map<String, dynamic>;
+        expect(sentData['report_date'], '2026-10-20');
+        expect(sentData['summary'], 'Created new report');
+      },
+    );
 
     test('updateReport puts updated items and summary', () async {
       dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
@@ -259,33 +268,36 @@ void main() {
       expect(capturedOptions?.path, contains('/work-reports/wr-existing'));
     });
 
-    test('submitReport posts to submit endpoint and transitions to submitted', () async {
-      dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
-        capturedOptions = options;
-        final responseMap = {
-          'id': 'wr-sub',
-          'report_date': '2026-10-20T00:00:00Z',
-          'status': 'submitted',
-          'summary': 'Ready for review',
-          'total_minutes': 120,
-          'items': [],
-        };
-        return ResponseBody.fromString(
-          jsonEncode(responseMap),
-          200,
-          headers: {
-            Headers.contentTypeHeader: [Headers.jsonContentType],
-          },
-        );
-      });
+    test(
+      'submitReport posts to submit endpoint and transitions to submitted',
+      () async {
+        dio.httpClientAdapter = _FakeHttpClientAdapter((options) async {
+          capturedOptions = options;
+          final responseMap = {
+            'id': 'wr-sub',
+            'report_date': '2026-10-20T00:00:00Z',
+            'status': 'submitted',
+            'summary': 'Ready for review',
+            'total_minutes': 120,
+            'items': [],
+          };
+          return ResponseBody.fromString(
+            jsonEncode(responseMap),
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          );
+        });
 
-      final (report, failure) = await repository.submitReport('wr-sub');
+        final (report, failure) = await repository.submitReport('wr-sub');
 
-      expect(failure, isNull);
-      expect(report, isNotNull);
-      expect(report?.status, 'submitted');
-      expect(capturedOptions?.method, 'POST');
-      expect(capturedOptions?.path, contains('/work-reports/wr-sub/submit'));
-    });
+        expect(failure, isNull);
+        expect(report, isNotNull);
+        expect(report?.status, 'submitted');
+        expect(capturedOptions?.method, 'POST');
+        expect(capturedOptions?.path, contains('/work-reports/wr-sub/submit'));
+      },
+    );
   });
 }

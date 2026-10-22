@@ -82,8 +82,12 @@ Widget _buildWorkReportsScreenHarness({
         () => _FakeRuntimeAppConfigController(config),
       ),
       workReportTodayProvider.overrideWithValue(today),
-      selectedWorkReportDateProvider.overrideWith(() => SelectedWorkReportDate()),
-      workReportEditorControllerProvider(WorkReportRules.toIsoDate(today)).overrideWith(
+      selectedWorkReportDateProvider.overrideWith(
+        () => SelectedWorkReportDate(),
+      ),
+      workReportEditorControllerProvider(
+        WorkReportRules.toIsoDate(today),
+      ).overrideWith(
         () => _FakeEditorController(editorState),
       ),
       workReportHistoryControllerProvider.overrideWith(
@@ -138,7 +142,9 @@ void main() {
       expect(find.text('Implemented work reports screen'), findsOneWidget);
     });
 
-    testWidgets('displays lock banner when viewing locked report', (tester) async {
+    testWidgets('displays lock banner when viewing locked report', (
+      tester,
+    ) async {
       final editorState = WorkReportEditorState(
         date: today,
         summary: 'Submitted report',
@@ -169,7 +175,9 @@ void main() {
       expect(find.byType(WorkReportLockBanner), findsOneWidget);
     });
 
-    testWidgets('switches to History tab and renders report cards', (tester) async {
+    testWidgets('switches to History tab and renders report cards', (
+      tester,
+    ) async {
       final editorState = WorkReportEditorState(date: today);
       final historyState = WorkReportHistoryState(
         items: [

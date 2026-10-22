@@ -111,7 +111,8 @@ class WorkReportReminderService {
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time,
         title: title ?? 'Daily Work Report Reminder',
-        body: body ?? "Don't forget to submit your daily work report for today!",
+        body:
+            body ?? "Don't forget to submit your daily work report for today!",
         payload: payload,
       );
 

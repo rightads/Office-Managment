@@ -14,7 +14,9 @@ void main() {
   }
 
   group('Dynamic Field Actions Tests', () {
-    testWidgets('renders phone field with Call and WhatsApp action buttons', (tester) async {
+    testWidgets('renders phone field with Call and WhatsApp action buttons', (
+      tester,
+    ) async {
       const field = DynamicModuleField(
         id: 'f1',
         key: 'contact_number',
@@ -34,24 +36,27 @@ void main() {
       expect(find.byIcon(Icons.chat_outlined), findsOneWidget);
     });
 
-    testWidgets('renders follow-up date field with Overdue badge when date in past', (tester) async {
-      const field = DynamicModuleField(
-        id: 'f2',
-        key: 'next_follow_up',
-        label: 'Next Follow-up',
-        type: DynamicFieldType.date,
-      );
+    testWidgets(
+      'renders follow-up date field with Overdue badge when date in past',
+      (tester) async {
+        const field = DynamicModuleField(
+          id: 'f2',
+          key: 'next_follow_up',
+          label: 'Next Follow-up',
+          type: DynamicFieldType.date,
+        );
 
-      await tester.pumpWidget(
-        buildTestableWidget(
-          const DynamicFieldRenderer(field: field, value: '2020-01-01'),
-        ),
-      );
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(
+          buildTestableWidget(
+            const DynamicFieldRenderer(field: field, value: '2020-01-01'),
+          ),
+        );
+        await tester.pumpAndSettle();
 
-      expect(find.text('2020-01-01'), findsOneWidget);
-      expect(find.text('Overdue'), findsOneWidget);
-    });
+        expect(find.text('2020-01-01'), findsOneWidget);
+        expect(find.text('Overdue'), findsOneWidget);
+      },
+    );
 
     testWidgets('renders currency formatted properly', (tester) async {
       const field = DynamicModuleField(

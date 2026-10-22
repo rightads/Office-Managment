@@ -107,153 +107,177 @@ void main() {
     group('WorkReportEditorController', () {
       const todayKey = '2026-10-20';
 
-      test('initializes with a blank draft row when no existing report', () async {
-        fakeRepo.mockReportByDate = null;
+      test(
+        'initializes with a blank draft row when no existing report',
+        () async {
+          fakeRepo.mockReportByDate = null;
 
-        final stateAsync = await container.read(
-          workReportEditorControllerProvider(todayKey).future,
-        );
+          final stateAsync = await container.read(
+            workReportEditorControllerProvider(todayKey).future,
+          );
 
-        expect(stateAsync.report, isNull);
-        expect(stateAsync.summary, '');
-        expect(stateAsync.items.length, 1);
-        expect(stateAsync.items.first.description, '');
-        expect(stateAsync.items.first.minutes, isNull);
-        expect(stateAsync.totalMinutes, 0);
-      });
+          expect(stateAsync.report, isNull);
+          expect(stateAsync.summary, '');
+          expect(stateAsync.items.length, 1);
+          expect(stateAsync.items.first.description, '');
+          expect(stateAsync.items.first.minutes, isNull);
+          expect(stateAsync.totalMinutes, 0);
+        },
+      );
 
-      test('initializes with server items when existing report is returned', () async {
-        fakeRepo.mockReportByDate = WorkReportModel(
-          id: 'wr-1',
-          reportDate: DateTime(2026, 10, 20),
-          status: 'draft',
-          summary: 'Existing summary',
-          totalMinutes: 120,
-          items: const [
-            WorkReportItemModel(
-              id: 'wri-1',
-              description: 'Initial task',
-              minutesSpent: 120,
-            ),
-          ],
-        );
+      test(
+        'initializes with server items when existing report is returned',
+        () async {
+          fakeRepo.mockReportByDate = WorkReportModel(
+            id: 'wr-1',
+            reportDate: DateTime(2026, 10, 20),
+            status: 'draft',
+            summary: 'Existing summary',
+            totalMinutes: 120,
+            items: const [
+              WorkReportItemModel(
+                id: 'wri-1',
+                description: 'Initial task',
+                minutesSpent: 120,
+              ),
+            ],
+          );
 
-        final stateAsync = await container.read(
-          workReportEditorControllerProvider(todayKey).future,
-        );
+          final stateAsync = await container.read(
+            workReportEditorControllerProvider(todayKey).future,
+          );
 
-        expect(stateAsync.report?.id, 'wr-1');
-        expect(stateAsync.summary, 'Existing summary');
-        expect(stateAsync.items.length, 1);
-        expect(stateAsync.items.first.description, 'Initial task');
-        expect(stateAsync.items.first.minutes, 120);
-        expect(stateAsync.totalMinutes, 120);
-      });
+          expect(stateAsync.report?.id, 'wr-1');
+          expect(stateAsync.summary, 'Existing summary');
+          expect(stateAsync.items.length, 1);
+          expect(stateAsync.items.first.description, 'Initial task');
+          expect(stateAsync.items.first.minutes, 120);
+          expect(stateAsync.totalMinutes, 120);
+        },
+      );
 
-      test('adding, editing, and removing rows mutates state and updates total minutes', () async {
-        fakeRepo.mockReportByDate = null;
-        await container.read(workReportEditorControllerProvider(todayKey).future);
+      test(
+        'adding, editing, and removing rows mutates state and updates total minutes',
+        () async {
+          fakeRepo.mockReportByDate = null;
+          await container.read(
+            workReportEditorControllerProvider(todayKey).future,
+          );
 
-        final notifier = container.read(
-          workReportEditorControllerProvider(todayKey).notifier,
-        );
+          final notifier = container.read(
+            workReportEditorControllerProvider(todayKey).notifier,
+          );
 
-        // Set summary
-        notifier.setSummary('Worked on mobile sprint');
-        expect(
-          container.read(workReportEditorControllerProvider(todayKey)).value?.summary,
-          'Worked on mobile sprint',
-        );
+          // Set summary
+          notifier.setSummary('Worked on mobile sprint');
+          expect(
+            container
+                .read(workReportEditorControllerProvider(todayKey))
+                .value
+                ?.summary,
+            'Worked on mobile sprint',
+          );
 
-        // Add second row
-        notifier.addItem();
-        var items = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!
-            .items;
-        expect(items.length, 2);
+          // Add second row
+          notifier.addItem();
+          var items = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!
+              .items;
+          expect(items.length, 2);
 
-        final row1 = items[0];
-        final row2 = items[1];
+          final row1 = items[0];
+          final row2 = items[1];
 
-        // Mutate first row
-        notifier.setDescription(row1.localId, 'Feature A');
-        notifier.setMinutes(row1.localId, 120);
+          // Mutate first row
+          notifier.setDescription(row1.localId, 'Feature A');
+          notifier.setMinutes(row1.localId, 120);
 
-        // Mutate second row
-        notifier.setDescription(row2.localId, 'Feature B');
-        notifier.setMinutes(row2.localId, 60);
+          // Mutate second row
+          notifier.setDescription(row2.localId, 'Feature B');
+          notifier.setMinutes(row2.localId, 60);
 
-        var state = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!;
-        expect(state.totalMinutes, 180);
+          var state = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!;
+          expect(state.totalMinutes, 180);
 
-        // Delete first row
-        notifier.removeItem(row1.localId);
-        state = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!;
-        expect(state.items.length, 1);
-        expect(state.items.first.description, 'Feature B');
-        expect(state.totalMinutes, 60);
-      });
+          // Delete first row
+          notifier.removeItem(row1.localId);
+          state = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!;
+          expect(state.items.length, 1);
+          expect(state.items.first.description, 'Feature B');
+          expect(state.totalMinutes, 60);
+        },
+      );
 
-      test('validates minimum description length and positive minutes', () async {
-        fakeRepo.mockReportByDate = null;
-        await container.read(workReportEditorControllerProvider(todayKey).future);
+      test(
+        'validates minimum description length and positive minutes',
+        () async {
+          fakeRepo.mockReportByDate = null;
+          await container.read(
+            workReportEditorControllerProvider(todayKey).future,
+          );
 
-        final notifier = container.read(
-          workReportEditorControllerProvider(todayKey).notifier,
-        );
+          final notifier = container.read(
+            workReportEditorControllerProvider(todayKey).notifier,
+          );
 
-        // Description length < 2
-        final rowId = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!
-            .items
-            .first
-            .localId;
-        notifier.setDescription(rowId, 'X'); // 1 char
-        notifier.setMinutes(rowId, 60);
+          // Description length < 2
+          final rowId = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!
+              .items
+              .first
+              .localId;
+          notifier.setDescription(rowId, 'X'); // 1 char
+          notifier.setMinutes(rowId, 60);
 
-        final success = await notifier.save();
-        expect(success, isFalse);
+          final success = await notifier.save();
+          expect(success, isFalse);
 
-        final state = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!;
-        expect(
-          state.itemErrors[rowId],
-          WorkReportItemError.descriptionTooShort,
-        );
-      });
+          final state = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!;
+          expect(
+            state.itemErrors[rowId],
+            WorkReportItemError.descriptionTooShort,
+          );
+        },
+      );
 
-      test('validates total minutes does not exceed maxMinutesPerDay', () async {
-        fakeRepo.mockReportByDate = null;
-        await container.read(workReportEditorControllerProvider(todayKey).future);
+      test(
+        'validates total minutes does not exceed maxMinutesPerDay',
+        () async {
+          fakeRepo.mockReportByDate = null;
+          await container.read(
+            workReportEditorControllerProvider(todayKey).future,
+          );
 
-        final notifier = container.read(
-          workReportEditorControllerProvider(todayKey).notifier,
-        );
+          final notifier = container.read(
+            workReportEditorControllerProvider(todayKey).notifier,
+          );
 
-        final rowId = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!
-            .items
-            .first
-            .localId;
-        notifier.setDescription(rowId, 'Full Day');
-        notifier.setMinutes(rowId, 500); // Max is 480
+          final rowId = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!
+              .items
+              .first
+              .localId;
+          notifier.setDescription(rowId, 'Full Day');
+          notifier.setMinutes(rowId, 500); // Max is 480
 
-        final success = await notifier.save();
-        expect(success, isFalse);
+          final success = await notifier.save();
+          expect(success, isFalse);
 
-        final state = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!;
-        expect(state.formError, WorkReportFormError.totalExceedsMax);
-      });
+          final state = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!;
+          expect(state.formError, WorkReportFormError.totalExceedsMax);
+        },
+      );
 
       test('blocks saving or submitting when date is in the future', () async {
         const futureDateKey = '2026-10-25'; // Ahead of today (2026-10-20)
@@ -302,7 +326,9 @@ void main() {
           ],
         );
 
-        await container.read(workReportEditorControllerProvider(todayKey).future);
+        await container.read(
+          workReportEditorControllerProvider(todayKey).future,
+        );
 
         final notifier = container.read(
           workReportEditorControllerProvider(todayKey).notifier,
@@ -328,59 +354,64 @@ void main() {
         expect(state.isDirty, isFalse);
       });
 
-      test('successful submit transitions report status to submitted', () async {
-        fakeRepo.mockReportByDate = null;
-        fakeRepo.mockCreatedReport = WorkReportModel(
-          id: 'wr-to-sub',
-          reportDate: DateTime(2026, 10, 20),
-          status: 'draft',
-          totalMinutes: 90,
-          items: const [
-            WorkReportItemModel(
-              id: 'item-1',
-              description: 'Submitting task',
-              minutesSpent: 90,
-            ),
-          ],
-        );
-        fakeRepo.mockSubmittedReport = WorkReportModel(
-          id: 'wr-to-sub',
-          reportDate: DateTime(2026, 10, 20),
-          status: 'submitted',
-          totalMinutes: 90,
-          items: const [
-            WorkReportItemModel(
-              id: 'item-1',
-              description: 'Submitting task',
-              minutesSpent: 90,
-            ),
-          ],
-        );
+      test(
+        'successful submit transitions report status to submitted',
+        () async {
+          fakeRepo.mockReportByDate = null;
+          fakeRepo.mockCreatedReport = WorkReportModel(
+            id: 'wr-to-sub',
+            reportDate: DateTime(2026, 10, 20),
+            status: 'draft',
+            totalMinutes: 90,
+            items: const [
+              WorkReportItemModel(
+                id: 'item-1',
+                description: 'Submitting task',
+                minutesSpent: 90,
+              ),
+            ],
+          );
+          fakeRepo.mockSubmittedReport = WorkReportModel(
+            id: 'wr-to-sub',
+            reportDate: DateTime(2026, 10, 20),
+            status: 'submitted',
+            totalMinutes: 90,
+            items: const [
+              WorkReportItemModel(
+                id: 'item-1',
+                description: 'Submitting task',
+                minutesSpent: 90,
+              ),
+            ],
+          );
 
-        await container.read(workReportEditorControllerProvider(todayKey).future);
+          await container.read(
+            workReportEditorControllerProvider(todayKey).future,
+          );
 
-        final notifier = container.read(
-          workReportEditorControllerProvider(todayKey).notifier,
-        );
+          final notifier = container.read(
+            workReportEditorControllerProvider(todayKey).notifier,
+          );
 
-        final rowId = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!
-            .items
-            .first
-            .localId;
-        notifier.setDescription(rowId, 'Submitting task');
-        notifier.setMinutes(rowId, 90);
+          final rowId = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!
+              .items
+              .first
+              .localId;
+          notifier.setDescription(rowId, 'Submitting task');
+          notifier.setMinutes(rowId, 90);
 
-        final success = await notifier.submit();
-        expect(success, isTrue);
+          final success = await notifier.submit();
+          expect(success, isTrue);
 
-        final state = container
-            .read(workReportEditorControllerProvider(todayKey))
-            .value!;
-        expect(state.report?.status, 'submitted');
-        expect(state.isSubmitting, isFalse);
-      });
+          final state = container
+              .read(workReportEditorControllerProvider(todayKey))
+              .value!;
+          expect(state.report?.status, 'submitted');
+          expect(state.isSubmitting, isFalse);
+        },
+      );
     });
 
     group('WorkReportHistoryController', () {
@@ -426,7 +457,9 @@ void main() {
 
         await notifier.setStatusFilter('reviewed');
 
-        final state = container.read(workReportHistoryControllerProvider).value!;
+        final state = container
+            .read(workReportHistoryControllerProvider)
+            .value!;
         expect(state.statusFilter, 'reviewed');
       });
     });

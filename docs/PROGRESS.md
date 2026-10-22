@@ -16,7 +16,8 @@
 - [x] **Prompt 13**: Admin: attendance dashboard and reports (Completed)
 - [x] **Prompt 14**: Admin: tasks, leave, announcements (Completed)
 - [x] **Prompt 15**: Role modules verification & dynamic engine tests (Completed)
-- [ ] **Prompt 16**: Super admin console: roles, permissions, dynamic module builder, system settings, audit logs
+- [x] **Prompt 16**: Super admin console: roles, permissions, dynamic module builder, system settings, audit logs (Completed)
+- [ ] **Prompt 17**: Offline-first engine & background sync
 - [ ] **Prompt 17**: Offline-first engine & background sync
 - [ ] **Prompt 18**: Complete test suite & CI verification
 - [ ] **Prompt 19**: Release preparation, flavors, obfuscation, signing

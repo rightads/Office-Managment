@@ -234,7 +234,10 @@ class WorkReportEditorController extends _$WorkReportEditorController {
   void addItem() {
     _mutate(
       (s) => s.copyWith(
-        items: [...s.items, WorkReportItemDraft(localId: _newLocalId())],
+        items: [
+          ...s.items,
+          WorkReportItemDraft(localId: _newLocalId()),
+        ],
       ),
     );
   }
@@ -515,7 +518,8 @@ class WorkReportHistoryController extends _$WorkReportHistoryController {
     status: 'all',
   );
 
-  int get _pageSize => ref.read(runtimeAppConfigControllerProvider).defaultPageSize;
+  int get _pageSize =>
+      ref.read(runtimeAppConfigControllerProvider).defaultPageSize;
 
   Future<WorkReportHistoryState> _fetchPage({
     required int page,

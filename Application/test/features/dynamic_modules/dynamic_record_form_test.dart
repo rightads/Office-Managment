@@ -75,7 +75,9 @@ void main() {
       expect(find.text('Create Record'), findsOneWidget);
     });
 
-    testWidgets('Triggers validation on empty required field upon submission', (tester) async {
+    testWidgets('Triggers validation on empty required field upon submission', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildTestForm());
       await tester.pumpAndSettle();
 

@@ -17,7 +17,9 @@ void main() {
   }
 
   group('RoleSimulatorScreen Tests', () {
-    testWidgets('renders preset choice chips and JSON text field', (tester) async {
+    testWidgets('renders preset choice chips and JSON text field', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildTestableWidget(const RoleSimulatorScreen()));
       await tester.pumpAndSettle();
 

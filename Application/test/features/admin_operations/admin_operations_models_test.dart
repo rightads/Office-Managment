@@ -18,7 +18,7 @@ void main() {
             'completed_tasks': 8,
             'pending_tasks': 2,
             'overdue_tasks': 0,
-          }
+          },
         ],
         'by_department': [],
         'by_client': [],
@@ -49,7 +49,9 @@ void main() {
     });
 
     test('LeaveReviewRequest and LeaveRejectRequest JSON serialization', () {
-      final approve = const LeaveReviewRequest(reviewNote: 'Approved for vacation');
+      final approve = const LeaveReviewRequest(
+        reviewNote: 'Approved for vacation',
+      );
       expect(approve.toJson()['review_note'], 'Approved for vacation');
 
       final reject = const LeaveRejectRequest(reviewNote: 'Insufficient quota');
@@ -88,11 +90,13 @@ void main() {
             'full_name': 'Jane Doe',
             'email': 'jane@example.com',
             'department_name': 'Design',
-          }
+          },
         ],
       };
 
-      final missingResponse = MissingWorkReportListResponse.fromJson(missingJson);
+      final missingResponse = MissingWorkReportListResponse.fromJson(
+        missingJson,
+      );
       expect(missingResponse.reportDate, '2026-10-22');
       expect(missingResponse.missingCount, 1);
       expect(missingResponse.users.first.id, 'usr-789');
