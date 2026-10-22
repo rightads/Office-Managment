@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
+import 'package:right_ads/core/theme/app_colors.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/core/utils/app_formatters.dart';
 import 'package:right_ads/features/leaves/application/leave_controller.dart';
@@ -17,9 +18,9 @@ class LeaveDetailScreen extends ConsumerWidget {
   Color _getStatusColor(String status, ColorScheme colorScheme) {
     switch (status.toLowerCase()) {
       case 'approved':
-        return Colors.green;
+        return AppColors.success;
       case 'pending':
-        return Colors.orange;
+        return AppColors.warning;
       case 'rejected':
         return colorScheme.error;
       case 'cancelled':
@@ -305,7 +306,7 @@ class LeaveDetailScreen extends ConsumerWidget {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(l10n.leaveCancelSuccess),
-                                backgroundColor: Colors.green,
+                                backgroundColor: AppColors.success,
                               ),
                             );
                           }

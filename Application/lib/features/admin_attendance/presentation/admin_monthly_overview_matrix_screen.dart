@@ -33,7 +33,7 @@ class _AdminMonthlyOverviewMatrixScreenState
     } catch (_) {}
   }
 
-  Color _getStatusColor(String? code) {
+  Color _getStatusColor(String? code, ColorScheme colorScheme) {
     if (code == null) return Colors.transparent;
     switch (code.toUpperCase()) {
       case 'PRESENT':
@@ -41,17 +41,17 @@ class _AdminMonthlyOverviewMatrixScreenState
       case 'ABSENT':
         return AppColors.error;
       case 'HALF_DAY':
-        return Colors.orange;
-      case 'LATE':
         return AppColors.warning;
+      case 'LATE':
+        return colorScheme.tertiary;
       case 'ON_LEAVE':
-        return Colors.purple;
+        return colorScheme.primary;
       case 'HOLIDAY':
-        return Colors.blue;
+        return AppColors.info;
       case 'WEEK_OFF':
-        return Colors.grey.shade400;
+        return colorScheme.outlineVariant;
       default:
-        return Colors.blueGrey;
+        return colorScheme.outline;
     }
   }
 
@@ -224,7 +224,10 @@ class _AdminMonthlyOverviewMatrixScreenState
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
-                        color: _getStatusColor(status),
+                        color: _getStatusColor(
+                          status,
+                          Theme.of(context).colorScheme,
+                        ),
                         shape: BoxShape.circle,
                       ),
                       child: Center(

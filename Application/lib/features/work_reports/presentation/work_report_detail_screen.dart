@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/router/route_paths.dart';
+import 'package:right_ads/core/theme/app_colors.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/core/utils/app_formatters.dart';
 import 'package:right_ads/features/work_reports/application/work_report_controller.dart';
@@ -18,12 +19,12 @@ class WorkReportDetailScreen extends ConsumerWidget {
   Color _getStatusColor(String status, ColorScheme colorScheme) {
     switch (status.toLowerCase()) {
       case 'reviewed':
-        return Colors.green;
+        return AppColors.success;
       case 'submitted':
         return colorScheme.primary;
       case 'draft':
       default:
-        return Colors.orange;
+        return AppColors.warning;
     }
   }
 

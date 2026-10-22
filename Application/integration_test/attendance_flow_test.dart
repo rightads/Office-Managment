@@ -37,7 +37,8 @@ class _FakeDeviceIdentityService implements DeviceIdentityService {
 class _MockAttendanceRepository extends AttendanceRepository {
   _MockAttendanceRepository({
     required this.policy,
-  }) : initialTodayRecord = null, super(dio: Dio());
+  }) : initialTodayRecord = null,
+       super(dio: Dio());
 
   EffectiveAttendancePolicyModel policy;
   AttendanceRecordModel? initialTodayRecord;

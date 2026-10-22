@@ -6,6 +6,7 @@ import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/router/route_paths.dart';
+import 'package:right_ads/core/theme/app_colors.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/features/leaves/application/leave_controller.dart';
 import 'package:right_ads/features/leaves/domain/leave_models.dart';
@@ -76,7 +77,7 @@ class _LeavesScreenState extends ConsumerState<LeavesScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.l10n.leaveCancelSuccess),
-            backgroundColor: Colors.green,
+            backgroundColor: AppColors.success,
           ),
         );
       }
@@ -157,7 +158,7 @@ class _LeavesScreenState extends ConsumerState<LeavesScreen>
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(l10n.leaveApplySuccess),
-                      backgroundColor: Colors.green,
+                      backgroundColor: AppColors.success,
                     ),
                   );
                 }

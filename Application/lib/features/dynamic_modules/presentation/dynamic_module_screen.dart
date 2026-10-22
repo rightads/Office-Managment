@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
+import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/widgets/app_snackbar.dart';
 import 'package:right_ads/core/widgets/error_state.dart';
@@ -136,7 +137,7 @@ class _DynamicModuleScreenState extends ConsumerState<DynamicModuleScreen> {
     final summaryAsync = ref.watch(moduleSummaryProvider(def.code));
 
     // Permission checks
-    final canManage = ref.can('modules.manage');
+    final canManage = ref.can(PermissionCodes.modulesManage);
     final canCreate = canManage || ref.can('module.${def.code}.create');
     final canExport = canManage || ref.can('module.${def.code}.export');
 
