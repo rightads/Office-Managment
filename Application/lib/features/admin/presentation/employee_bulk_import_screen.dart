@@ -45,17 +45,17 @@ class EmployeeBulkImportScreen extends ConsumerWidget {
                       icon: const Icon(Icons.folder_open),
                       label: Text(l10n.adminPickCsv),
                       onPressed: () async {
-                        final result = await FilePicker.platform.pickFiles(
+                        final result = await FilePicker.pickFiles(
                           type: FileType.custom,
                           allowedExtensions: ['csv'],
-                          withData: true,
+                          
                         );
-                        if (result != null && result.files.isNotEmpty) {
-                          final file = result.files.first;
-                          if (file.bytes != null) {
+                        if (result.isNotEmpty) {
+                          final file = result.first;
+                          final bytes = await file.xFile.readAsBytes(); {
                             controller.setSelectedFile(
                               fileName: file.name,
-                              bytes: file.bytes!,
+                              bytes: bytes,
                             );
                           }
                         }

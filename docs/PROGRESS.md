@@ -13,11 +13,11 @@
 - [ ] **Prompt 10**: Security, performance, docs
 - [x] **Prompt 11**: Dynamic module engine (Completed)
 - [x] **Prompt 12**: Admin: employees and master data (adaptive, works on Web/tablet) (Completed)
-- [ ] **Prompt 13**: Admin: roles, permissions, dynamic module builder, system settings, audit logs
-- [ ] **Prompt 14**: Dynamic form renderer engine
-- [ ] **Prompt 15**: Role-specific dynamic module screens
-- [ ] **Prompt 16**: Offline-first engine & background sync
-- [ ] **Prompt 17**: Polish, transitions, animations, accessibility
+- [x] **Prompt 13**: Admin: attendance dashboard and reports (Completed)
+- [x] **Prompt 14**: Admin: tasks, leave, announcements (Completed)
+- [ ] **Prompt 15**: Role modules verification & dynamic engine tests
+- [ ] **Prompt 16**: Super admin console: roles, permissions, dynamic module builder, system settings, audit logs
+- [ ] **Prompt 17**: Offline-first engine & background sync
 - [ ] **Prompt 18**: Complete test suite & CI verification
 - [ ] **Prompt 19**: Release preparation, flavors, obfuscation, signing
 

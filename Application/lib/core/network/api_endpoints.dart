@@ -29,6 +29,10 @@ abstract final class ApiEndpoints {
   static const String attendanceCheckIn = '/attendance/check-in';
   static const String attendanceCheckOut = '/attendance/check-out';
   static const String attendanceMe = '/attendance/me';
+  static const String attendanceTodayReport = '/reports/attendance/today';
+  static const String attendanceMonthlyOverview = '/reports/attendance/monthly-overview';
+  static const String attendanceExport = '/reports/attendance/export';
+  static String attendanceCorrection(String recordId) => '/attendance/$recordId/correct';
 
   static String employeeMonthlyAttendanceReport(String employeeId) =>
       '/reports/attendance/employee/$employeeId/monthly';
@@ -39,6 +43,12 @@ abstract final class ApiEndpoints {
   // Tasks & Master Workflow (Prompt 07)
   static const String myTasks = '/tasks/my';
   static const String tasks = '/tasks';
+  static const String tasksReportsSummary = '/tasks/reports/summary';
+  static String taskAssign(String id) => '/tasks/$id/assign';
+  static String leaveApprove(String id) => '/leaves/$id/approve';
+  static String leaveReject(String id) => '/leaves/$id/reject';
+  static const String workReportsMissing = '/work-reports/missing';
+  static String workReportReview(String id) => '/work-reports/$id/review';
   static String taskDetail(String id) => '/tasks/$id';
   static String taskStatus(String id) => '/tasks/$id/status';
   static String taskTimeline(String id) => '/tasks/$id/timeline';

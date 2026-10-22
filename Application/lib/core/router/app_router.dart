@@ -11,6 +11,15 @@ import 'package:right_ads/features/admin/presentation/employee_form_screen.dart'
 import 'package:right_ads/features/admin/presentation/employee_list_screen.dart';
 import 'package:right_ads/features/admin/presentation/master_data_crud_screen.dart';
 import 'package:right_ads/features/admin/presentation/master_data_hub_screen.dart';
+import 'package:right_ads/features/admin_attendance/presentation/admin_attendance_dashboard_screen.dart';
+import 'package:right_ads/features/admin_attendance/presentation/admin_employee_monthly_screen.dart';
+import 'package:right_ads/features/admin_attendance/presentation/admin_employee_yearly_screen.dart';
+import 'package:right_ads/features/admin_attendance/presentation/admin_monthly_overview_matrix_screen.dart';
+import 'package:right_ads/features/admin_operations/presentation/admin_announcement_create_screen.dart';
+import 'package:right_ads/features/admin_operations/presentation/admin_leave_approvals_screen.dart';
+import 'package:right_ads/features/admin_operations/presentation/admin_operations_hub_screen.dart';
+import 'package:right_ads/features/admin_operations/presentation/admin_task_reports_screen.dart';
+import 'package:right_ads/features/admin_operations/presentation/admin_work_reports_review_screen.dart';
 import 'package:right_ads/features/auth/application/session_controller.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
 import 'package:right_ads/features/auth/presentation/force_change_password_screen.dart';
@@ -61,33 +70,28 @@ GoRouter appRouter(Ref ref) {
       final config = ref.read(runtimeAppConfigControllerProvider);
       final currentPath = state.uri.path;
 
-      if (config.maintenanceMode && currentPath != RoutePaths.forbidden) {
-        return RoutePaths.forbidden;
+      if (config.forceUpdate && currentPath != RoutePaths.forceUpdate) {
+        return RoutePaths.forceUpdate;
       }
 
-      if (config.minAppVersion != null &&
-          currentPath != RoutePaths.forceUpdate) {
-        // App version check logic if enforced
-      }
-
-      if (authState is AuthStateInitial || authState is AuthStateLoading) {
+      if (authState is AuthLoading) {
         return currentPath == RoutePaths.splash ? null : RoutePaths.splash;
       }
 
-      if (authState is AuthStateUnauthenticated) {
+      if (authState is AuthUnauthenticated) {
         if (unauthenticatedAllowedPaths.contains(currentPath)) {
           return null;
         }
         return RoutePaths.login;
       }
 
-      if (authState is AuthStatePasswordChangeRequired) {
+      if (authState is AuthMustChangePassword) {
         return currentPath == RoutePaths.forceChangePassword
             ? null
             : RoutePaths.forceChangePassword;
       }
 
-      if (authState is AuthStateAuthenticated) {
+      if (authState is AuthAuthenticated) {
         if (unauthenticatedAllowedPaths.contains(currentPath) ||
             currentPath == RoutePaths.splash ||
             currentPath == RoutePaths.forceChangePassword) {
@@ -208,7 +212,9 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: RoutePaths.adminEmployeeEditPattern,
         builder: (context, state) {
-          final emp = state.extra is EmployeeItem ? state.extra as EmployeeItem : null;
+          final emp = state.extra is EmployeeItem
+              ? state.extra as EmployeeItem
+              : null;
           return EmployeeFormScreen(initialEmployee: emp);
         },
       ),
@@ -227,6 +233,52 @@ GoRouter appRouter(Ref ref) {
             basePath: extra['basePath'] as String? ?? '/departments',
           );
         },
+      ),
+
+      // Admin Attendance & Reports (Prompt 13)
+      GoRoute(
+        path: RoutePaths.adminAttendanceDashboard,
+        builder: (context, state) => const AdminAttendanceDashboardScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminAttendanceMatrix,
+        builder: (context, state) => const AdminMonthlyOverviewMatrixScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminEmployeeMonthlyPattern,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return AdminEmployeeMonthlyScreen(employeeId: id);
+        },
+      ),
+      GoRoute(
+        path: RoutePaths.adminEmployeeYearlyPattern,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return AdminEmployeeYearlyScreen(employeeId: id);
+        },
+      ),
+
+      // Admin Operations (Prompt 14)
+      GoRoute(
+        path: RoutePaths.adminOperationsHub,
+        builder: (context, state) => const AdminOperationsHubScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminTaskReports,
+        builder: (context, state) => const AdminTaskReportsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminLeaveApprovals,
+        builder: (context, state) => const AdminLeaveApprovalsScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminAnnouncementPublish,
+        builder: (context, state) => const AdminAnnouncementCreateScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminWorkReportsReview,
+        builder: (context, state) => const AdminWorkReportsReviewScreen(),
       ),
 
       if (kDebugMode)

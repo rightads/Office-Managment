@@ -146,7 +146,7 @@ class EmployeeDetailScreen extends ConsumerWidget {
                           color: emp.isActive
                               ? AppColors.success
                               : AppColors.error,
-                          fontWeight: FontWeight.w640,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],

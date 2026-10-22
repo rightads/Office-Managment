@@ -31,4 +31,19 @@ abstract final class RoutePaths {
 
   static const String adminMasterDataHub = '/admin/master-data';
   static const String adminMasterDataCrud = '/admin/master-data/manage';
+
+  // Admin Attendance & Reports (Prompt 13)
+  static const String adminAttendanceDashboard = '/admin/attendance';
+  static const String adminAttendanceMatrix = '/admin/attendance/matrix';
+  static const String adminEmployeeMonthlyPattern = '/admin/attendance/employee/:id/monthly';
+  static String adminEmployeeMonthly(String id) => '/admin/attendance/employee/$id/monthly';
+  static const String adminEmployeeYearlyPattern = '/admin/attendance/employee/:id/yearly';
+  static String adminEmployeeYearly(String id) => '/admin/attendance/employee/$id/yearly';
+
+  // Admin Operations (Prompt 14)
+  static const String adminOperationsHub = '/admin/operations';
+  static const String adminTaskReports = '/admin/operations/tasks/reports';
+  static const String adminLeaveApprovals = '/admin/operations/leaves/approvals';
+  static const String adminAnnouncementPublish = '/admin/operations/announcements/publish';
+  static const String adminWorkReportsReview = '/admin/operations/work-reports/review';
 }

@@ -2546,5 +2546,350 @@
   "adminColorHexHint": "#RRGGBB",
   "@adminColorHexHint": {
     "description": "Hex color hint text"
+  },
+  "adminAttendanceDashboardTitle": "Attendance Dashboard",
+  "@adminAttendanceDashboardTitle": {
+    "description": "Title of admin attendance dashboard"
+  },
+  "adminAttendanceTodayTab": "Today",
+  "@adminAttendanceTodayTab": {
+    "description": "Today tab label"
+  },
+  "adminAttendanceMatrixTab": "Monthly Matrix",
+  "@adminAttendanceMatrixTab": {
+    "description": "Monthly matrix tab label"
+  },
+  "adminAttendanceReportsTab": "Reports & Export",
+  "@adminAttendanceReportsTab": {
+    "description": "Reports and export tab label"
+  },
+  "adminAttendanceTotalActive": "Total Active",
+  "@adminAttendanceTotalActive": {
+    "description": "Total active employees count label"
+  },
+  "adminAttendancePresent": "Present",
+  "@adminAttendancePresent": {
+    "description": "Present count label"
+  },
+  "adminAttendanceAbsent": "Absent",
+  "@adminAttendanceAbsent": {
+    "description": "Absent count label"
+  },
+  "adminAttendanceLate": "Late",
+  "@adminAttendanceLate": {
+    "description": "Late count label"
+  },
+  "adminAttendanceHalfDay": "Half Day",
+  "@adminAttendanceHalfDay": {
+    "description": "Half day count label"
+  },
+  "adminAttendanceOnLeave": "On Leave",
+  "@adminAttendanceOnLeave": {
+    "description": "On leave count label"
+  },
+  "adminAttendanceCorrectionTitle": "Manual Correction",
+  "@adminAttendanceCorrectionTitle": {
+    "description": "Title for attendance correction dialog"
+  },
+  "adminAttendanceCorrectionReason": "Correction Reason (Mandatory)",
+  "@adminAttendanceCorrectionReason": {
+    "description": "Label for correction reason field"
+  },
+  "adminAttendanceCorrectionReasonHint": "Explain why this record is being modified",
+  "@adminAttendanceCorrectionReasonHint": {
+    "description": "Hint for correction reason"
+  },
+  "adminAttendanceCheckInTime": "Check-In Time",
+  "@adminAttendanceCheckInTime": {
+    "description": "Label for check-in time"
+  },
+  "adminAttendanceCheckOutTime": "Check-Out Time",
+  "@adminAttendanceCheckOutTime": {
+    "description": "Label for check-out time"
+  },
+  "adminAttendanceRemarks": "Remarks",
+  "@adminAttendanceRemarks": {
+    "description": "Label for remarks field"
+  },
+  "adminAttendanceExport": "Export Report",
+  "@adminAttendanceExport": {
+    "description": "Button to export report"
+  },
+  "adminAttendanceExportFormat": "Export Format",
+  "@adminAttendanceExportFormat": {
+    "description": "Label for export format"
+  },
+  "adminAttendanceExportType": "Report Type",
+  "@adminAttendanceExportType": {
+    "description": "Label for report type"
+  },
+  "adminAttendanceMonthlySummary": "Monthly Summary",
+  "@adminAttendanceMonthlySummary": {
+    "description": "Option for monthly summary report"
+  },
+  "adminAttendanceYearlySummary": "Yearly Summary",
+  "@adminAttendanceYearlySummary": {
+    "description": "Option for yearly summary report"
+  },
+  "adminAttendanceDetailedLogs": "Detailed Logs",
+  "@adminAttendanceDetailedLogs": {
+    "description": "Option for detailed logs report"
+  },
+  "adminAttendanceDownloadSuccess": "Report downloaded successfully",
+  "@adminAttendanceDownloadSuccess": {
+    "description": "Toast message for successful download"
+  },
+  "adminAttendancePercentage": "Attendance %",
+  "@adminAttendancePercentage": {
+    "description": "Attendance percentage label"
+  },
+  "adminAttendanceWorkingDays": "Working Days",
+  "@adminAttendanceWorkingDays": {
+    "description": "Working days count label"
+  },
+  "adminAttendanceHoursWorked": "Hours Worked",
+  "@adminAttendanceHoursWorked": {
+    "description": "Hours worked label"
+  },
+  "adminAttendanceAvgHours": "Avg Hours/Day",
+  "@adminAttendanceAvgHours": {
+    "description": "Average hours per day label"
+  },
+  "adminAttendanceDayDetails": "Day Details",
+  "@adminAttendanceDayDetails": {
+    "description": "Title for day details modal"
+  },
+  "adminAttendanceNoRecords": "No attendance records found",
+  "@adminAttendanceNoRecords": {
+    "description": "Empty state message for attendance"
+  },
+  "adminAttendanceFilterDept": "Department",
+  "@adminAttendanceFilterDept": {
+    "description": "Department filter label"
+  },
+  "adminAttendanceYearlyTrend": "Yearly Attendance Trend",
+  "@adminAttendanceYearlyTrend": {
+    "description": "Title for yearly trend chart"
+  },
+  "adminMonthHeader": "Month",
+  "@adminMonthHeader": {
+    "description": "Table header for month"
+  },
+  "adminAttendanceExportSubtitle": "Export XLSX / PDF reports",
+  "@adminAttendanceExportSubtitle": {
+    "description": "Subtitle for export reports card"
+  },
+  "adminAttendanceStatusCountTitle": "{statusName} ({count})",
+  "@adminAttendanceStatusCountTitle": {
+    "description": "Title for status breakdown section with count",
+    "placeholders": {
+      "statusName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminAttendanceDateWithDay": "{date} ({dayOfWeek})",
+  "@adminAttendanceDateWithDay": {
+    "description": "Date with day of the week",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "dayOfWeek": {
+        "type": "String"
+      }
+    }
+  },
+  "adminAttendanceIsoTimeHint": "YYYY-MM-DDTHH:MM:SS",
+  "@adminAttendanceIsoTimeHint": {
+    "description": "Hint for ISO datetime input"
+  },
+  "adminAttendanceFormatExcel": "Excel (.xlsx)",
+  "@adminAttendanceFormatExcel": {
+    "description": "Option for Excel export format"
+  },
+  "adminAttendanceFormatPdf": "PDF Document (.pdf)",
+  "@adminAttendanceFormatPdf": {
+    "description": "Option for PDF export format"
+  },
+  "adminOperationsHubTitle": "Admin Operations",
+  "@adminOperationsHubTitle": {
+    "description": "Title of admin operations hub"
+  },
+  "adminTaskReportsTitle": "Task Analytics & Reports",
+  "@adminTaskReportsTitle": {
+    "description": "Title of task reports screen"
+  },
+  "adminLeaveApprovalsTitle": "Leave Approvals Queue",
+  "@adminLeaveApprovalsTitle": {
+    "description": "Title of leave approvals screen"
+  },
+  "adminPublishAnnouncementTitle": "Publish Announcement",
+  "@adminPublishAnnouncementTitle": {
+    "description": "Title of announcement publisher screen"
+  },
+  "adminWorkReportsReviewTitle": "Daily Work Report Reviews",
+  "@adminWorkReportsReviewTitle": {
+    "description": "Title of work report reviews screen"
+  },
+  "adminTotalTasks": "Total Tasks",
+  "@adminTotalTasks": {
+    "description": "Total tasks count label"
+  },
+  "adminCompletedTasks": "Completed",
+  "@adminCompletedTasks": {
+    "description": "Completed tasks count label"
+  },
+  "adminPendingTasks": "Pending",
+  "@adminPendingTasks": {
+    "description": "Pending tasks count label"
+  },
+  "adminOverdueTasks": "Overdue",
+  "@adminOverdueTasks": {
+    "description": "Overdue tasks count label"
+  },
+  "adminOnTimeRate": "On-Time Rate",
+  "@adminOnTimeRate": {
+    "description": "On-time completion rate label"
+  },
+  "adminByEmployee": "By Employee",
+  "@adminByEmployee": {
+    "description": "Tab or header for by employee breakdown"
+  },
+  "adminByDepartment": "By Department",
+  "@adminByDepartment": {
+    "description": "Tab or header for by department breakdown"
+  },
+  "adminByClient": "By Client",
+  "@adminByClient": {
+    "description": "Tab or header for by client breakdown"
+  },
+  "adminApprove": "Approve",
+  "@adminApprove": {
+    "description": "Approve button label"
+  },
+  "adminReject": "Reject",
+  "@adminReject": {
+    "description": "Reject button label"
+  },
+  "adminReviewNoteOptional": "Review Note (Optional)",
+  "@adminReviewNoteOptional": {
+    "description": "Optional review note label"
+  },
+  "adminRejectionReasonMandatory": "Rejection Reason (Mandatory)",
+  "@adminRejectionReasonMandatory": {
+    "description": "Mandatory rejection reason label"
+  },
+  "adminLeaveApprovedSuccess": "Leave approved successfully",
+  "@adminLeaveApprovedSuccess": {
+    "description": "Toast message for leave approved"
+  },
+  "adminLeaveRejectedSuccess": "Leave rejected successfully",
+  "@adminLeaveRejectedSuccess": {
+    "description": "Toast message for leave rejected"
+  },
+  "adminAnnouncementTarget": "Target Audience",
+  "@adminAnnouncementTarget": {
+    "description": "Target audience dropdown label"
+  },
+  "adminAllDepartments": "Company-wide (All Departments)",
+  "@adminAllDepartments": {
+    "description": "Option for all departments"
+  },
+  "adminExpiryDate": "Expiration Date",
+  "@adminExpiryDate": {
+    "description": "Expiration date label"
+  },
+  "adminPublish": "Publish",
+  "@adminPublish": {
+    "description": "Publish action label"
+  },
+  "adminAnnouncementPublished": "Announcement published successfully",
+  "@adminAnnouncementPublished": {
+    "description": "Toast message after publishing announcement"
+  },
+  "adminMissingReports": "Missing Reports ({count})",
+  "@adminMissingReports": {
+    "description": "Header for missing reports with count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "adminReviewReport": "Review Report",
+  "@adminReviewReport": {
+    "description": "Action to review daily work report"
+  },
+  "adminReviewFeedback": "Manager Feedback / Review Note",
+  "@adminReviewFeedback": {
+    "description": "Label for managerial review note"
+  },
+  "adminMarkReviewed": "Mark Reviewed",
+  "@adminMarkReviewed": {
+    "description": "Button to mark work report as reviewed"
+  },
+  "adminReportReviewedSuccess": "Work report reviewed successfully",
+  "@adminReportReviewedSuccess": {
+    "description": "Toast message after reviewing work report"
+  },
+  "adminAssignees": "Assignees",
+  "@adminAssignees": {
+    "description": "Label for task assignees"
+  },
+  "adminTaskReportsSubtitle": "Aggregates, on-time rate, and overdue breakdowns",
+  "@adminTaskReportsSubtitle": {
+    "description": "Subtitle for task reports card"
+  },
+  "adminLeaveApprovalsSubtitle": "Pending employee leave applications and actions",
+  "@adminLeaveApprovalsSubtitle": {
+    "description": "Subtitle for leave approvals card"
+  },
+  "adminAnnouncementSubtitle": "Broadcast announcements to company or departments",
+  "@adminAnnouncementSubtitle": {
+    "description": "Subtitle for announcements card"
+  },
+  "adminWorkReportsReviewSubtitle": "Review daily submissions and track missing reports",
+  "@adminWorkReportsReviewSubtitle": {
+    "description": "Subtitle for work reports card"
+  },
+  "adminTotalMinsHrs": "Total: {mins} mins ({hrs} hrs)",
+  "@adminTotalMinsHrs": {
+    "description": "Total minutes and hours display",
+    "placeholders": {
+      "mins": {
+        "type": "int"
+      },
+      "hrs": {
+        "type": "String"
+      }
+    }
+  },
+  "adminFeedbackPrefix": "Feedback: {feedback}",
+  "@adminFeedbackPrefix": {
+    "description": "Prefix for manager review feedback",
+    "placeholders": {
+      "feedback": {
+        "type": "String"
+      }
+    }
+  },
+  "adminLeaveDaysCount": "{startDate} → {endDate} ({days} days)",
+  "@adminLeaveDaysCount": {
+    "description": "Date range and total days for leave",
+    "placeholders": {
+      "startDate": {
+        "type": "String"
+      },
+      "endDate": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
   }
 }
