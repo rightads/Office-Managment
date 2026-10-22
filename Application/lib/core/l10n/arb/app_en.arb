@@ -2224,5 +2224,327 @@
   "dynamicModuleTimelineTab": "Timeline",
   "@dynamicModuleTimelineTab": {
     "description": "Tab label for activity timeline"
+  },
+  "adminEmployeesTitle": "Employee Directory",
+  "@adminEmployeesTitle": {
+    "description": "Title of admin employee directory screen"
+  },
+  "adminCreateEmployee": "Add Employee",
+  "@adminCreateEmployee": {
+    "description": "Button to create a new employee"
+  },
+  "adminEditEmployee": "Edit Employee",
+  "@adminEditEmployee": {
+    "description": "Button to edit an employee"
+  },
+  "adminEmployeeCode": "Employee Code",
+  "@adminEmployeeCode": {
+    "description": "Label for employee code"
+  },
+  "adminFullName": "Full Name",
+  "@adminFullName": {
+    "description": "Label for employee full name"
+  },
+  "adminEmail": "Email Address",
+  "@adminEmail": {
+    "description": "Label for employee email"
+  },
+  "adminPhone": "Phone Number",
+  "@adminPhone": {
+    "description": "Label for employee phone number"
+  },
+  "adminDesignation": "Designation",
+  "@adminDesignation": {
+    "description": "Label for employee designation"
+  },
+  "adminDepartment": "Department",
+  "@adminDepartment": {
+    "description": "Label for employee department"
+  },
+  "adminRole": "Role",
+  "@adminRole": {
+    "description": "Label for employee role"
+  },
+  "adminManager": "Manager",
+  "@adminManager": {
+    "description": "Label for employee manager"
+  },
+  "adminAttendancePolicy": "Attendance Policy",
+  "@adminAttendancePolicy": {
+    "description": "Label for employee attendance policy"
+  },
+  "adminJoiningDate": "Joining Date",
+  "@adminJoiningDate": {
+    "description": "Label for employee joining date"
+  },
+  "adminStatusActive": "Active",
+  "@adminStatusActive": {
+    "description": "Label for active employee status"
+  },
+  "adminStatusInactive": "Inactive",
+  "@adminStatusInactive": {
+    "description": "Label for inactive employee status"
+  },
+  "adminFilterAll": "All",
+  "@adminFilterAll": {
+    "description": "Filter label for all items"
+  },
+  "adminSearchEmployees": "Search employees...",
+  "@adminSearchEmployees": {
+    "description": "Hint text for searching employees"
+  },
+  "adminDeactivate": "Deactivate",
+  "@adminDeactivate": {
+    "description": "Action label to deactivate employee"
+  },
+  "adminActivate": "Activate",
+  "@adminActivate": {
+    "description": "Action label to activate employee"
+  },
+  "adminDeactivateConfirm": "Are you sure you want to deactivate this employee?",
+  "@adminDeactivateConfirm": {
+    "description": "Confirmation message when deactivating employee"
+  },
+  "adminActivateConfirm": "Are you sure you want to activate this employee?",
+  "@adminActivateConfirm": {
+    "description": "Confirmation message when activating employee"
+  },
+  "adminResetPassword": "Reset Password",
+  "@adminResetPassword": {
+    "description": "Action label to reset password"
+  },
+  "adminResetDevice": "Reset Device",
+  "@adminResetDevice": {
+    "description": "Action label to reset device lock"
+  },
+  "adminChangeRole": "Change Role",
+  "@adminChangeRole": {
+    "description": "Action label to change employee role"
+  },
+  "adminAssignManager": "Assign Manager",
+  "@adminAssignManager": {
+    "description": "Action label to assign employee manager"
+  },
+  "adminAssignPolicy": "Assign Policy",
+  "@adminAssignPolicy": {
+    "description": "Action label to assign attendance policy"
+  },
+  "adminDeviceResetSuccess": "Device lock reset successfully",
+  "@adminDeviceResetSuccess": {
+    "description": "Toast message after resetting device lock"
+  },
+  "adminPasswordResetSuccess": "Password reset successfully",
+  "@adminPasswordResetSuccess": {
+    "description": "Toast message after resetting password"
+  },
+  "adminBulkImport": "Bulk Import",
+  "@adminBulkImport": {
+    "description": "Label for CSV bulk import"
+  },
+  "adminPickCsv": "Select CSV File",
+  "@adminPickCsv": {
+    "description": "Button to select CSV file"
+  },
+  "adminDryRun": "Validate Only (Dry Run)",
+  "@adminDryRun": {
+    "description": "Checkbox for validating without committing import"
+  },
+  "adminUploadCsv": "Upload & Import",
+  "@adminUploadCsv": {
+    "description": "Button to upload CSV file"
+  },
+  "adminImportSummary": "Import Results: {success} succeeded, {failed} failed of {total} total",
+  "@adminImportSummary": {
+    "description": "Summary banner for CSV import results",
+    "placeholders": {
+      "success": {
+        "type": "int"
+      },
+      "failed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "adminImportErrors": "Validation Errors",
+  "@adminImportErrors": {
+    "description": "Section header for bulk import validation errors"
+  },
+  "adminRowNumber": "Row {row}",
+  "@adminRowNumber": {
+    "description": "Row indicator in validation error",
+    "placeholders": {
+      "row": {
+        "type": "int"
+      }
+    }
+  },
+  "adminMasterDataTitle": "Master Data Management",
+  "@adminMasterDataTitle": {
+    "description": "Screen title for master data management"
+  },
+  "adminAddNew": "Add New",
+  "@adminAddNew": {
+    "description": "Action to add a new master data item"
+  },
+  "adminEditItem": "Edit Item",
+  "@adminEditItem": {
+    "description": "Action to edit a master data item"
+  },
+  "adminDeleteItem": "Delete Item",
+  "@adminDeleteItem": {
+    "description": "Action to delete a master data item"
+  },
+  "adminDeleteConfirm": "Are you sure you want to delete this item?",
+  "@adminDeleteConfirm": {
+    "description": "Confirmation prompt before deleting master data item"
+  },
+  "adminItemName": "Name",
+  "@adminItemName": {
+    "description": "Label for item name"
+  },
+  "adminItemCode": "Code",
+  "@adminItemCode": {
+    "description": "Label for item code"
+  },
+  "adminItemDescription": "Description",
+  "@adminItemDescription": {
+    "description": "Label for item description"
+  },
+  "adminItemColor": "Color",
+  "@adminItemColor": {
+    "description": "Label for item color"
+  },
+  "adminItemLatitude": "Latitude",
+  "@adminItemLatitude": {
+    "description": "Label for latitude coordinate"
+  },
+  "adminItemLongitude": "Longitude",
+  "@adminItemLongitude": {
+    "description": "Label for longitude coordinate"
+  },
+  "adminItemRadius": "Radius (meters)",
+  "@adminItemRadius": {
+    "description": "Label for geofence radius"
+  },
+  "adminPickColor": "Select Color",
+  "@adminPickColor": {
+    "description": "Title for color picker dialog"
+  },
+  "adminEmployeeCreatedTitle": "Employee Created",
+  "@adminEmployeeCreatedTitle": {
+    "description": "Title of success dialog after creating employee"
+  },
+  "adminEmployeeCreatedMessage": "Employee created successfully. Note the generated employee code and temporary credentials.",
+  "@adminEmployeeCreatedMessage": {
+    "description": "Message in dialog after creating employee"
+  },
+  "adminTemporaryPassword": "Temporary Password",
+  "@adminTemporaryPassword": {
+    "description": "Label for temporary password"
+  },
+  "adminMustChangePassword": "User must change password on first login",
+  "@adminMustChangePassword": {
+    "description": "Notice that user must change password"
+  },
+  "adminCopy": "Copy",
+  "@adminCopy": {
+    "description": "Button to copy text"
+  },
+  "adminCopiedToClipboard": "Copied to clipboard",
+  "@adminCopiedToClipboard": {
+    "description": "Notification that text was copied"
+  },
+  "adminClose": "Close",
+  "@adminClose": {
+    "description": "Button to close dialog"
+  },
+  "adminCancel": "Cancel",
+  "@adminCancel": {
+    "description": "Cancel action button"
+  },
+  "adminConfirm": "Confirm",
+  "@adminConfirm": {
+    "description": "Confirm action button"
+  },
+  "adminSave": "Save",
+  "@adminSave": {
+    "description": "Save action button"
+  },
+  "adminSelect": "Select",
+  "@adminSelect": {
+    "description": "Select action button"
+  },
+  "adminNoItemsFound": "No items found",
+  "@adminNoItemsFound": {
+    "description": "Empty state label"
+  },
+  "adminErrorTitle": "Error",
+  "@adminErrorTitle": {
+    "description": "Dialog error title"
+  },
+  "adminLastAdminWarning": "Last Administrator Warning",
+  "@adminLastAdminWarning": {
+    "description": "Title for last active administrator alert"
+  },
+  "adminRowErrorTitle": "Row {row}: {field}",
+  "@adminRowErrorTitle": {
+    "description": "Title for row error in CSV import",
+    "placeholders": {
+      "row": {
+        "type": "int"
+      },
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "adminLeaveEmptyAuto": "Leave empty to auto-generate",
+  "@adminLeaveEmptyAuto": {
+    "description": "Hint to leave field empty for automatic generation"
+  },
+  "adminNoneOption": "None",
+  "@adminNoneOption": {
+    "description": "Dropdown option for none or unassigned"
+  },
+  "adminDateFormatHint": "{label} (YYYY-MM-DD)",
+  "@adminDateFormatHint": {
+    "description": "Date field label with format hint",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "adminActionsHeader": "Actions",
+  "@adminActionsHeader": {
+    "description": "Table header for row actions"
+  },
+  "adminPickCoordinatesAndRadius": "Pick Coordinates & Radius",
+  "@adminPickCoordinatesAndRadius": {
+    "description": "Button to open geofence location picker"
+  },
+  "adminSearchInTitle": "Search in {title}...",
+  "@adminSearchInTitle": {
+    "description": "Search placeholder for specific catalog",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "adminLocationPickerDialogTitle": "Location & Geofence Picker",
+  "@adminLocationPickerDialogTitle": {
+    "description": "Title for location picker modal"
+  },
+  "adminGeofenceTarget": "Interactive GPS Geofence Target",
+  "@adminGeofenceTarget": {
+    "description": "Geofence banner label in location picker"
+  },
+  "adminColorHexHint": "#RRGGBB",
+  "@adminColorHexHint": {
+    "description": "Hex color hint text"
   }
 }

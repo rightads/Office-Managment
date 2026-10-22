@@ -82,6 +82,32 @@ abstract final class ApiEndpoints {
   static String workReportDetail(String id) => '/work-reports/$id';
   static String workReportSubmit(String id) => '/work-reports/$id/submit';
 
+  // Admin: Employees & Master Data (Prompt 12)
+  static const String employees = '/employees';
+  static String employeeDetail(String id) => '/employees/$id';
+  static String employeeDeactivate(String id) => '/employees/$id/deactivate';
+  static String employeeActivate(String id) => '/employees/$id/activate';
+  static String employeeResetPassword(String id) => '/employees/$id/reset-password';
+  static String employeeRole(String id) => '/employees/$id/role';
+  static String employeeManager(String id) => '/employees/$id/manager';
+  static String employeeAttendancePolicy(String id) => '/employees/$id/attendance-policy';
+  static const String employeesBulkImport = '/employees/bulk-import';
+  static String userResetDevice(String userId) => '/attendance/users/$userId/reset-device';
+  static const String roles = '/roles';
+  static String roleDetail(String id) => '/roles/$id';
+  static const String officeLocations = '/office-locations';
+  static String officeLocationDetail(String id) => '/office-locations/$id';
+  static const String attendancePolicies = '/attendance-policies';
+  static String attendancePolicyDetail(String id) => '/attendance-policies/$id';
+  static String clientDetail(String id) => '/clients/$id';
+  static String projectDetail(String id) => '/projects/$id';
+  static String departmentDetail(String id) => '/departments/$id';
+  static String leaveTypeDetail(String id) => '/leave-types/$id';
+  static String holidayDetail(String id) => '/holidays/$id';
+  static String taskStatusDetail(String id) => '/task-statuses/$id';
+  static String taskPriorityDetail(String id) => '/task-priorities/$id';
+  static String taskStatusTransitionDelete(String fromId, String toId) => '/task-status-transitions/$fromId/$toId';
+
   // Dynamic Module Engine (Prompt 11 / Backend Addendum A3)
   static const String moduleDefinitions = '/modules/definitions';
   static String moduleDefinition(String code) => '/modules/$code';

@@ -19,4 +19,16 @@ abstract final class RoutePaths {
   static const String announcements = '/announcements';
   static const String announcementDetail = '/announcements/:id';
   static const String devGallery = '/dev/gallery';
+
+  // Admin Routes (Prompt 12)
+  static const String adminEmployees = '/admin/employees';
+  static const String adminEmployeeCreate = '/admin/employees/create';
+  static const String adminEmployeesBulkImport = '/admin/employees/bulk-import';
+  static const String adminEmployeeDetailPattern = '/admin/employees/:id';
+  static String adminEmployeeDetail(String id) => '/admin/employees/$id';
+  static const String adminEmployeeEditPattern = '/admin/employees/:id/edit';
+  static String adminEmployeeEdit(String id) => '/admin/employees/$id/edit';
+
+  static const String adminMasterDataHub = '/admin/master-data';
+  static const String adminMasterDataCrud = '/admin/master-data/manage';
 }

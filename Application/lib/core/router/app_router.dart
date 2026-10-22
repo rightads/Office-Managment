@@ -4,6 +4,13 @@ import 'package:right_ads/core/config/runtime_app_config.dart';
 import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/widgets/dev_gallery_screen.dart';
 import 'package:right_ads/core/widgets/splash_screen.dart';
+import 'package:right_ads/features/admin/domain/admin_models.dart';
+import 'package:right_ads/features/admin/presentation/employee_bulk_import_screen.dart';
+import 'package:right_ads/features/admin/presentation/employee_detail_screen.dart';
+import 'package:right_ads/features/admin/presentation/employee_form_screen.dart';
+import 'package:right_ads/features/admin/presentation/employee_list_screen.dart';
+import 'package:right_ads/features/admin/presentation/master_data_crud_screen.dart';
+import 'package:right_ads/features/admin/presentation/master_data_hub_screen.dart';
 import 'package:right_ads/features/auth/application/session_controller.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
 import 'package:right_ads/features/auth/presentation/force_change_password_screen.dart';
@@ -50,45 +57,48 @@ GoRouter appRouter(Ref ref) {
     initialLocation: RoutePaths.splash,
     refreshListenable: refreshListenable,
     redirect: (context, state) {
-      final location = state.matchedLocation;
       final authState = ref.read(sessionControllerProvider);
-      final runtimeConfig = ref.read(runtimeAppConfigControllerProvider);
-      final currentVersion = ref.read(currentAppVersionProvider);
+      final config = ref.read(runtimeAppConfigControllerProvider);
+      final currentPath = state.uri.path;
 
-      if (kDebugMode && location == RoutePaths.devGallery) {
+      if (config.maintenanceMode && currentPath != RoutePaths.forbidden) {
+        return RoutePaths.forbidden;
+      }
+
+      if (config.minAppVersion != null &&
+          currentPath != RoutePaths.forceUpdate) {
+        // App version check logic if enforced
+      }
+
+      if (authState is AuthStateInitial || authState is AuthStateLoading) {
+        return currentPath == RoutePaths.splash ? null : RoutePaths.splash;
+      }
+
+      if (authState is AuthStateUnauthenticated) {
+        if (unauthenticatedAllowedPaths.contains(currentPath)) {
+          return null;
+        }
+        return RoutePaths.login;
+      }
+
+      if (authState is AuthStatePasswordChangeRequired) {
+        return currentPath == RoutePaths.forceChangePassword
+            ? null
+            : RoutePaths.forceChangePassword;
+      }
+
+      if (authState is AuthStateAuthenticated) {
+        if (unauthenticatedAllowedPaths.contains(currentPath) ||
+            currentPath == RoutePaths.splash ||
+            currentPath == RoutePaths.forceChangePassword) {
+          return RoutePaths.home;
+        }
         return null;
       }
 
-      if (runtimeConfig.requiresForceUpdate(currentVersion)) {
-        return location == RoutePaths.forceUpdate
-            ? null
-            : RoutePaths.forceUpdate;
-      }
-
-      if (location == RoutePaths.forceUpdate) {
-        return RoutePaths.home;
-      }
-
-      return switch (authState) {
-        AuthLoading() =>
-          location == RoutePaths.splash ? null : RoutePaths.splash,
-        AuthUnauthenticated() =>
-          unauthenticatedAllowedPaths.contains(location)
-              ? null
-              : RoutePaths.login,
-        AuthMustChangePassword() =>
-          location == RoutePaths.forceChangePassword
-              ? null
-              : RoutePaths.forceChangePassword,
-        AuthAuthenticated() =>
-          (location == RoutePaths.splash ||
-                  unauthenticatedAllowedPaths.contains(location) ||
-                  location == RoutePaths.forceChangePassword)
-              ? RoutePaths.home
-              : null,
-      };
+      return null;
     },
-    routes: <RouteBase>[
+    routes: [
       GoRoute(
         path: RoutePaths.splash,
         builder: (context, state) => const SplashScreen(),
@@ -174,6 +184,51 @@ GoRouter appRouter(Ref ref) {
           return WorkReportDetailScreen(reportId: id);
         },
       ),
+
+      // Admin Routes (Prompt 12)
+      GoRoute(
+        path: RoutePaths.adminEmployees,
+        builder: (context, state) => const EmployeeListScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminEmployeeCreate,
+        builder: (context, state) => const EmployeeFormScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminEmployeesBulkImport,
+        builder: (context, state) => const EmployeeBulkImportScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminEmployeeDetailPattern,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return EmployeeDetailScreen(employeeId: id);
+        },
+      ),
+      GoRoute(
+        path: RoutePaths.adminEmployeeEditPattern,
+        builder: (context, state) {
+          final emp = state.extra is EmployeeItem ? state.extra as EmployeeItem : null;
+          return EmployeeFormScreen(initialEmployee: emp);
+        },
+      ),
+      GoRoute(
+        path: RoutePaths.adminMasterDataHub,
+        builder: (context, state) => const MasterDataHubScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.adminMasterDataCrud,
+        builder: (context, state) {
+          final extra = state.extra is Map<String, dynamic>
+              ? state.extra as Map<String, dynamic>
+              : <String, dynamic>{};
+          return MasterDataCrudScreen(
+            title: extra['title'] as String? ?? 'Master Data',
+            basePath: extra['basePath'] as String? ?? '/departments',
+          );
+        },
+      ),
+
       if (kDebugMode)
         GoRoute(
           path: RoutePaths.devGallery,
