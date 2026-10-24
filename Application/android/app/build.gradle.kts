@@ -31,8 +31,6 @@ android {
     productFlavors {
         create("dev") {
             dimension = "default"
-            applicationIdSuffix = ".dev"
-            versionNameSuffix = "-dev"
             resValue("string", "app_name", "Right Ads (Dev)")
         }
         create("staging") {
@@ -71,4 +69,16 @@ flutter {
 
 if (file("google-services.json").exists()) {
     apply(plugin = "com.google.gms.google-services")
+}
+
+// Support plain `flutter run` without --flavor by linking the dev APK output to app-debug.apk
+afterEvaluate {
+    tasks.findByName("assembleDebug")?.doLast {
+        val devApk = layout.buildDirectory.file("outputs/apk/dev/debug/app-dev-debug.apk").get().asFile
+        val targetApk = layout.buildDirectory.file("outputs/flutter-apk/app-debug.apk").get().asFile
+        if (devApk.exists()) {
+            targetApk.parentFile.mkdirs()
+            devApk.copyTo(targetApk, overwrite = true)
+        }
+    }
 }

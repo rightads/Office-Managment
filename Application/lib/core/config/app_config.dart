@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:right_ads/core/config/app_environment.dart';
 
@@ -43,12 +44,29 @@ sealed class AppConfigValidationResult {
     );
     const rawSentryDsn = String.fromEnvironment(AppConfigEnvKeys.sentryDsn);
 
+    // In debug mode, provide developer-friendly fallback defaults for plain `flutter run`
+    final effectiveEnvironment = rawEnvironment.isNotEmpty
+        ? rawEnvironment
+        : (kDebugMode ? (expectedFlavor?.value ?? 'dev') : '');
+    final effectiveApiBaseUrl = rawApiBaseUrl.isNotEmpty
+        ? rawApiBaseUrl
+        : (kDebugMode ? 'http://10.0.2.2:8000/api/v1' : '');
+    final effectiveConnectTimeout = rawConnectTimeout.isNotEmpty
+        ? rawConnectTimeout
+        : (kDebugMode ? '15000' : '');
+    final effectiveReceiveTimeout = rawReceiveTimeout.isNotEmpty
+        ? rawReceiveTimeout
+        : (kDebugMode ? '30000' : '');
+    final effectiveSendTimeout = rawSendTimeout.isNotEmpty
+        ? rawSendTimeout
+        : (kDebugMode ? '15000' : '');
+
     return fromRawValues(
-      rawEnvironment: rawEnvironment,
-      rawApiBaseUrl: rawApiBaseUrl,
-      rawConnectTimeoutMs: rawConnectTimeout,
-      rawReceiveTimeoutMs: rawReceiveTimeout,
-      rawSendTimeoutMs: rawSendTimeout,
+      rawEnvironment: effectiveEnvironment,
+      rawApiBaseUrl: effectiveApiBaseUrl,
+      rawConnectTimeoutMs: effectiveConnectTimeout,
+      rawReceiveTimeoutMs: effectiveReceiveTimeout,
+      rawSendTimeoutMs: effectiveSendTimeout,
       rawSentryDsn: rawSentryDsn,
       expectedFlavor: expectedFlavor,
     );
