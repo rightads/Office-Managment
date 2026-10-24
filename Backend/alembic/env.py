@@ -19,7 +19,8 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Set database connection URL dynamically from Pydantic settings (Zero Hardcoding)
-config.set_main_option("sqlalchemy.url", str(settings.DATABASE_URL))
+# Escaping '%' to '%%' prevents ConfigParser interpolation errors with URL-encoded passwords
+config.set_main_option("sqlalchemy.url", str(settings.DATABASE_URL).replace("%", "%%"))
 
 # add your model's MetaData object here
 # for 'autogenerate' support
