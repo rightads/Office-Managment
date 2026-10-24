@@ -5,11 +5,13 @@ import 'package:right_ads/core/config/runtime_app_config.dart';
 import 'package:right_ads/core/errors/app_failure.dart';
 import 'package:right_ads/core/network/dio_provider.dart';
 import 'package:right_ads/core/notifications/notification_service.dart';
+import 'package:right_ads/core/permissions/permission_codes.dart';
 import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_state.dart';
 import 'package:right_ads/features/auth/domain/entities/auth_user.dart';
 import 'package:right_ads/features/navigation/application/navigation_controller.dart';
+import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'session_controller.g.dart';
@@ -185,5 +187,166 @@ class SessionController extends _$SessionController {
   void _clearPermissions() {
     ref.read(userPermissionsControllerProvider.notifier).clear();
     unawaited(ref.read(navigationControllerProvider.notifier).clear());
+  }
+
+  /// Development & Demo bypass to preview Admin View or Employee View
+  /// without requiring a live backend or database.
+  void loginAsDevDemo({required bool isAdmin}) {
+    final permissions = isAdmin
+        ? PermissionCodes.all
+        : const <String>[
+            PermissionCodes.attendanceCheckIn,
+            PermissionCodes.attendanceViewOwn,
+            PermissionCodes.taskViewAssigned,
+            PermissionCodes.taskUpdate,
+            PermissionCodes.leaveApply,
+            PermissionCodes.leaveViewOwn,
+            PermissionCodes.announcementView,
+            PermissionCodes.workReportsSubmitOwn,
+          ];
+
+    final user = AuthUser(
+      id: isAdmin ? 'demo-admin-id' : 'demo-employee-id',
+      employeeCode: isAdmin ? 'ADM-001' : 'EMP-042',
+      fullName: isAdmin ? 'Demo Admin' : 'Demo Employee',
+      email: isAdmin ? 'admin@rightads.com' : 'employee@rightads.com',
+      roleLabel: isAdmin ? 'Administrator' : 'Employee',
+      permissions: permissions,
+      mustChangePassword: false,
+      designation: isAdmin
+          ? 'Senior Operations & HR Admin'
+          : 'Client Relations Executive',
+      phone: '+91 98765 43210',
+    );
+
+    ref
+        .read(userPermissionsControllerProvider.notifier)
+        .setPermissions(permissions);
+
+    final modules = isAdmin
+        ? const <AppModuleItem>[
+            AppModuleItem(
+              id: 'mod-attendance',
+              code: 'attendance',
+              label: 'Attendance',
+              iconKey: 'attendance',
+              routeKey: 'attendance',
+              sortOrder: 10,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-tasks',
+              code: 'tasks',
+              label: 'Tasks',
+              iconKey: 'tasks',
+              routeKey: 'tasks',
+              sortOrder: 20,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-leave',
+              code: 'leave',
+              label: 'Leave',
+              iconKey: 'leave',
+              routeKey: 'leave',
+              sortOrder: 30,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-reports',
+              code: 'work_reports',
+              label: 'Work Reports',
+              iconKey: 'work_reports',
+              routeKey: 'work_reports',
+              sortOrder: 40,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-employees',
+              code: 'admin_employees',
+              label: 'Employees',
+              iconKey: 'users',
+              routeKey: 'admin_employees',
+              sortOrder: 50,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-admin-ops',
+              code: 'admin_operations',
+              label: 'Operations',
+              iconKey: 'roles',
+              routeKey: 'admin_operations',
+              sortOrder: 60,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-profile',
+              code: 'profile',
+              label: 'Profile',
+              iconKey: 'profile',
+              routeKey: 'profile',
+              sortOrder: 70,
+              isBase: true,
+            ),
+          ]
+        : const <AppModuleItem>[
+            AppModuleItem(
+              id: 'mod-attendance',
+              code: 'attendance',
+              label: 'Attendance',
+              iconKey: 'attendance',
+              routeKey: 'attendance',
+              sortOrder: 10,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-tasks',
+              code: 'tasks',
+              label: 'Tasks',
+              iconKey: 'tasks',
+              routeKey: 'tasks',
+              sortOrder: 20,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-leave',
+              code: 'leave',
+              label: 'Leave',
+              iconKey: 'leave',
+              routeKey: 'leave',
+              sortOrder: 30,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-reports',
+              code: 'work_reports',
+              label: 'Work Reports',
+              iconKey: 'work_reports',
+              routeKey: 'work_reports',
+              sortOrder: 40,
+              isBase: true,
+            ),
+            AppModuleItem(
+              id: 'mod-profile',
+              code: 'profile',
+              label: 'Profile',
+              iconKey: 'profile',
+              routeKey: 'profile',
+              sortOrder: 50,
+              isBase: true,
+            ),
+          ];
+
+    final navData = UserNavigationData(
+      modules: modules,
+      permissions: permissions,
+      roleName: isAdmin ? 'admin' : 'employee',
+      roleLabel: isAdmin ? 'Administrator' : 'Employee',
+      departmentName: isAdmin ? 'Operations & HQ' : 'Sales & Marketing',
+    );
+
+    ref.read(navigationControllerProvider.notifier).setNavigationData(navData);
+
+    state = AuthState.authenticated(user: user);
   }
 }

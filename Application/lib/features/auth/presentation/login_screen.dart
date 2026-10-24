@@ -204,6 +204,70 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           expanded: true,
                           onPressed: _submit,
                         ),
+                        const SizedBox(height: AppSpacing.lg),
+                        Row(
+                          children: <Widget>[
+                            const Expanded(child: Divider()),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.sm,
+                              ),
+                              child: Text(
+                                'QUICK DEMO ACCESS',
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: colorScheme.onSurfaceVariant,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.1,
+                                ),
+                              ),
+                            ),
+                            const Expanded(child: Divider()),
+                          ],
+                        ),
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(
+                          'Preview views without database or authentication setup:',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: AppButton(
+                                label: 'Admin View',
+                                icon: Icons.admin_panel_settings_outlined,
+                                variant: AppButtonVariant.secondary,
+                                expanded: true,
+                                onPressed: _isSubmitting
+                                    ? null
+                                    : () {
+                                        ref
+                                            .read(sessionControllerProvider.notifier)
+                                            .loginAsDevDemo(isAdmin: true);
+                                      },
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.sm),
+                            Expanded(
+                              child: AppButton(
+                                label: 'Employee View',
+                                icon: Icons.badge_outlined,
+                                variant: AppButtonVariant.secondary,
+                                expanded: true,
+                                onPressed: _isSubmitting
+                                    ? null
+                                    : () {
+                                        ref
+                                            .read(sessionControllerProvider.notifier)
+                                            .loginAsDevDemo(isAdmin: false);
+                                      },
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

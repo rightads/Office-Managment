@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
+import 'package:right_ads/features/admin/presentation/employee_list_screen.dart';
+import 'package:right_ads/features/admin_attendance/presentation/admin_attendance_dashboard_screen.dart';
+import 'package:right_ads/features/admin_operations/presentation/admin_operations_hub_screen.dart';
 import 'package:right_ads/features/attendance/presentation/attendance_screen.dart';
 import 'package:right_ads/features/communication/presentation/announcements_screen.dart';
 import 'package:right_ads/features/communication/presentation/notifications_screen.dart';
@@ -9,6 +12,7 @@ import 'package:right_ads/features/leaves/presentation/leaves_screen.dart';
 import 'package:right_ads/features/navigation/domain/navigation_models.dart';
 import 'package:right_ads/features/navigation/presentation/module_icon_mapper.dart';
 import 'package:right_ads/features/profile/presentation/profile_screen.dart';
+import 'package:right_ads/features/super_admin/presentation/super_admin_console_hub_screen.dart';
 import 'package:right_ads/features/tasks/presentation/tasks_screen.dart';
 import 'package:right_ads/features/work_reports/presentation/work_reports_screen.dart';
 
@@ -48,6 +52,13 @@ abstract final class ModuleRegistry {
             const AnnouncementsScreen(isRootNavigation: true),
         'notifications': (context, module) => const NotificationsScreen(),
         'profile': (context, module) => const ProfileScreen(),
+        'admin_employees': (context, module) => const EmployeeListScreen(),
+        'admin_attendance': (context, module) =>
+            const AdminAttendanceDashboardScreen(),
+        'admin_operations': (context, module) =>
+            const AdminOperationsHubScreen(),
+        'super_admin': (context, module) =>
+            const SuperAdminConsoleHubScreen(),
       };
 
   static bool isKnownRouteKey(String routeKey) {

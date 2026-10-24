@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:right_ads/core/config/app_config_provider.dart';
 import 'package:right_ads/core/l10n/l10n.dart';
+import 'package:right_ads/core/permissions/permission_codes.dart';
+import 'package:right_ads/core/permissions/permission_service.dart';
 import 'package:right_ads/core/router/route_paths.dart';
 import 'package:right_ads/core/theme/app_spacing.dart';
 import 'package:right_ads/core/widgets/app_button.dart';
@@ -85,6 +87,10 @@ class HomeDashboardView extends ConsumerWidget {
     final displayRoleLabel = navData.roleLabel.isNotEmpty
         ? navData.roleLabel
         : (authState is AuthAuthenticated ? authState.user.roleLabel : '');
+    final permissions = ref.watch(userPermissionsControllerProvider);
+    final hasAdminPermissions = permissions.can(PermissionCodes.userRead) ||
+        permissions.can(PermissionCodes.attendanceViewAll) ||
+        displayRoleLabel.toLowerCase().contains('admin');
 
     final homeBaseModules = modules
         .where((m) => m.isBase && m.showOnHome)
@@ -205,85 +211,69 @@ class HomeDashboardView extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final isWide =
-                        constraints.maxWidth >= AppBreakpoints.compactMaxWidth;
-                    final cardWidth = isWide
-                        ? (constraints.maxWidth - AppSpacing.md) / 2
-                        : constraints.maxWidth;
-
-                    return Wrap(
-                      spacing: AppSpacing.md,
-                      runSpacing: AppSpacing.md,
-                      children: <Widget>[
-                        SizedBox(
-                          width: cardWidth,
-                          child: _QuickSummaryCard(
-                            icon: Icons.access_time_filled,
-                            title: l10n.homeCardAttendanceTitle,
-                            subtitle: l10n.homeCardAttendanceSubtitle,
-                            badge: todayRecord != null
-                                ? StatusChip(
-                                    label: todayRecord.statusLabel,
-                                    hexColor: todayRecord.statusColor,
-                                  )
-                                : null,
-                            onTap: () =>
-                                _openQuickModule(modules, 'attendance'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: cardWidth,
-                          child: _QuickSummaryCard(
-                            icon: Icons.task_alt,
-                            title: l10n.homeCardTasksTitle,
-                            subtitle: l10n.homeCardTasksSubtitle,
-                            onTap: () => _openQuickModule(modules, 'tasks'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: cardWidth,
-                          child: _QuickSummaryCard(
-                            icon: Icons.event_note,
-                            title: l10n.homeCardLeaveTitle,
-                            subtitle: l10n.homeCardLeaveSubtitle,
-                            onTap: () => _openQuickModule(modules, 'leave'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: cardWidth,
-                          child: _QuickSummaryCard(
-                            icon: Icons.campaign,
-                            title: l10n.homeCardAnnouncementsTitle,
-                            subtitle: l10n.homeCardAnnouncementsSubtitle,
-                            badge: hasNewAnnounce
-                                ? Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: AppSpacing.sm,
-                                      vertical: AppSpacing.xxs,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: colorScheme.error,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      l10n.announcementsNewBadge,
-                                      style: theme.textTheme.labelSmall
-                                          ?.copyWith(
-                                            color: colorScheme.onError,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
-                                  )
-                                : null,
-                            onTap: () =>
-                                _openQuickModule(modules, 'announcements'),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  clipBehavior: Clip.none,
+                  child: Row(
+                    children: <Widget>[
+                      _QuickSummaryCard(
+                        icon: Icons.access_time_filled,
+                        title: l10n.homeCardAttendanceTitle,
+                        subtitle: l10n.homeCardAttendanceSubtitle,
+                        badge: todayRecord != null
+                            ? StatusChip(
+                                label: todayRecord.statusLabel,
+                                hexColor: todayRecord.statusColor,
+                              )
+                            : null,
+                        onTap: () => _openQuickModule(modules, 'attendance'),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      _QuickSummaryCard(
+                        icon: Icons.task_alt,
+                        title: l10n.homeCardTasksTitle,
+                        subtitle: l10n.homeCardTasksSubtitle,
+                        onTap: () => _openQuickModule(modules, 'tasks'),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      _QuickSummaryCard(
+                        icon: Icons.event_note,
+                        title: l10n.homeCardLeaveTitle,
+                        subtitle: l10n.homeCardLeaveSubtitle,
+                        onTap: () => _openQuickModule(modules, 'leave'),
+                      ),
+                      const SizedBox(width: AppSpacing.sm),
+                      _QuickSummaryCard(
+                        icon: Icons.campaign,
+                        title: l10n.homeCardAnnouncementsTitle,
+                        subtitle: l10n.homeCardAnnouncementsSubtitle,
+                        badge: hasNewAnnounce
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.xs,
+                                  vertical: AppSpacing.xxs,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: colorScheme.error,
+                                  borderRadius:
+                                      BorderRadius.circular(AppRadius.pill),
+                                ),
+                                child: Text(
+                                  l10n.announcementsNewBadge,
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: colorScheme.onError,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              )
+                            : null,
+                        onTap: () =>
+                            _openQuickModule(modules, 'announcements'),
+                      ),
+                    ],
+                  ),
                 ),
 
                 if (homeBaseModules.isNotEmpty) ...<Widget>[
@@ -313,6 +303,70 @@ class HomeDashboardView extends ConsumerWidget {
                   _ModuleGrid(
                     modules: extraModules,
                     onSelectModule: onSelectModule,
+                  ),
+                ],
+
+                if (hasAdminPermissions) ...<Widget>[
+                  const SizedBox(height: AppSpacing.lg),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.admin_panel_settings,
+                        color: colorScheme.primary,
+                        size: AppSpacing.iconMd,
+                      ),
+                      const SizedBox(width: AppSpacing.xs),
+                      Text(
+                        'Admin Management Hub',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    clipBehavior: Clip.none,
+                    child: Row(
+                      children: <Widget>[
+                        _AdminActionCard(
+                          label: 'Employees',
+                          icon: Icons.people_outline,
+                          onPressed: () =>
+                              context.push(RoutePaths.adminEmployees),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        _AdminActionCard(
+                          label: 'Attendance & Matrix',
+                          icon: Icons.table_chart_outlined,
+                          onPressed: () =>
+                              context.push(RoutePaths.adminAttendanceDashboard),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        _AdminActionCard(
+                          label: 'Operations Hub',
+                          icon: Icons.fact_check_outlined,
+                          onPressed: () =>
+                              context.push(RoutePaths.adminOperationsHub),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        _AdminActionCard(
+                          label: 'Super Admin',
+                          icon: Icons.shield_outlined,
+                          onPressed: () =>
+                              context.push(RoutePaths.superAdminHub),
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        _AdminActionCard(
+                          label: 'Role Simulator',
+                          icon: Icons.switch_account_outlined,
+                          onPressed: () =>
+                              context.push(RoutePaths.roleSimulator),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
 
@@ -372,55 +426,76 @@ class _QuickSummaryCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: Row(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
-                decoration: BoxDecoration(
-                  color: colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(AppRadius.md),
-                ),
-                child: Icon(
-                  icon,
-                  color: colorScheme.onPrimaryContainer,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
+    return SizedBox(
+      width: 140,
+      height: 140,
+      child: Card(
+        elevation: AppElevation.low,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          side: BorderSide(
+            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          ),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      title,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                    Container(
+                      padding: const EdgeInsets.all(AppSpacing.xs),
+                      decoration: BoxDecoration(
+                        color: colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(AppRadius.md),
+                      ),
+                      child: Icon(
+                        icon,
+                        size: AppSpacing.iconLg,
+                        color: colorScheme.onPrimaryContainer,
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.xxs),
-                    Text(
-                      subtitle,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
+                    if (badge != null)
+                      Flexible(child: badge!)
+                    else
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        size: AppSpacing.iconSm,
+                        color:
+                            colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                       ),
-                    ),
                   ],
                 ),
-              ),
-              if (badge != null) ...<Widget>[
-                const SizedBox(width: AppSpacing.xs),
-                badge!,
+                const Spacer(),
+                Text(
+                  title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    height: 1.15,
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xxs),
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontSize: 10.5,
+                  ),
+                ),
               ],
-              Icon(
-                Icons.chevron_right,
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -439,29 +514,23 @@ class _ModuleGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isWide = constraints.maxWidth >= AppBreakpoints.compactMaxWidth;
-        final tileWidth = isWide
-            ? (constraints.maxWidth - AppSpacing.md) / 2
-            : constraints.maxWidth;
-
-        return Wrap(
-          spacing: AppSpacing.md,
-          runSpacing: AppSpacing.md,
-          children: modules
-              .map(
-                (mod) => SizedBox(
-                  width: tileWidth,
-                  child: ModuleTileCard(
-                    module: mod,
-                    onTap: () => onSelectModule(mod),
-                  ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
+      child: Row(
+        children: modules
+            .map(
+              (mod) => Padding(
+                padding: const EdgeInsets.only(right: AppSpacing.sm),
+                child: ModuleTileCard(
+                  module: mod,
+                  onTap: () => onSelectModule(mod),
                 ),
-              )
-              .toList(),
-        );
-      },
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }
@@ -478,7 +547,6 @@ class ModuleTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final entry = ModuleRegistry.resolve(
@@ -487,51 +555,133 @@ class ModuleTileCard extends StatelessWidget {
     );
     final isSupported = entry.isSupported;
 
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                isSupported
-                    ? ModuleIconMapper.resolveIcon(module.iconKey)
-                    : Icons.system_update_outlined,
-                color: isSupported ? colorScheme.primary : colorScheme.tertiary,
-              ),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      module.label,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xxs),
-                    Text(
-                      isSupported
-                          ? (module.description ??
-                                l10n.navModuleReadyPlaceholder(module.label))
-                          : l10n.navUnknownModuleMessage,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: isSupported
-                            ? colorScheme.onSurfaceVariant
-                            : colorScheme.tertiary,
-                      ),
-                    ),
-                  ],
+    return SizedBox(
+      width: 120,
+      height: 120,
+      child: Card(
+        elevation: AppElevation.low,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          side: BorderSide(
+            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          ),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xs,
+              vertical: AppSpacing.sm,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: isSupported
+                        ? colorScheme.secondaryContainer
+                        : colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: Icon(
+                    isSupported
+                        ? ModuleIconMapper.resolveIcon(module.iconKey)
+                        : Icons.system_update_outlined,
+                    size: AppSpacing.iconLg,
+                    color: isSupported
+                        ? colorScheme.onSecondaryContainer
+                        : colorScheme.tertiary,
+                  ),
                 ),
-              ),
-              Icon(
-                isSupported ? Icons.chevron_right : Icons.info_outline,
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ],
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  module.label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    height: 1.15,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AdminActionCard extends StatelessWidget {
+  const _AdminActionCard({
+    required this.label,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return SizedBox(
+      width: 120,
+      height: 120,
+      child: Card(
+        elevation: AppElevation.low,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          side: BorderSide(
+            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+          ),
+        ),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xs,
+              vertical: AppSpacing.sm,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: AppSpacing.iconLg,
+                    color: colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    height: 1.15,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
